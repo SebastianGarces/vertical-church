@@ -102,7 +102,7 @@ export function VideoHero({ vimeoVideoId, vimeoHash, title }: VideoHeroProps) {
 
   return (
     <section className="relative bg-navy pt-16 md:pt-20">
-      <div className="mx-auto max-w-7xl px-4 py-6 md:px-8 md:py-16 lg:py-20">
+      <div className="mx-auto max-w-7xl px-4 pt-6 pb-8 md:px-8 md:pt-16 md:pb-12 lg:pt-20 lg:pb-16">
         {/* Title - in normal document flow above video */}
         {title && (
           <motion.div

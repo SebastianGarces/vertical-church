@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 
 export function OurHistory() {
   return (
-    <section className="bg-navy py-16 md:py-24">
+    <section className="bg-navy pt-8 pb-16 md:pt-12 md:pb-24">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
