@@ -1,0 +1,9 @@
+export { VerticalMainLogo } from "./VerticalMainLogo";
+export { VerticalEstLogo } from "./VerticalEstLogo";
+export { VerticalShieldLogo } from "./VerticalShieldLogo";
+export { VerticalCoinOutlineLogo } from "./VerticalCoinOutlineLogo";
+export { VerticalCoinSolidLogo } from "./VerticalCoinSolidLogo";
+export { FacebookIcon } from "./FacebookIcon";
+export { InstagramIcon } from "./InstagramIcon";
+export { SpotifyIcon } from "./SpotifyIcon";
+export { YoutubeIcon } from "./YoutubeIcon";
