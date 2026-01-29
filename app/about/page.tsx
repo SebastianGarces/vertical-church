@@ -1,5 +1,5 @@
 import { Header } from "../components/Header";
-import { Hero } from "../components/Hero";
+import { VideoHero } from "../components/VideoHero";
 import { MinistryCards } from "../components/MinistryCards";
 import { Marquee } from "../components/Marquee";
 import { Footer } from "../components/Footer";
@@ -14,26 +14,11 @@ import {
   Leadership,
 } from "./components";
 
-const heroImages = {
-  main: {
-    src: "https://vertical-church.t3.storage.dev/hero-about-1.png",
-    alt: "Church community worship",
-  },
-  secondary: [
-    { src: "https://vertical-church.t3.storage.dev/hero-about-2.png", alt: "Worship service" },
-    { src: "https://vertical-church.t3.storage.dev/hero-about-3.png", alt: "Church community" },
-  ],
-};
-
 const heroTitle = (
   <>
     About
     <br />
-    <span className="text-florence">
-      Vertical
-      <br />
-      Church
-    </span>
+    <span className="text-florence">Vertical Church</span>
   </>
 );
 
@@ -42,9 +27,9 @@ export default function AboutPage() {
     <div className="min-h-screen overflow-x-hidden bg-navy">
       <Header />
       <main>
-        <Hero
-          mainImage={heroImages.main}
-          secondaryImages={heroImages.secondary}
+        <VideoHero
+          vimeoVideoId="1149729682"
+          vimeoHash="31b1e08f78"
           title={heroTitle}
         />
         <OurHistory />
