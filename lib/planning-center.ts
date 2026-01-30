@@ -43,14 +43,37 @@ interface PCOPersonResponse {
   };
 }
 
+export interface CreatePersonResult {
+  personCreated: boolean;
+  emailAdded: boolean;
+  phoneAdded: boolean;
+}
+
 /**
  * Create a person in Planning Center People, then add primary email and phone if provided.
+ * Never throws on PCO request failure; returns status for each step so the flow can continue
+ * (e.g. send notification email regardless).
  * Uses JSON:API-style requests per PCO People API v2.
  */
-export async function createPerson(input: CreatePersonInput): Promise<{ personId: string }> {
-  const baseUrl = getBaseUrl().replace(/\/$/, "");
-  const { username, password } = getAuth();
-  const authHeader = basicAuthHeader(username, password);
+export async function createPerson(
+  input: CreatePersonInput
+): Promise<CreatePersonResult> {
+  const fail: CreatePersonResult = {
+    personCreated: false,
+    emailAdded: false,
+    phoneAdded: false,
+  };
+
+  let authHeader: string;
+  let baseUrl: string;
+  try {
+    baseUrl = getBaseUrl().replace(/\/$/, "");
+    const { username, password } = getAuth();
+    authHeader = basicAuthHeader(username, password);
+  } catch (err) {
+    console.error("Planning Center auth failed:", err);
+    return fail;
+  }
 
   const peopleUrl = `${baseUrl}/people/v2/people`;
 
@@ -73,17 +96,22 @@ export async function createPerson(input: CreatePersonInput): Promise<{ personId
 
   const createText = await createRes.text();
   if (!createRes.ok) {
-    throw new Error(
-      `Planning Center create person failed (${createRes.status}): ${createText.slice(0, 200)}`
+    console.error(
+      "Planning Center create person failed:",
+      createRes.status,
+      createText.slice(0, 500)
     );
+    return fail;
   }
 
   const createJson = JSON.parse(createText) as PCOPersonResponse;
   const personId = createJson.data?.id;
   if (!personId) {
-    throw new Error("Planning Center did not return a person id");
+    console.error("Planning Center did not return a person id:", createText.slice(0, 200));
+    return fail;
   }
 
+  let emailAdded = false;
   if (input.email) {
     const emailUrl = `${baseUrl}/people/v2/people/${personId}/emails`;
     const emailRes = await fetch(emailUrl, {
@@ -103,14 +131,19 @@ export async function createPerson(input: CreatePersonInput): Promise<{ personId
         },
       }),
     });
-    const emailText = await emailRes.text();
-    if (!emailRes.ok) {
-      throw new Error(
-        `Planning Center add email failed (${emailRes.status}): ${emailText.slice(0, 200)}`
+    if (emailRes.ok) {
+      emailAdded = true;
+    } else {
+      const emailText = await emailRes.text();
+      console.error(
+        "Planning Center add email failed:",
+        emailRes.status,
+        emailText.slice(0, 300)
       );
     }
   }
 
+  let phoneAdded = false;
   if (input.phone?.trim()) {
     const phoneUrl = `${baseUrl}/people/v2/people/${personId}/phone_numbers`;
     const phoneRes = await fetch(phoneUrl, {
@@ -129,13 +162,21 @@ export async function createPerson(input: CreatePersonInput): Promise<{ personId
         },
       }),
     });
-    const phoneText = await phoneRes.text();
-    if (!phoneRes.ok) {
-      throw new Error(
-        `Planning Center add phone failed (${phoneRes.status}): ${phoneText.slice(0, 200)}`
+    if (phoneRes.ok) {
+      phoneAdded = true;
+    } else {
+      const phoneText = await phoneRes.text();
+      console.error(
+        "Planning Center add phone failed:",
+        phoneRes.status,
+        phoneText.slice(0, 300)
       );
     }
   }
 
-  return { personId };
+  return {
+    personCreated: true,
+    emailAdded,
+    phoneAdded,
+  };
 }

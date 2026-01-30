@@ -15,15 +15,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
+import { submitPlanVisitForm } from "@/app/visit/actions";
 
 // Zod schema for Step 1 validation
 const step1Schema = z.object({
-  name: z.string().min(1, "Name is required"),
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
   email: z.string().min(1, "Email is required").email("Please enter a valid email address"),
 });
 
 interface FormData {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phone: string;
   attendees: string;
@@ -33,12 +36,14 @@ interface FormData {
 }
 
 interface FormErrors {
-  name?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
 }
 
 const initialFormData: FormData = {
-  name: "",
+  firstName: "",
+  lastName: "",
   email: "",
   phone: "",
   attendees: "",
@@ -52,6 +57,8 @@ export function PlanVisitForm() {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const totalSteps = 3;
   const progress = (currentStep / totalSteps) * 100;
@@ -66,7 +73,8 @@ export function PlanVisitForm() {
 
   const validateStep1 = (): boolean => {
     const result = step1Schema.safeParse({
-      name: formData.name,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
       email: formData.email,
     });
 
@@ -99,12 +107,22 @@ export function PlanVisitForm() {
     }
   };
 
-  const handleSubmit = () => {
-    console.log("Form submitted:", formData);
-    setIsSubmitted(true);
+  const handleSubmit = async () => {
+    setSubmitError(null);
+    setIsSubmitting(true);
+    const result = await submitPlanVisitForm(formData);
+    setIsSubmitting(false);
+    if (result.success) {
+      setIsSubmitted(true);
+    } else {
+      setSubmitError(result.error);
+    }
   };
 
-  const isStep1Valid = formData.name.trim() !== "" && formData.email.trim() !== "";
+  const isStep1Valid =
+    formData.firstName.trim() !== "" &&
+    formData.lastName.trim() !== "" &&
+    formData.email.trim() !== "";
   const isStep2Valid = formData.attendees !== "" && formData.hasKids !== "";
   const isStep3Valid = formData.wantsContact !== "";
 
@@ -171,6 +189,8 @@ export function PlanVisitForm() {
                 onSubmit={handleSubmit}
                 onBack={handleBack}
                 isValid={isStep3Valid}
+                isSubmitting={isSubmitting}
+                submitError={submitError}
               />
             )}
           </AnimatePresence>
@@ -210,23 +230,43 @@ function Step1({ formData, updateFormData, onNext, isValid, errors }: Step1Props
       </div>
 
       <div className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="name" className="text-pipper">
-            Name <span className="text-florence">*</span>
-          </Label>
-          <Input
-            id="name"
-            type="text"
-            placeholder="Your full name"
-            value={formData.name}
-            onChange={(e) => updateFormData("name", e.target.value)}
-            className={`border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40 focus:border-florence ${
-              errors.name ? "border-red-500" : ""
-            }`}
-          />
-          {errors.name && (
-            <p className="text-sm text-red-400">{errors.name}</p>
-          )}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label htmlFor="firstName" className="text-pipper">
+              First name <span className="text-florence">*</span>
+            </Label>
+            <Input
+              id="firstName"
+              type="text"
+              placeholder="First name"
+              value={formData.firstName}
+              onChange={(e) => updateFormData("firstName", e.target.value)}
+              className={`border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40 focus:border-florence ${
+                errors.firstName ? "border-red-500" : ""
+              }`}
+            />
+            {errors.firstName && (
+              <p className="text-sm text-red-400">{errors.firstName}</p>
+            )}
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="lastName" className="text-pipper">
+              Last name <span className="text-florence">*</span>
+            </Label>
+            <Input
+              id="lastName"
+              type="text"
+              placeholder="Last name"
+              value={formData.lastName}
+              onChange={(e) => updateFormData("lastName", e.target.value)}
+              className={`border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40 focus:border-florence ${
+                errors.lastName ? "border-red-500" : ""
+              }`}
+            />
+            {errors.lastName && (
+              <p className="text-sm text-red-400">{errors.lastName}</p>
+            )}
+          </div>
         </div>
 
         <div className="space-y-2">
@@ -374,7 +414,20 @@ function Step2({ formData, updateFormData, onNext, onBack, isValid }: StepProps 
   );
 }
 
-function Step3({ formData, updateFormData, onSubmit, onBack, isValid }: StepProps & { onSubmit: () => void; onBack: () => void }) {
+function Step3({
+  formData,
+  updateFormData,
+  onSubmit,
+  onBack,
+  isValid,
+  isSubmitting,
+  submitError,
+}: StepProps & {
+  onSubmit: () => void;
+  onBack: () => void;
+  isSubmitting: boolean;
+  submitError: string | null;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, x: 20 }}
@@ -391,6 +444,15 @@ function Step3({ formData, updateFormData, onSubmit, onBack, isValid }: StepProp
           Let us know how we can help
         </p>
       </div>
+
+      {submitError && (
+        <div
+          role="alert"
+          className="rounded-md border border-red-500/50 bg-red-500/10 px-4 py-3 text-sm text-red-400"
+        >
+          {submitError}
+        </div>
+      )}
 
       <div className="space-y-6">
         <div className="space-y-3">
@@ -443,17 +505,20 @@ function Step3({ formData, updateFormData, onSubmit, onBack, isValid }: StepProp
 
       <div className="flex justify-between pt-4">
         <button
+          type="button"
           onClick={onBack}
-          className="inline-flex items-center justify-center rounded-md border-2 border-pipper/30 bg-transparent px-6 py-3 font-button text-sm font-bold uppercase tracking-[0.2em] text-pipper transition-all duration-200 hover:border-pipper/50"
+          disabled={isSubmitting}
+          className="inline-flex items-center justify-center rounded-md border-2 border-pipper/30 bg-transparent px-6 py-3 font-button text-sm font-bold uppercase tracking-[0.2em] text-pipper transition-all duration-200 hover:border-pipper/50 disabled:opacity-50"
         >
           Back
         </button>
         <button
+          type="button"
           onClick={onSubmit}
-          disabled={!isValid}
+          disabled={!isValid || isSubmitting}
           className="inline-flex items-center justify-center rounded-md bg-florence px-8 py-3 font-button text-sm font-bold uppercase tracking-[0.2em] text-pipper transition-all duration-200 hover:bg-florence/90 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Submit
+          {isSubmitting ? "Submitting…" : "Submit"}
         </button>
       </div>
     </motion.div>

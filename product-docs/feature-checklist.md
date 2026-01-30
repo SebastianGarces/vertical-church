@@ -387,6 +387,14 @@ This document breaks down all features visible in the design mockups into implem
 - [ ] E-commerce platform integration
 - [ ] CMS for content management
 
+### Email (Plan Your Visit / Resend)
+- [x] Planning Center create person + notification send
+- [x] Resend send with idempotency, retry, tags, reply_to, plain text
+- [x] React Email template with Html lang, PreviewProps
+- [ ] **Webhooks** – Resend webhooks for `email.delivered` / `email.bounced` / `email.complained` with signature verification and suppression list handling
+- [ ] **SPF/DKIM/DMARC** – Configure in Resend/domain setup for production deliverability
+- [ ] **Tracking** – Disable open/click tracking for transactional emails (configure per domain in Resend dashboard)
+
 ---
 
 ## Responsive Design
