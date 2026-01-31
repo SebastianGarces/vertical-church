@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Fraunces, Overpass, PT_Mono } from "next/font/google";
 import "./globals.css";
@@ -38,6 +39,7 @@ export default function RootLayout({
         className={`${fraunces.variable} ${overpass.variable} ${ptMono.variable} antialiased`}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );
