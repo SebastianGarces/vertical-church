@@ -73,6 +73,7 @@ Where each major flow starts in the codebase.
 |-------|------------|---------|
 | `/` | `app/page.tsx` | Home page with hero, welcome, ministry cards |
 | `/about` | `app/about/page.tsx` | Church mission, pillars, leadership |
+| `/about/beliefs` | `app/about/beliefs/page.tsx` | Doctrinal statements and beliefs (MDX) |
 | `/visit` | `app/visit/page.tsx` | Plan Your Visit page with form |
 | `/get-involved` | `app/get-involved/page.tsx` | Ministries, next steps, small groups |
 

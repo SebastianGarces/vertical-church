@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
 import { Button } from "@/app/components/Button";
+import { motion } from "motion/react";
 
 const pillars = [
   {
@@ -84,7 +84,7 @@ export function OurPillars() {
             transition={{ duration: 0.4, delay: 0.5 }}
             className="mt-10"
           >
-            <Button href="/theology" variant="primary">
+            <Button href="/about/beliefs" variant="primary">
               Read About Our Theology
             </Button>
           </motion.div>
