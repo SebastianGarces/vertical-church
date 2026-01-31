@@ -7,6 +7,10 @@
 
 const DEFAULT_BASE_URL = "https://api.planningcenteronline.com";
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Types
+// ─────────────────────────────────────────────────────────────────────────────
+
 export interface CreatePersonInput {
   firstName: string;
   lastName: string;
@@ -14,200 +18,11 @@ export interface CreatePersonInput {
   phone?: string;
 }
 
-function getBaseUrl(): string {
-  const url = process.env.PLANNING_CENTER_URL?.trim();
-  return url || DEFAULT_BASE_URL;
-}
-
-function getAuth(): { username: string; password: string } {
-  const clientId = process.env.PLANNING_CENTER_CLIENT_ID;
-  const secret = process.env.PLANNING_CENTER_SECRET_KEY;
-  if (!clientId || !secret) {
-    throw new Error(
-      "Missing Planning Center credentials: PLANNING_CENTER_CLIENT_ID and PLANNING_CENTER_SECRET_KEY must be set"
-    );
-  }
-  return { username: clientId, password: secret };
-}
-
-function basicAuthHeader(username: string, password: string): string {
-  const encoded = Buffer.from(`${username}:${password}`, "utf-8").toString("base64");
-  return `Basic ${encoded}`;
-}
-
-interface PCOPersonData {
-  id: string;
-  type: string;
-  attributes?: Record<string, unknown>;
-}
-
-interface PCOPersonResponse {
-  data?: PCOPersonData;
-}
-
-interface PCOPeopleListResponse {
-  data?: PCOPersonData[];
-}
-
-interface PCOEmailData {
-  id: string;
-  attributes?: {
-    address?: string;
-    primary?: boolean;
-  };
-}
-
-interface PCOPhoneData {
-  id: string;
-  attributes?: {
-    number?: string;
-  };
-}
-
-interface PCOEmailsResponse {
-  data?: PCOEmailData[];
-}
-
-interface PCOPhonesResponse {
-  data?: PCOPhoneData[];
-}
-
 export interface CreatePersonResult {
   personCreated: boolean;
+  personId: string | null;
   emailAdded: boolean;
   phoneAdded: boolean;
-}
-
-/**
- * Create a person in Planning Center People, then add primary email and phone if provided.
- * Never throws on PCO request failure; returns status for each step so the flow can continue
- * (e.g. send notification email regardless).
- * Uses JSON:API-style requests per PCO People API v2.
- */
-export async function createPerson(
-  input: CreatePersonInput
-): Promise<CreatePersonResult> {
-  const fail: CreatePersonResult = {
-    personCreated: false,
-    emailAdded: false,
-    phoneAdded: false,
-  };
-
-  let authHeader: string;
-  let baseUrl: string;
-  try {
-    baseUrl = getBaseUrl().replace(/\/$/, "");
-    const { username, password } = getAuth();
-    authHeader = basicAuthHeader(username, password);
-  } catch (err) {
-    console.error("Planning Center auth failed:", err);
-    return fail;
-  }
-
-  const peopleUrl = `${baseUrl}/people/v2/people`;
-
-  const createRes = await fetch(peopleUrl, {
-    method: "POST",
-    headers: {
-      Authorization: authHeader,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      data: {
-        type: "Person",
-        attributes: {
-          first_name: input.firstName,
-          last_name: input.lastName,
-        },
-      },
-    }),
-  });
-
-  const createText = await createRes.text();
-  if (!createRes.ok) {
-    console.error(
-      "Planning Center create person failed:",
-      createRes.status,
-      createText.slice(0, 500)
-    );
-    return fail;
-  }
-
-  const createJson = JSON.parse(createText) as PCOPersonResponse;
-  const personId = createJson.data?.id;
-  if (!personId) {
-    console.error("Planning Center did not return a person id:", createText.slice(0, 200));
-    return fail;
-  }
-
-  let emailAdded = false;
-  if (input.email) {
-    const emailUrl = `${baseUrl}/people/v2/people/${personId}/emails`;
-    const emailRes = await fetch(emailUrl, {
-      method: "POST",
-      headers: {
-        Authorization: authHeader,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        data: {
-          type: "Email",
-          attributes: {
-            address: input.email,
-            location: "Home",
-            primary: true,
-          },
-        },
-      }),
-    });
-    if (emailRes.ok) {
-      emailAdded = true;
-    } else {
-      const emailText = await emailRes.text();
-      console.error(
-        "Planning Center add email failed:",
-        emailRes.status,
-        emailText.slice(0, 300)
-      );
-    }
-  }
-
-  let phoneAdded = false;
-  if (input.phone?.trim()) {
-    const phoneUrl = `${baseUrl}/people/v2/people/${personId}/phone_numbers`;
-    const phoneRes = await fetch(phoneUrl, {
-      method: "POST",
-      headers: {
-        Authorization: authHeader,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        data: {
-          type: "PhoneNumber",
-          attributes: {
-            number: input.phone.trim(),
-            location: "Mobile",
-          },
-        },
-      }),
-    });
-    if (phoneRes.ok) {
-      phoneAdded = true;
-    } else {
-      const phoneText = await phoneRes.text();
-      console.error(
-        "Planning Center add phone failed:",
-        phoneRes.status,
-        phoneText.slice(0, 300)
-      );
-    }
-  }
-
-  return {
-    personCreated: true,
-    emailAdded,
-    phoneAdded,
-  };
 }
 
 export interface FindOrCreatePersonInput {
@@ -225,179 +40,264 @@ export interface FindOrCreatePersonResult {
   phoneAdded: boolean;
 }
 
-/**
- * Search for a person in Planning Center by email (most reliable).
- * Returns the first match or null if not found.
- */
-async function searchPersonByEmail(
-  email: string,
-  authHeader: string,
-  baseUrl: string
-): Promise<PCOPersonData | null> {
-  const searchUrl = `${baseUrl}/people/v2/people?where[search_name_or_email_or_phone_number]=${encodeURIComponent(email)}`;
-  
-  try {
-    const res = await fetch(searchUrl, {
-      method: "GET",
-      headers: {
-        Authorization: authHeader,
-        "Content-Type": "application/json",
-      },
-    });
+interface PCOPersonData {
+  id: string;
+  type: string;
+  attributes?: Record<string, unknown>;
+}
 
-    if (!res.ok) {
-      const text = await res.text();
-      console.error("Planning Center search failed:", res.status, text.slice(0, 300));
+interface PCOResponse<T> {
+  data?: T;
+}
+
+interface PCOResourceData {
+  id: string;
+  attributes?: Record<string, unknown>;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PCOClient - Centralized API client
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface PCOFetchResult<T> {
+  ok: boolean;
+  data?: T;
+  status?: number;
+}
+
+/**
+ * Planning Center API client with centralized auth and error handling.
+ */
+class PCOClient {
+  private authHeader: string;
+  private baseUrl: string;
+
+  private constructor(authHeader: string, baseUrl: string) {
+    this.authHeader = authHeader;
+    this.baseUrl = baseUrl;
+  }
+
+  /**
+   * Try to create a client. Returns null if credentials are missing.
+   * Use this for non-throwing flows.
+   */
+  static tryCreate(): PCOClient | null {
+    const clientId = process.env.PLANNING_CENTER_CLIENT_ID;
+    const secret = process.env.PLANNING_CENTER_SECRET_KEY;
+    if (!clientId || !secret) {
+      console.error(
+        "Planning Center auth failed: Missing PLANNING_CENTER_CLIENT_ID or PLANNING_CENTER_SECRET_KEY"
+      );
       return null;
     }
 
-    const json = (await res.json()) as PCOPeopleListResponse;
-    if (json.data && json.data.length > 0) {
-      return json.data[0];
+    const baseUrl = (process.env.PLANNING_CENTER_URL?.trim() || DEFAULT_BASE_URL).replace(/\/$/, "");
+    const encoded = Buffer.from(`${clientId}:${secret}`, "utf-8").toString("base64");
+    const authHeader = `Basic ${encoded}`;
+
+    return new PCOClient(authHeader, baseUrl);
+  }
+
+  /**
+   * Make a request to the PCO API.
+   */
+  async fetch<T>(
+    path: string,
+    options: { method?: string; body?: unknown; logPrefix?: string } = {}
+  ): Promise<PCOFetchResult<T>> {
+    const { method = "GET", body, logPrefix = "Planning Center" } = options;
+    const url = `${this.baseUrl}${path}`;
+
+    try {
+      const fetchOptions: RequestInit = {
+        method,
+        headers: {
+          Authorization: this.authHeader,
+          "Content-Type": "application/json",
+        },
+      };
+      if (body) {
+        fetchOptions.body = JSON.stringify(body);
+      }
+
+      const res = await fetch(url, fetchOptions);
+
+      if (!res.ok) {
+        const text = await res.text();
+        console.error(`${logPrefix} failed:`, res.status, text.slice(0, 300));
+        return { ok: false, status: res.status };
+      }
+
+      const json = (await res.json()) as T;
+      return { ok: true, data: json };
+    } catch (err) {
+      console.error(`${logPrefix} error:`, err);
+      return { ok: false };
     }
-    return null;
-  } catch (err) {
-    console.error("Planning Center search error:", err);
-    return null;
   }
-}
 
-/**
- * Get existing emails for a person.
- */
-async function getPersonEmails(
-  personId: string,
-  authHeader: string,
-  baseUrl: string
-): Promise<PCOEmailData[]> {
-  const url = `${baseUrl}/people/v2/people/${personId}/emails`;
-  try {
-    const res = await fetch(url, {
-      method: "GET",
-      headers: { Authorization: authHeader },
-    });
-    if (!res.ok) return [];
-    const json = (await res.json()) as PCOEmailsResponse;
-    return json.data || [];
-  } catch {
-    return [];
+  /**
+   * Get resources for a person (emails, phone_numbers, etc.)
+   */
+  async getPersonResources<T extends PCOResourceData>(
+    personId: string,
+    resource: string
+  ): Promise<T[]> {
+    const result = await this.fetch<PCOResponse<T[]>>(
+      `/people/v2/people/${personId}/${resource}`,
+      { logPrefix: `Planning Center get ${resource}` }
+    );
+    return result.data?.data || [];
   }
-}
 
-/**
- * Get existing phone numbers for a person.
- */
-async function getPersonPhones(
-  personId: string,
-  authHeader: string,
-  baseUrl: string
-): Promise<PCOPhoneData[]> {
-  const url = `${baseUrl}/people/v2/people/${personId}/phone_numbers`;
-  try {
-    const res = await fetch(url, {
-      method: "GET",
-      headers: { Authorization: authHeader },
-    });
-    if (!res.ok) return [];
-    const json = (await res.json()) as PCOPhonesResponse;
-    return json.data || [];
-  } catch {
-    return [];
+  /**
+   * Search for a person by email.
+   */
+  async searchPersonByEmail(email: string): Promise<PCOPersonData | null> {
+    const result = await this.fetch<PCOResponse<PCOPersonData[]>>(
+      `/people/v2/people?where[search_name_or_email_or_phone_number]=${encodeURIComponent(email)}`,
+      { logPrefix: "Planning Center search" }
+    );
+    const people = result.data?.data;
+    return people && people.length > 0 ? people[0] : null;
   }
-}
 
-/**
- * Add email to an existing person if they don't have one.
- */
-async function addEmailIfMissing(
-  personId: string,
-  email: string,
-  authHeader: string,
-  baseUrl: string
-): Promise<boolean> {
-  const existing = await getPersonEmails(personId, authHeader, baseUrl);
-  const hasEmail = existing.some(
-    (e) => e.attributes?.address?.toLowerCase() === email.toLowerCase()
-  );
-  if (hasEmail) return true; // Already has this email
-
-  const url = `${baseUrl}/people/v2/people/${personId}/emails`;
-  try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: authHeader,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        data: {
-          type: "Email",
-          attributes: {
-            address: email,
-            location: "Home",
-            primary: existing.length === 0, // Primary only if no other emails
+  /**
+   * Create a new person.
+   */
+  async createPerson(
+    firstName: string,
+    lastName: string
+  ): Promise<{ ok: boolean; personId: string | null }> {
+    const result = await this.fetch<PCOResponse<PCOPersonData>>(
+      "/people/v2/people",
+      {
+        method: "POST",
+        body: {
+          data: {
+            type: "Person",
+            attributes: { first_name: firstName, last_name: lastName },
           },
         },
-      }),
-    });
-    if (!res.ok) {
-      const text = await res.text();
-      console.error("Planning Center add email failed:", res.status, text.slice(0, 300));
-      return false;
+        logPrefix: "Planning Center create person",
+      }
+    );
+
+    if (!result.ok || !result.data?.data?.id) {
+      return { ok: false, personId: null };
     }
-    return true;
-  } catch (err) {
-    console.error("Planning Center add email error:", err);
-    return false;
+    return { ok: true, personId: result.data.data.id };
+  }
+
+  /**
+   * Add email to a person.
+   */
+  async addEmail(
+    personId: string,
+    email: string,
+    primary: boolean
+  ): Promise<boolean> {
+    const result = await this.fetch(
+      `/people/v2/people/${personId}/emails`,
+      {
+        method: "POST",
+        body: {
+          data: {
+            type: "Email",
+            attributes: { address: email, location: "Home", primary },
+          },
+        },
+        logPrefix: "Planning Center add email",
+      }
+    );
+    return result.ok;
+  }
+
+  /**
+   * Add phone number to a person.
+   */
+  async addPhone(personId: string, phone: string): Promise<boolean> {
+    const result = await this.fetch(
+      `/people/v2/people/${personId}/phone_numbers`,
+      {
+        method: "POST",
+        body: {
+          data: {
+            type: "PhoneNumber",
+            attributes: { number: phone, location: "Mobile" },
+          },
+        },
+        logPrefix: "Planning Center add phone",
+      }
+    );
+    return result.ok;
+  }
+
+  /**
+   * Add email if the person doesn't already have it.
+   */
+  async addEmailIfMissing(personId: string, email: string): Promise<boolean> {
+    const existing = await this.getPersonResources<PCOResourceData>(personId, "emails");
+    const hasEmail = existing.some(
+      (e) =>
+        (e.attributes?.address as string | undefined)?.toLowerCase() ===
+        email.toLowerCase()
+    );
+    if (hasEmail) return true;
+
+    return this.addEmail(personId, email, existing.length === 0);
+  }
+
+  /**
+   * Add phone if the person doesn't already have it.
+   */
+  async addPhoneIfMissing(personId: string, phone: string): Promise<boolean> {
+    const existing = await this.getPersonResources<PCOResourceData>(personId, "phone_numbers");
+    const normalizePhone = (p: string) => p.replace(/\D/g, "");
+    const phoneDigits = normalizePhone(phone);
+    const hasPhone = existing.some(
+      (p) => normalizePhone((p.attributes?.number as string) || "") === phoneDigits
+    );
+    if (hasPhone) return true;
+
+    return this.addPhone(personId, phone);
   }
 }
 
-/**
- * Add phone to an existing person if they don't have one.
- */
-async function addPhoneIfMissing(
-  personId: string,
-  phone: string,
-  authHeader: string,
-  baseUrl: string
-): Promise<boolean> {
-  const existing = await getPersonPhones(personId, authHeader, baseUrl);
-  // Normalize phone for comparison (strip non-digits)
-  const normalizePhone = (p: string) => p.replace(/\D/g, "");
-  const phoneDigits = normalizePhone(phone);
-  const hasPhone = existing.some(
-    (p) => normalizePhone(p.attributes?.number || "") === phoneDigits
-  );
-  if (hasPhone) return true; // Already has this phone
+// ─────────────────────────────────────────────────────────────────────────────
+// Exported Functions
+// ─────────────────────────────────────────────────────────────────────────────
 
-  const url = `${baseUrl}/people/v2/people/${personId}/phone_numbers`;
-  try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: authHeader,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        data: {
-          type: "PhoneNumber",
-          attributes: {
-            number: phone,
-            location: "Mobile",
-          },
-        },
-      }),
-    });
-    if (!res.ok) {
-      const text = await res.text();
-      console.error("Planning Center add phone failed:", res.status, text.slice(0, 300));
-      return false;
-    }
-    return true;
-  } catch (err) {
-    console.error("Planning Center add phone error:", err);
-    return false;
-  }
+/**
+ * Create a person in Planning Center People, then add primary email and phone if provided.
+ * Never throws on PCO request failure; returns status for each step so the flow can continue
+ * (e.g. send notification email regardless).
+ */
+export async function createPerson(
+  input: CreatePersonInput
+): Promise<CreatePersonResult> {
+  const fail: CreatePersonResult = {
+    personCreated: false,
+    personId: null,
+    emailAdded: false,
+    phoneAdded: false,
+  };
+
+  const client = PCOClient.tryCreate();
+  if (!client) return fail;
+
+  const { ok, personId } = await client.createPerson(input.firstName, input.lastName);
+  if (!ok || !personId) return fail;
+
+  const emailAdded = input.email
+    ? await client.addEmail(personId, input.email, true)
+    : false;
+
+  const phoneAdded = input.phone?.trim()
+    ? await client.addPhone(personId, input.phone.trim())
+    : false;
+
+  return { personCreated: true, personId, emailAdded, phoneAdded };
 }
 
 /**
@@ -416,30 +316,16 @@ export async function findOrCreatePerson(
     phoneAdded: false,
   };
 
-  let authHeader: string;
-  let baseUrl: string;
-  try {
-    baseUrl = getBaseUrl().replace(/\/$/, "");
-    const { username, password } = getAuth();
-    authHeader = basicAuthHeader(username, password);
-  } catch (err) {
-    console.error("Planning Center auth failed:", err);
-    return fail;
-  }
+  const client = PCOClient.tryCreate();
+  if (!client) return fail;
 
   // Search for existing person by email
-  const existingPerson = await searchPersonByEmail(input.email, authHeader, baseUrl);
+  const existingPerson = await client.searchPersonByEmail(input.email);
 
   if (existingPerson) {
-    // Person exists - update email/phone if missing
-    const emailAdded = await addEmailIfMissing(
-      existingPerson.id,
-      input.email,
-      authHeader,
-      baseUrl
-    );
+    const emailAdded = await client.addEmailIfMissing(existingPerson.id, input.email);
     const phoneAdded = input.phone?.trim()
-      ? await addPhoneIfMissing(existingPerson.id, input.phone.trim(), authHeader, baseUrl)
+      ? await client.addPhoneIfMissing(existingPerson.id, input.phone.trim())
       : true;
 
     return {
@@ -453,10 +339,10 @@ export async function findOrCreatePerson(
 
   // Person not found - create new
   const createResult = await createPerson(input);
-  
+
   return {
     success: createResult.personCreated,
-    personId: null, // We don't return the ID from createPerson currently
+    personId: createResult.personId,
     isExisting: false,
     emailAdded: createResult.emailAdded,
     phoneAdded: createResult.phoneAdded,
