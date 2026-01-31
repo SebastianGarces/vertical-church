@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
@@ -15,6 +14,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
+import {
+  Field,
+  FieldLabel,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+} from "@/components/ui/field";
 import { submitPlanVisitForm } from "@/app/visit/actions";
 
 // Zod schema for Step 1 validation
@@ -229,79 +235,71 @@ function Step1({ formData, updateFormData, onNext, isValid, errors }: Step1Props
         </p>
       </div>
 
-      <div className="space-y-4">
+      <FieldGroup className="gap-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div className="space-y-2">
-            <Label htmlFor="firstName" className="text-pipper">
+          <Field data-invalid={!!errors.firstName}>
+            <FieldLabel htmlFor="firstName" className="text-pipper">
               First name <span className="text-florence">*</span>
-            </Label>
+            </FieldLabel>
             <Input
               id="firstName"
               type="text"
               placeholder="First name"
               value={formData.firstName}
               onChange={(e) => updateFormData("firstName", e.target.value)}
-              className={`border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40 focus:border-florence ${
-                errors.firstName ? "border-red-500" : ""
-              }`}
+              aria-invalid={!!errors.firstName}
+              className="border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40"
             />
-            {errors.firstName && (
-              <p className="text-sm text-red-400">{errors.firstName}</p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="lastName" className="text-pipper">
+            <FieldError className="text-red-400">{errors.firstName}</FieldError>
+          </Field>
+
+          <Field data-invalid={!!errors.lastName}>
+            <FieldLabel htmlFor="lastName" className="text-pipper">
               Last name <span className="text-florence">*</span>
-            </Label>
+            </FieldLabel>
             <Input
               id="lastName"
               type="text"
               placeholder="Last name"
               value={formData.lastName}
               onChange={(e) => updateFormData("lastName", e.target.value)}
-              className={`border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40 focus:border-florence ${
-                errors.lastName ? "border-red-500" : ""
-              }`}
+              aria-invalid={!!errors.lastName}
+              className="border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40"
             />
-            {errors.lastName && (
-              <p className="text-sm text-red-400">{errors.lastName}</p>
-            )}
-          </div>
+            <FieldError className="text-red-400">{errors.lastName}</FieldError>
+          </Field>
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="email" className="text-pipper">
+        <Field data-invalid={!!errors.email}>
+          <FieldLabel htmlFor="email" className="text-pipper">
             Email <span className="text-florence">*</span>
-          </Label>
+          </FieldLabel>
           <Input
             id="email"
             type="email"
             placeholder="your@email.com"
             value={formData.email}
             onChange={(e) => updateFormData("email", e.target.value)}
-            className={`border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40 focus:border-florence ${
-              errors.email ? "border-red-500" : ""
-            }`}
+            aria-invalid={!!errors.email}
+            className="border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40"
           />
-          {errors.email && (
-            <p className="text-sm text-red-400">{errors.email}</p>
-          )}
-        </div>
+          <FieldError className="text-red-400">{errors.email}</FieldError>
+        </Field>
 
-        <div className="space-y-2">
-          <Label htmlFor="phone" className="text-pipper">
+        <Field>
+          <FieldLabel htmlFor="phone" className="text-pipper">
             Phone <span className="text-pipper/40">(optional)</span>
-          </Label>
+          </FieldLabel>
           <Input
             id="phone"
             type="tel"
             placeholder="(555) 555-5555"
             value={formData.phone}
             onChange={(e) => updateFormData("phone", e.target.value)}
-            className="border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40 focus:border-florence"
+            className="border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40"
           />
-        </div>
-      </div>
+        </Field>
+      </FieldGroup>
 
       <div className="flex justify-end pt-4">
         <button
@@ -334,16 +332,16 @@ function Step2({ formData, updateFormData, onNext, onBack, isValid }: StepProps 
         </p>
       </div>
 
-      <div className="space-y-6">
-        <div className="space-y-2">
-          <Label className="text-pipper">
+      <FieldGroup className="gap-6">
+        <Field>
+          <FieldLabel className="text-pipper">
             How many people will attend? <span className="text-florence">*</span>
-          </Label>
+          </FieldLabel>
           <Select
             value={formData.attendees}
             onValueChange={(value) => updateFormData("attendees", value)}
           >
-            <SelectTrigger className="border-pipper/30 bg-navy/50 text-pipper focus:border-florence">
+            <SelectTrigger className="border-pipper/30 bg-navy/50 text-pipper">
               <SelectValue placeholder="Select number of attendees" />
             </SelectTrigger>
             <SelectContent className="border-pipper/30 bg-navy text-pipper">
@@ -355,45 +353,45 @@ function Step2({ formData, updateFormData, onNext, onBack, isValid }: StepProps 
               <SelectItem value="6+">6 or more</SelectItem>
             </SelectContent>
           </Select>
-        </div>
+        </Field>
 
-        <div className="space-y-3">
-          <Label className="text-pipper">
+        <Field>
+          <FieldLabel className="text-pipper">
             Will you have kids with you? <span className="text-florence">*</span>
-          </Label>
+          </FieldLabel>
           <RadioGroup
             value={formData.hasKids}
             onValueChange={(value) => updateFormData("hasKids", value)}
             className="flex gap-6"
           >
-            <div className="flex items-center space-x-2">
+            <Field orientation="horizontal">
               <RadioGroupItem
                 value="yes"
                 id="kids-yes"
                 className="border-pipper/50 text-florence"
               />
-              <Label htmlFor="kids-yes" className="cursor-pointer text-pipper">
+              <FieldLabel htmlFor="kids-yes" className="cursor-pointer text-pipper">
                 Yes
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
+              </FieldLabel>
+            </Field>
+            <Field orientation="horizontal">
               <RadioGroupItem
                 value="no"
                 id="kids-no"
                 className="border-pipper/50 text-florence"
               />
-              <Label htmlFor="kids-no" className="cursor-pointer text-pipper">
+              <FieldLabel htmlFor="kids-no" className="cursor-pointer text-pipper">
                 No
-              </Label>
-            </div>
+              </FieldLabel>
+            </Field>
           </RadioGroup>
           {formData.hasKids === "yes" && (
-            <p className="text-sm text-pipper/60">
+            <FieldDescription className="text-pipper/60">
               Great! Our Vertical Kids ministry has programs for toddlers through 6th grade.
-            </p>
+            </FieldDescription>
           )}
-        </div>
-      </div>
+        </Field>
+      </FieldGroup>
 
       <div className="flex justify-between pt-4">
         <button
@@ -454,54 +452,54 @@ function Step3({
         </div>
       )}
 
-      <div className="space-y-6">
-        <div className="space-y-3">
-          <Label className="text-pipper">
+      <FieldGroup className="gap-6">
+        <Field>
+          <FieldLabel className="text-pipper">
             Would you like someone to contact you before your visit?{" "}
             <span className="text-florence">*</span>
-          </Label>
+          </FieldLabel>
           <RadioGroup
             value={formData.wantsContact}
             onValueChange={(value) => updateFormData("wantsContact", value)}
             className="flex gap-6"
           >
-            <div className="flex items-center space-x-2">
+            <Field orientation="horizontal">
               <RadioGroupItem
                 value="yes"
                 id="contact-yes"
                 className="border-pipper/50 text-florence"
               />
-              <Label htmlFor="contact-yes" className="cursor-pointer text-pipper">
+              <FieldLabel htmlFor="contact-yes" className="cursor-pointer text-pipper">
                 Yes, please reach out
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
+              </FieldLabel>
+            </Field>
+            <Field orientation="horizontal">
               <RadioGroupItem
                 value="no"
                 id="contact-no"
                 className="border-pipper/50 text-florence"
               />
-              <Label htmlFor="contact-no" className="cursor-pointer text-pipper">
+              <FieldLabel htmlFor="contact-no" className="cursor-pointer text-pipper">
                 No, I&apos;ll just show up
-              </Label>
-            </div>
+              </FieldLabel>
+            </Field>
           </RadioGroup>
-        </div>
+        </Field>
 
-        <div className="space-y-2">
-          <Label htmlFor="questions" className="text-pipper">
+        <Field>
+          <FieldLabel htmlFor="questions" className="text-pipper">
             Any questions for us? <span className="text-pipper/40">(optional)</span>
-          </Label>
+          </FieldLabel>
           <Textarea
             id="questions"
             placeholder="Feel free to ask us anything..."
             value={formData.questions}
             onChange={(e) => updateFormData("questions", e.target.value)}
             rows={4}
-            className="border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40 focus:border-florence"
+            className="border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40"
           />
-        </div>
-      </div>
+        </Field>
+      </FieldGroup>
 
       <div className="flex justify-between pt-4">
         <button

@@ -7,6 +7,10 @@ import {
   SmallGroupInterestNotificationEmail,
   type SmallGroupInterestNotificationData,
 } from "@/emails/small-group-interest-notification";
+import {
+  WantToServeNotificationEmail,
+  type WantToServeNotificationData,
+} from "@/emails/want-to-serve-notification";
 import { Resend } from "resend";
 
 const MAX_RETRIES = 3;
@@ -118,6 +122,13 @@ function getSmallGroupRecipients(): string[] {
 }
 
 /**
+ * Get Want To Serve notification recipient emails from env.
+ */
+function getWantToServeRecipients(): string[] {
+  return getRecipientsFromEnv("WANT_TO_SERVE_NOTIFY_EMAILS", "Want To Serve");
+}
+
+/**
  * Send Small Group Interest notification email with idempotency, retries, and plain-text fallback.
  */
 export async function sendSmallGroupInterestNotification(
@@ -147,6 +158,55 @@ export async function sendSmallGroupInterestNotification(
   };
 
   const idempotencyKey = `small-group-interest-notification/${crypto.randomUUID()}`;
+
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    const { error } = await resend.emails.send(payload, { idempotencyKey });
+
+    if (!error) {
+      return { success: true };
+    }
+
+    if (!isRetryableError(error) || attempt === MAX_RETRIES) {
+      throw new Error(`Resend send failed: ${error.message}`);
+    }
+
+    const delayMs = Math.pow(2, attempt) * 1000;
+    await new Promise((resolve) => setTimeout(resolve, delayMs));
+  }
+
+  throw new Error("Resend send failed after retries");
+}
+
+/**
+ * Send Want To Serve notification email with idempotency, retries, and plain-text fallback.
+ */
+export async function sendWantToServeNotification(
+  data: WantToServeNotificationData
+): Promise<{ success: true }> {
+  const apiKey = getResendApiKey();
+  const recipients = getWantToServeRecipients();
+  const resend = new Resend(apiKey);
+
+  const from =
+    process.env.RESEND_FROM_EMAIL?.trim() || "onboarding@resend.dev";
+  const replyTo = process.env.RESEND_REPLY_TO?.trim() || undefined;
+
+  const subject = `Want to Serve: ${data.firstName} ${data.lastName}`;
+  const reactElement = WantToServeNotificationEmail({ formData: data });
+
+  const text = await render(reactElement, { plainText: true });
+
+  const payload = {
+    from,
+    to: recipients,
+    subject,
+    react: reactElement,
+    text,
+    ...(replyTo && { reply_to: [replyTo] }),
+    tags: [{ name: "email_type", value: "want-to-serve-notification" }],
+  };
+
+  const idempotencyKey = `want-to-serve-notification/${crypto.randomUUID()}`;
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     const { error } = await resend.emails.send(payload, { idempotencyKey });

@@ -11,7 +11,6 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Select,
@@ -20,6 +19,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Field,
+  FieldLabel,
+  FieldError,
+  FieldGroup,
+} from "@/components/ui/field";
 import {
   submitSmallGroupInterestForm,
   type SmallGroupInterestFormPayload,
@@ -31,12 +36,12 @@ const formSchema = z.object({
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().min(1, "Email is required").email("Please enter a valid email"),
   phone: z.string().optional(),
-  gender: z.enum(["Male", "Female"], "Please select your gender"),
+  gender: z.enum(["Male", "Female"], { message: "Please select your gender" }),
   ageRange: z.string().min(1, "Please select your age range"),
-  groupType: z.enum(["Coed", "Men's only", "Women's only"], "Please select your group type preference"),
+  groupType: z.enum(["Coed", "Men's only", "Women's only"], { message: "Please select your group type preference" }),
   city: z.string().min(1, "City is required"),
   preferredDay: z.string().min(1, "Please select your preferred day"),
-  needsKidsCare: z.enum(["Yes", "No"], "Please indicate if you need kids care"),
+  needsKidsCare: z.enum(["Yes", "No"], { message: "Please indicate if you need kids care" }),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -200,88 +205,81 @@ export function SmallGroupInterestModal({
 
         <div className="space-y-5">
           {/* Contact Information */}
-          <div className="space-y-4">
+          <FieldGroup className="gap-4">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="sg-firstName" className="text-pipper">
+              <Field data-invalid={!!formErrors.firstName}>
+                <FieldLabel htmlFor="sg-firstName" className="text-pipper">
                   First name <span className="text-florence">*</span>
-                </Label>
+                </FieldLabel>
                 <Input
                   id="sg-firstName"
                   type="text"
                   placeholder="First name"
                   value={formData.firstName}
                   onChange={(e) => updateFormData("firstName", e.target.value)}
-                  className={`border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40 focus:border-florence ${
-                    formErrors.firstName ? "border-red-500" : ""
-                  }`}
+                  aria-invalid={!!formErrors.firstName}
+                  className="border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40"
                 />
-                {formErrors.firstName && (
-                  <p className="text-sm text-red-400">{formErrors.firstName}</p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="sg-lastName" className="text-pipper">
+                <FieldError className="text-red-400">{formErrors.firstName}</FieldError>
+              </Field>
+
+              <Field data-invalid={!!formErrors.lastName}>
+                <FieldLabel htmlFor="sg-lastName" className="text-pipper">
                   Last name <span className="text-florence">*</span>
-                </Label>
+                </FieldLabel>
                 <Input
                   id="sg-lastName"
                   type="text"
                   placeholder="Last name"
                   value={formData.lastName}
                   onChange={(e) => updateFormData("lastName", e.target.value)}
-                  className={`border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40 focus:border-florence ${
-                    formErrors.lastName ? "border-red-500" : ""
-                  }`}
+                  aria-invalid={!!formErrors.lastName}
+                  className="border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40"
                 />
-                {formErrors.lastName && (
-                  <p className="text-sm text-red-400">{formErrors.lastName}</p>
-                )}
-              </div>
+                <FieldError className="text-red-400">{formErrors.lastName}</FieldError>
+              </Field>
             </div>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="sg-email" className="text-pipper">
+              <Field data-invalid={!!formErrors.email}>
+                <FieldLabel htmlFor="sg-email" className="text-pipper">
                   Email <span className="text-florence">*</span>
-                </Label>
+                </FieldLabel>
                 <Input
                   id="sg-email"
                   type="email"
                   placeholder="your@email.com"
                   value={formData.email}
                   onChange={(e) => updateFormData("email", e.target.value)}
-                  className={`border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40 focus:border-florence ${
-                    formErrors.email ? "border-red-500" : ""
-                  }`}
+                  aria-invalid={!!formErrors.email}
+                  className="border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40"
                 />
-                {formErrors.email && (
-                  <p className="text-sm text-red-400">{formErrors.email}</p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="sg-phone" className="text-pipper">
+                <FieldError className="text-red-400">{formErrors.email}</FieldError>
+              </Field>
+
+              <Field>
+                <FieldLabel htmlFor="sg-phone" className="text-pipper">
                   Phone <span className="text-pipper/40">(optional)</span>
-                </Label>
+                </FieldLabel>
                 <Input
                   id="sg-phone"
                   type="tel"
                   placeholder="(555) 555-5555"
                   value={formData.phone}
                   onChange={(e) => updateFormData("phone", e.target.value)}
-                  className="border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40 focus:border-florence"
+                  className="border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40"
                 />
-              </div>
+              </Field>
             </div>
-          </div>
+          </FieldGroup>
 
           {/* Demographics */}
-          <div className="space-y-4 border-t border-pipper/10 pt-4">
+          <FieldGroup className="gap-4 border-t border-pipper/10 pt-4">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label className="text-pipper">
+              <Field data-invalid={!!formErrors.gender}>
+                <FieldLabel className="text-pipper">
                   Gender <span className="text-florence">*</span>
-                </Label>
+                </FieldLabel>
                 <RadioGroup
                   value={formData.gender}
                   onValueChange={(value) =>
@@ -289,47 +287,41 @@ export function SmallGroupInterestModal({
                   }
                   className="flex gap-4"
                 >
-                  <div className="flex items-center space-x-2">
+                  <Field orientation="horizontal">
                     <RadioGroupItem
                       value="Male"
                       id="sg-gender-male"
                       className="border-pipper/50 text-florence"
                     />
-                    <Label htmlFor="sg-gender-male" className="cursor-pointer text-pipper">
+                    <FieldLabel htmlFor="sg-gender-male" className="cursor-pointer text-pipper">
                       Male
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
+                    </FieldLabel>
+                  </Field>
+                  <Field orientation="horizontal">
                     <RadioGroupItem
                       value="Female"
                       id="sg-gender-female"
                       className="border-pipper/50 text-florence"
                     />
-                    <Label
-                      htmlFor="sg-gender-female"
-                      className="cursor-pointer text-pipper"
-                    >
+                    <FieldLabel htmlFor="sg-gender-female" className="cursor-pointer text-pipper">
                       Female
-                    </Label>
-                  </div>
+                    </FieldLabel>
+                  </Field>
                 </RadioGroup>
-                {formErrors.gender && (
-                  <p className="text-sm text-red-400">{formErrors.gender}</p>
-                )}
-              </div>
+                <FieldError className="text-red-400">{formErrors.gender}</FieldError>
+              </Field>
 
-              <div className="space-y-2">
-                <Label className="text-pipper">
+              <Field data-invalid={!!formErrors.ageRange}>
+                <FieldLabel className="text-pipper">
                   Age range <span className="text-florence">*</span>
-                </Label>
+                </FieldLabel>
                 <Select
                   value={formData.ageRange}
                   onValueChange={(value) => updateFormData("ageRange", value)}
                 >
                   <SelectTrigger
-                    className={`border-pipper/30 bg-navy/50 text-pipper focus:border-florence ${
-                      formErrors.ageRange ? "border-red-500" : ""
-                    }`}
+                    aria-invalid={!!formErrors.ageRange}
+                    className="border-pipper/30 bg-navy/50 text-pipper"
                   >
                     <SelectValue placeholder="Select age range" />
                   </SelectTrigger>
@@ -341,20 +333,18 @@ export function SmallGroupInterestModal({
                     ))}
                   </SelectContent>
                 </Select>
-                {formErrors.ageRange && (
-                  <p className="text-sm text-red-400">{formErrors.ageRange}</p>
-                )}
-              </div>
+                <FieldError className="text-red-400">{formErrors.ageRange}</FieldError>
+              </Field>
             </div>
-          </div>
+          </FieldGroup>
 
           {/* Group Preferences */}
-          <div className="space-y-4 border-t border-pipper/10 pt-4">
+          <FieldGroup className="gap-4 border-t border-pipper/10 pt-4">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label className="text-pipper">
+              <Field data-invalid={!!formErrors.groupType}>
+                <FieldLabel className="text-pipper">
                   Group type preference <span className="text-florence">*</span>
-                </Label>
+                </FieldLabel>
                 <Select
                   value={formData.groupType}
                   onValueChange={(value) =>
@@ -365,9 +355,8 @@ export function SmallGroupInterestModal({
                   }
                 >
                   <SelectTrigger
-                    className={`border-pipper/30 bg-navy/50 text-pipper focus:border-florence ${
-                      formErrors.groupType ? "border-red-500" : ""
-                    }`}
+                    aria-invalid={!!formErrors.groupType}
+                    className="border-pipper/30 bg-navy/50 text-pipper"
                   >
                     <SelectValue placeholder="Select group type" />
                   </SelectTrigger>
@@ -377,44 +366,38 @@ export function SmallGroupInterestModal({
                     <SelectItem value="Women's only">Women&apos;s only</SelectItem>
                   </SelectContent>
                 </Select>
-                {formErrors.groupType && (
-                  <p className="text-sm text-red-400">{formErrors.groupType}</p>
-                )}
-              </div>
+                <FieldError className="text-red-400">{formErrors.groupType}</FieldError>
+              </Field>
 
-              <div className="space-y-2">
-                <Label htmlFor="sg-city" className="text-pipper">
+              <Field data-invalid={!!formErrors.city}>
+                <FieldLabel htmlFor="sg-city" className="text-pipper">
                   City <span className="text-florence">*</span>
-                </Label>
+                </FieldLabel>
                 <Input
                   id="sg-city"
                   type="text"
                   placeholder="Your city"
                   value={formData.city}
                   onChange={(e) => updateFormData("city", e.target.value)}
-                  className={`border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40 focus:border-florence ${
-                    formErrors.city ? "border-red-500" : ""
-                  }`}
+                  aria-invalid={!!formErrors.city}
+                  className="border-pipper/30 bg-navy/50 text-pipper placeholder:text-pipper/40"
                 />
-                {formErrors.city && (
-                  <p className="text-sm text-red-400">{formErrors.city}</p>
-                )}
-              </div>
+                <FieldError className="text-red-400">{formErrors.city}</FieldError>
+              </Field>
             </div>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label className="text-pipper">
+              <Field data-invalid={!!formErrors.preferredDay}>
+                <FieldLabel className="text-pipper">
                   Preferred day <span className="text-florence">*</span>
-                </Label>
+                </FieldLabel>
                 <Select
                   value={formData.preferredDay}
                   onValueChange={(value) => updateFormData("preferredDay", value)}
                 >
                   <SelectTrigger
-                    className={`border-pipper/30 bg-navy/50 text-pipper focus:border-florence ${
-                      formErrors.preferredDay ? "border-red-500" : ""
-                    }`}
+                    aria-invalid={!!formErrors.preferredDay}
+                    className="border-pipper/30 bg-navy/50 text-pipper"
                   >
                     <SelectValue placeholder="Select day" />
                   </SelectTrigger>
@@ -426,15 +409,13 @@ export function SmallGroupInterestModal({
                     ))}
                   </SelectContent>
                 </Select>
-                {formErrors.preferredDay && (
-                  <p className="text-sm text-red-400">{formErrors.preferredDay}</p>
-                )}
-              </div>
+                <FieldError className="text-red-400">{formErrors.preferredDay}</FieldError>
+              </Field>
 
-              <div className="space-y-2">
-                <Label className="text-pipper">
+              <Field data-invalid={!!formErrors.needsKidsCare}>
+                <FieldLabel className="text-pipper">
                   Need kids care? <span className="text-florence">*</span>
-                </Label>
+                </FieldLabel>
                 <RadioGroup
                   value={formData.needsKidsCare}
                   onValueChange={(value) =>
@@ -442,33 +423,31 @@ export function SmallGroupInterestModal({
                   }
                   className="flex gap-4 pt-2"
                 >
-                  <div className="flex items-center space-x-2">
+                  <Field orientation="horizontal">
                     <RadioGroupItem
                       value="Yes"
                       id="sg-kids-yes"
                       className="border-pipper/50 text-florence"
                     />
-                    <Label htmlFor="sg-kids-yes" className="cursor-pointer text-pipper">
+                    <FieldLabel htmlFor="sg-kids-yes" className="cursor-pointer text-pipper">
                       Yes
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
+                    </FieldLabel>
+                  </Field>
+                  <Field orientation="horizontal">
                     <RadioGroupItem
                       value="No"
                       id="sg-kids-no"
                       className="border-pipper/50 text-florence"
                     />
-                    <Label htmlFor="sg-kids-no" className="cursor-pointer text-pipper">
+                    <FieldLabel htmlFor="sg-kids-no" className="cursor-pointer text-pipper">
                       No
-                    </Label>
-                  </div>
+                    </FieldLabel>
+                  </Field>
                 </RadioGroup>
-                {formErrors.needsKidsCare && (
-                  <p className="text-sm text-red-400">{formErrors.needsKidsCare}</p>
-                )}
-              </div>
+                <FieldError className="text-red-400">{formErrors.needsKidsCare}</FieldError>
+              </Field>
             </div>
-          </div>
+          </FieldGroup>
         </div>
 
         <div className="flex justify-end pt-4">

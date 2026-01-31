@@ -1,0 +1,58 @@
+%% Want To Serve Form Submission Flow
+%% Code anchors:
+%%   Modal: app/get-involved/components/WantToServeModal.tsx
+%%   Action: app/get-involved/actions.ts:submitWantToServeForm()
+%%   PCO: lib/planning-center.ts:findOrCreatePerson()
+%%   Email: lib/email.ts:sendWantToServeNotification()
+
+sequenceDiagram
+    autonumber
+    participant User
+    participant Section as ServeTeams
+    participant Modal as WantToServeModal
+    participant Action as submitWantToServeForm
+    participant PCO as findOrCreatePerson
+    participant Email as sendWantToServeNotification
+    participant Resend as Resend API
+
+    User->>Section: Click "I Want to Serve"
+    Section->>Modal: Open dialog
+    User->>Modal: Fill form (single page, multi-select interests)
+    Modal->>Modal: Client validation (Zod)
+    Modal->>Action: Submit payload
+
+    Action->>Action: Server validation (Zod)
+    alt Validation fails
+        Action-->>Modal: {success: false, error}
+        Modal-->>User: Show error banner
+    end
+
+    Action->>PCO: findOrCreatePerson(input)
+    Note over PCO: Failures logged, not thrown
+
+    Action->>Email: sendWantToServeNotification(data + pcoResult)
+    Email->>Email: Render React email + plainText
+    Email->>Email: Generate idempotencyKey
+
+    loop Retry up to 3x on 429/5xx
+        Email->>Resend: POST /emails
+        alt Success
+            Resend-->>Email: OK
+            Email-->>Action: {success: true}
+        else Retryable error
+            Email->>Email: Exponential backoff
+        else Permanent error
+            Email--xAction: throw Error
+        end
+    end
+
+    alt Email sent
+        Action-->>Modal: {success: true}
+        Modal-->>User: Show ThankYouState
+        Modal->>Modal: setTimeout 5s
+        Modal->>Modal: Auto-close dialog
+    else Email failed
+        Action-->>Modal: {success: false, error}
+        Modal-->>User: Show error banner
+    end
+

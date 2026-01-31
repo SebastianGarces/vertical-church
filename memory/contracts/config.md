@@ -20,6 +20,7 @@ Environment variables and runtime configuration.
 |----------|----------|--------|-------------|
 | `PLAN_VISIT_NOTIFY_EMAILS` | Yes | `lib/email.ts` | Plan Visit recipients (comma-separated) |
 | `SMALL_GROUP_NOTIFY_EMAILS` | Yes | `lib/email.ts` | Small Group Interest recipients (comma-separated) |
+| `WANT_TO_SERVE_NOTIFY_EMAILS` | Yes | `lib/email.ts` | Want To Serve recipients (comma-separated) |
 
 ### Planning Center
 

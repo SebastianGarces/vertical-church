@@ -46,6 +46,27 @@ Where each major flow starts in the codebase.
 
 ---
 
+## Want To Serve Form Submission
+
+**Purpose**: Collect serving interest, find/create person in Planning Center, send notification to serving coordinator(s).
+
+**Entrypoint**:
+- `app/get-involved/actions.ts` : `submitWantToServeForm(payload)`
+- Trigger: Form submit from `app/get-involved/components/WantToServeModal.tsx` (opened from `ServeTeams`)
+
+**Primary modules**:
+- `app/get-involved/actions.ts` - Server action, Zod validation
+- `lib/planning-center.ts` - Planning Center API client (`findOrCreatePerson`)
+- `lib/email.ts` - Resend email sender
+- `emails/want-to-serve-notification.tsx` - Email template
+
+**Key dependencies**:
+- External: Planning Center People API (search, create, update)
+- External: Resend email service
+- Env vars: See `contracts/config.md`
+
+---
+
 ## Page Routes
 
 | Route | Entrypoint | Purpose |

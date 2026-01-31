@@ -68,6 +68,33 @@ Server actions and their request/response shapes.
 
 ---
 
+### `submitWantToServeForm`
+
+**Source**: `app/get-involved/actions.ts`
+
+**Input** (Zod-validated):
+```typescript
+{
+  firstName: string      // required, min 1
+  lastName: string       // required, min 1
+  email: string          // required, valid email
+  phone?: string         // optional
+  serviceInterests: string[] // required, select >= 1 service/team interests
+}
+```
+
+**Output**:
+```typescript
+| { success: true }
+| { success: false; error: string }
+```
+
+**Side effects**:
+1. Finds or creates person in Planning Center (non-blocking on failure)
+2. Sends notification email to configured recipients
+
+---
+
 ## Internal Functions
 
 ### `createPerson` (Planning Center)
@@ -135,5 +162,13 @@ Server actions and their request/response shapes.
 **Source**: `lib/email.ts`
 
 **Input**: `SmallGroupInterestNotificationData` (form data + PCO status)
+
+**Output**: `{ success: true }` or throws on permanent failure
+
+### `sendWantToServeNotification` (Email)
+
+**Source**: `lib/email.ts`
+
+**Input**: `WantToServeNotificationData` (form data + PCO status)
 
 **Output**: `{ success: true }` or throws on permanent failure
