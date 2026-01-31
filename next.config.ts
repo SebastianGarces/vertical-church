@@ -15,6 +15,11 @@ const nextConfig: NextConfig = {
         hostname: "registrations-production.s3.amazonaws.com",
         pathname: "/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "img.youtube.com",
+        pathname: "/vi/**",
+      },
     ],
   },
 };
