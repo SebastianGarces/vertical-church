@@ -89,3 +89,9 @@ storybook-static/
 
 # Working feature (ephemeral implementation workspace)
 working-feature/
+
+# Data files (CSVs for seeding)
+data/
+
+# Drizzle migrations
+drizzle/
