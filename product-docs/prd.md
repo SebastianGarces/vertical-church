@@ -69,17 +69,134 @@ Vertical Church makes disciples of Jesus by encouraging them to:
 
 ---
 
+### Site Structure Overview
+
+The following diagram illustrates the primary user-facing pages and their relationships:
+
+```mermaid
+flowchart TB
+    subgraph Navigation["Main Navigation"]
+        NAV_HOME["Home"]
+        NAV_ABOUT["About"]
+        NAV_VISIT["Plan Your Visit"]
+        NAV_INVOLVED["Get Involved"]
+        NAV_EVENTS["Events"]
+        NAV_SUPPORT["Support Us"]
+    end
+
+    subgraph Public["Public Pages"]
+        HOME["Home /"]
+        ABOUT["About /about"]
+        BELIEFS["Beliefs /about/beliefs"]
+        VISIT["Plan Your Visit /visit"]
+        INVOLVED["Get Involved /get-involved"]
+        EVENTS["Events /events"]
+        SUPPORT["Support Us /support"]
+        TEACHINGS["Teachings /teachings"]
+    end
+
+    subgraph External["External Links"]
+        GIVING["Church Center Giving"]
+        SOCIAL["Social Media"]
+    end
+
+    NAV_HOME --> HOME
+    NAV_ABOUT --> ABOUT
+    NAV_VISIT --> VISIT
+    NAV_INVOLVED --> INVOLVED
+    NAV_EVENTS --> EVENTS
+    NAV_SUPPORT --> SUPPORT
+
+    HOME --> VISIT
+    HOME --> INVOLVED
+    HOME --> ABOUT
+    ABOUT --> BELIEFS
+    INVOLVED --> SUPPORT
+    SUPPORT --> GIVING
+```
+
+---
+
 ### Key Pages
 
 | Page | Purpose |
 |------|---------|
 | **Home** | Primary landing page with hero, welcome message, ministry highlights, and calls-to-action |
 | **About** | Church history, mission, pillars, principles, vision, and leadership team |
+| **About > Beliefs** | Detailed doctrinal statements and theological positions |
+| **Plan Your Visit** | Service times, location, what to expect, FAQ for first-time visitors |
+| **Get Involved** | Ministries, next steps (salvation, baptism), small groups, and serving opportunities |
+| **Events** | Upcoming church events, calendar, and event registration |
+| **Support Us** | Online giving information and donation portal |
 | **Teachings** | Sermon archive with latest teaching, series, and filterable teaching library |
-| **Connect** | Plan a visit, small groups, upcoming events, serve opportunities |
-| **Resources** | How to know God, discipleship materials, additional content |
-| **Giving** | Online donation portal and giving information |
-| **Shop** | Church merchandise and resources store |
+
+---
+
+### Primary User Journey Pages
+
+The website focuses on two primary user journeys for visitors:
+
+#### 1. Plan Your Visit (`/visit`)
+For first-time visitors exploring the church:
+- Service times and location
+- What to expect on a Sunday
+- Children's check-in information
+- FAQ section
+- Plan a visit form
+
+#### 2. Get Involved (`/get-involved`)
+For those ready to take their next step in faith and community:
+- **Next Steps Section**: Salvation and baptism information
+- **Ministries Section**: All church ministries with descriptions
+- **Small Groups Section**: Community groups for connection and growth
+- **Serve Section**: Opportunities to serve on a team
+
+---
+
+### Get Involved Page Details
+
+The Get Involved page serves as the central hub for deeper engagement with the church community. It includes the following sections:
+
+#### Next Steps
+A pathway for spiritual growth:
+
+| Step | Description |
+|------|-------------|
+| **I Said Yes to Jesus** | Resources and next steps for those who have made a decision to follow Christ. Includes information about what it means to be saved and how to grow in faith. |
+| **Get Baptized** | Information about water baptism as an outward declaration of faith. Includes sign-up form and explanation of baptism's significance. Scripture: Acts 22:16, Romans 6:3-4 |
+| **Read God's Word** | Encouragement to engage with Scripture daily. Links to Bible reading plans and resources. |
+| **Talk with God** | Teaching on prayer and its importance in a relationship with God. |
+
+#### Ministries
+All church ministries with descriptions and contact information:
+
+| Ministry | Description | Target Audience |
+|----------|-------------|-----------------|
+| **Small Groups** | Weekly gatherings of 5-12 people meeting in homes to discuss Scripture, build relationships, and support one another | All adults |
+| **Worship Service** | Weekend services featuring unapologetic preaching and unashamed worship | Everyone |
+| **Children's Ministry** | Age-appropriate Bible teaching and activities for kids (birth through 5th grade) | Families with children |
+| **Student Ministry** | Middle and high school students gathering for worship, teaching, and community | Students grades 6-12 |
+| **Women's Ministry** | Bible studies, events, and community for women | Women |
+| **Men's Ministry** | Bible studies, events, and fellowship for men | Men |
+
+#### Small Groups
+Dedicated section highlighting the importance of community:
+- Description of what small groups are and why they matter
+- How to find and join a group
+- Current groups with meeting times/locations
+- Sign-up form or link to group finder
+
+#### Serve on a Team
+Opportunities to use gifts and talents to serve:
+
+| Team | Description |
+|------|-------------|
+| **Guest Services** | Welcome and assist guests, parking, hospitality |
+| **Worship Team** | Music, vocals, production |
+| **Kids Team** | Serve in children's ministry |
+| **Student Team** | Serve in student ministry |
+| **Tech Team** | Audio, video, lighting, live stream |
+| **Creative Team** | Design, photography, social media |
 
 ---
 

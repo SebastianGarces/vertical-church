@@ -1,0 +1,61 @@
+%% Plan Visit Form Submission Flow
+%% Code anchors:
+%%   Form: app/visit/components/PlanVisitForm.tsx
+%%   Action: app/visit/actions.ts:submitPlanVisitForm()
+%%   PCO: lib/planning-center.ts:createPerson()
+%%   Email: lib/email.ts:sendPlanVisitNotification()
+
+sequenceDiagram
+    autonumber
+    participant User
+    participant Form as PlanVisitForm
+    participant Action as submitPlanVisitForm
+    participant PCO as createPerson
+    participant Email as sendPlanVisitNotification
+    participant Resend as Resend API
+
+    User->>Form: Fill form (3 steps)
+    Form->>Form: Client validation (Zod)
+    Form->>Action: Submit payload
+
+    Action->>Action: Server validation (Zod)
+    alt Validation fails
+        Action-->>Form: {success: false, error}
+        Form-->>User: Show error
+    end
+
+    Action->>PCO: createPerson(input)
+    PCO->>PCO: Build Basic Auth header
+    PCO->>PCO: POST /people/v2/people
+    alt PCO fails
+        PCO-->>Action: {personCreated: false, ...}
+        Note over PCO: Logged, not thrown
+    else PCO succeeds
+        PCO->>PCO: POST /people/{id}/emails
+        PCO->>PCO: POST /people/{id}/phone_numbers
+        PCO-->>Action: {personCreated: true, emailAdded, phoneAdded}
+    end
+
+    Action->>Email: sendPlanVisitNotification(data + pcoResult)
+    Email->>Email: Render React email + plainText
+    Email->>Email: Generate idempotencyKey
+
+    loop Retry up to 3x on 429/5xx
+        Email->>Resend: POST /emails
+        alt Success
+            Resend-->>Email: OK
+            Email-->>Action: {success: true}
+        else Retryable error
+            Email->>Email: Exponential backoff
+        else Permanent error
+            Email--xAction: throw Error
+        end
+    end
+
+    alt Email sent
+        Action-->>Form: {success: true}
+        Form-->>User: Show ThankYouState
+    else Email failed
+        Action-->>Form: {success: false, error}
+        Form-->>User: Show error banner
+    end
