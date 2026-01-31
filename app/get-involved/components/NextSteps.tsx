@@ -160,7 +160,7 @@ export function NextSteps() {
               <button
                 key={index}
                 onClick={() => scrollToCard(index)}
-                className="relative flex h-3 items-center justify-center"
+                className="relative flex h-3 items-center justify-center cursor-pointer"
                 aria-label={`Go to step ${index + 1}`}
               >
                 <motion.div

@@ -32,7 +32,7 @@ export function FeatureSection() {
               </p>
 
               <div className="mt-6">
-                <Button href="/about" variant="primary" className="text-xs">
+                <Button href="/about" variant="primary" className="w-full md:w-auto">
                   About Us
                 </Button>
               </div>

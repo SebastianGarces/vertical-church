@@ -31,7 +31,7 @@ export function Button({
   type = "button",
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center px-6 py-3 font-button text-base font-bold uppercase tracking-[0.2em] transition-all duration-200";
+    "inline-flex items-center justify-center px-6 py-3 font-button text-base font-bold uppercase tracking-[0.2em] transition-all duration-200 cursor-pointer";
 
   const combinedStyles = `${baseStyles} ${variantStyles[variant]} ${className}`;
 

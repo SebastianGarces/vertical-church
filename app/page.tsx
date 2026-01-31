@@ -35,15 +35,15 @@ export default function Home() {
   return (
     <div className="min-h-screen overflow-x-hidden bg-navy">
       <Header />
-      <main>
+      <main className="pb-16 md:pb-24">
         <Hero
           mainImage={heroImages.main}
           secondaryImages={heroImages.secondary}
           title={heroTitle}
-          badge={{ label: "Weekly Services", value: "Sun. at 10 AM" }}
+          showCTAs
         />
         <Welcome />
-        <MinistryCards />
+        <MinistryCards showGetInvolvedButton />
         <Marquee />
         <FeatureSection />
       </main>

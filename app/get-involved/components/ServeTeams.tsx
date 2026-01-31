@@ -11,7 +11,7 @@ export function ServeTeams() {
 
   return (
     <>
-      <section className="bg-navy py-16 md:py-24">
+      <section id="serve" className="bg-navy py-16 md:py-24 scroll-mt-20">
         <div className="mx-auto max-w-7xl px-4 md:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -61,7 +61,7 @@ export function ServeTeams() {
               transition={{ duration: 0.4, delay: 0.5 }}
               className="mt-10"
             >
-              <Button onClick={() => setIsModalOpen(true)} variant="primary">
+              <Button onClick={() => setIsModalOpen(true)} variant="primary" className="w-full md:w-auto">
                 I Want to Serve
               </Button>
             </motion.div>

@@ -3,15 +3,20 @@
 import { useRef, useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { MinistryCard } from "./MinistryCard";
+import { Button } from "./Button";
 
 const ministries = [
-  { title: "Small Groups", href: "/connect/small-groups", image: "https://vertical-church.t3.storage.dev/small-groups.png" },
-  { title: "Worship Services", href: "/connect/worship", image: "https://vertical-church.t3.storage.dev/worship-services.png" },
-  { title: "Children's Ministry", href: "/connect/children", image: "https://vertical-church.t3.storage.dev/children-ministry.png" },
-  { title: "Student Ministry", href: "/connect/students", image: "https://vertical-church.t3.storage.dev/student-ministry.png" },
+  { title: "Small Groups", href: "/get-involved#small-groups", image: "https://vertical-church.t3.storage.dev/small-groups.png" },
+  { title: "Worship Services", href: "/get-involved#ministries", image: "https://vertical-church.t3.storage.dev/worship-services.png" },
+  { title: "Children's Ministry", href: "/get-involved#ministries", image: "https://vertical-church.t3.storage.dev/children-ministry.png" },
+  { title: "Student Ministry", href: "/get-involved#ministries", image: "https://vertical-church.t3.storage.dev/student-ministry.png" },
 ];
 
-export function MinistryCards() {
+interface MinistryCardsProps {
+  showGetInvolvedButton?: boolean;
+}
+
+export function MinistryCards({ showGetInvolvedButton = false }: MinistryCardsProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -78,7 +83,7 @@ export function MinistryCards() {
             <button
               key={index}
               onClick={() => scrollToCard(index)}
-              className="relative flex h-3 items-center justify-center"
+              className="relative flex h-3 items-center justify-center cursor-pointer"
               aria-label={`Go to card ${index + 1}`}
             >
               <motion.div
@@ -108,6 +113,21 @@ export function MinistryCards() {
             />
           ))}
         </div>
+
+        {/* Get Involved Button */}
+        {showGetInvolvedButton && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-8 md:mt-12 px-4 md:px-8"
+          >
+            <Button href="/get-involved" variant="outline" className="w-full md:w-auto">
+              Get Involved
+            </Button>
+          </motion.div>
+        )}
       </div>
     </section>
   );

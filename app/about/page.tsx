@@ -26,7 +26,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen overflow-x-hidden bg-navy">
       <Header />
-      <main>
+      <main className="pb-16 md:pb-24">
         <VideoHero
           vimeoVideoId="1149729682"
           vimeoHash="31b1e08f78"

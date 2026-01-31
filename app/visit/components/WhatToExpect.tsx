@@ -49,7 +49,7 @@ function ExpectationCard({
 
 export function WhatToExpect() {
   return (
-    <section className="bg-navy py-16 md:py-24">
+    <section id="what-to-expect" className="bg-navy py-16 md:py-24 scroll-mt-20">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         {/* Section Header */}
         <motion.div

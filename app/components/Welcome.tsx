@@ -1,7 +1,19 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Button } from "./Button";
+
+function ServiceTimesBadge({ className }: { className?: string }) {
+  return (
+    <div className={`inline-flex flex-col items-center border-2 border-pipper/30 px-6 py-4 text-center ${className || ""}`}>
+      <span className="font-heading text-sm uppercase tracking-[0.15em] text-pipper/60">
+        Weekly Services
+      </span>
+      <span className="mt-1 font-heading text-base uppercase tracking-[0.1em] text-pipper">
+        Sun. at 10 AM
+      </span>
+    </div>
+  );
+}
 
 export function Welcome() {
   return (
@@ -25,17 +37,8 @@ export function Welcome() {
             will join us!
           </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: 0.3 }}
-            className="mt-8"
-          >
-            <Button href="/visit" variant="primary">
-              Visit Us
-            </Button>
-          </motion.div>
+          {/* Service Times Badge - below paragraph */}
+          <ServiceTimesBadge className="mt-8 w-full md:w-auto" />
         </motion.div>
       </div>
     </section>

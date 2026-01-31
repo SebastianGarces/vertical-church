@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "motion/react";
+import { Button } from "@/app/components/Button";
 import { SmallGroupInterestModal } from "./SmallGroupInterestModal";
 
 export function SmallGroups() {
@@ -9,7 +10,7 @@ export function SmallGroups() {
 
   return (
     <>
-      <section className="bg-navy py-16 md:py-24">
+      <section id="small-groups" className="bg-navy py-16 md:py-24 scroll-mt-20">
         <div className="mx-auto max-w-7xl px-4 md:px-8">
           <div className="overflow-hidden rounded-lg bg-cream md:flex md:p-5">
             {/* IMAGE PLACEHOLDER - replace with real image when available */}
@@ -42,12 +43,13 @@ export function SmallGroups() {
                 a group that fits your schedule and take the next step to connect.
               </p>
               <div className="mt-8">
-                <button
+                <Button
                   onClick={() => setIsModalOpen(true)}
-                  className="inline-flex items-center justify-center rounded-md bg-florence px-6 py-3 font-button text-xs font-bold uppercase tracking-[0.2em] text-pipper transition-all duration-200 hover:bg-florence/90"
+                  variant="primary"
+                  className="w-full md:w-auto"
                 >
                   Find a Group
-                </button>
+                </Button>
               </div>
             </motion.div>
           </div>

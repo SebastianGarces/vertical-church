@@ -13,12 +13,12 @@ export default function GetInvolvedPage() {
   return (
     <div className="min-h-screen overflow-x-hidden bg-navy">
       <Header />
-      <main>
+      <main className="pb-16 md:pb-24">
         <PageIntro />
         <NextSteps />
         <Ministries />
-        <SmallGroups />
         <Marquee />
+        <SmallGroups />
         <ServeTeams />
       </main>
       <Footer />

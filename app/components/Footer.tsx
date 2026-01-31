@@ -8,39 +8,40 @@ import {
 } from "./icons";
 
 const footerLinks = {
-  connections: {
-    title: "Connections",
+  visit: {
+    title: "Visit",
     links: [
-      { label: "Upcoming Events", href: "/events" },
-      { label: "Small Groups", href: "/connect/small-groups" },
-      { label: "Serve Others", href: "/connect/serve" },
-      { label: "Get Involved in Outreach", href: "/connect/outreach" },
+      { label: "Plan A Visit", href: "/visit" },
+      { label: "What To Expect", href: "/visit#what-to-expect" },
     ],
   },
-  ministries: {
-    title: "Ministries",
+  about: {
+    title: "About",
     links: [
-      { label: "Small Groups", href: "/ministries/small-groups" },
-      { label: "Children's Ministry", href: "/ministries/children" },
-      { label: "Student Ministry", href: "/ministries/students" },
+      { label: "About Us", href: "/about" },
+      { label: "What We Believe", href: "/about/beliefs" },
+      { label: "Leadership", href: "/about#leadership" },
+    ],
+  },
+  getInvolved: {
+    title: "Get Involved",
+    links: [
+      { label: "Next Steps", href: "/get-involved" },
+      { label: "Small Groups", href: "/get-involved#small-groups" },
+      { label: "Serve", href: "/get-involved#serve" },
     ],
   },
   resources: {
     title: "Resources",
     links: [
-      { label: "Teachings", href: "/teachings" },
-      { label: "How to Know God", href: "/resources/know-god" },
-      { label: "Giving", href: "/giving" },
-      { label: "Contact Us", href: "/contact" },
+      { label: "Watch", href: "/watch" },
+      { label: "Events", href: "/events" },
+      { label: "Give", href: "/give" },
     ],
-  },
-  support: {
-    title: "Support Us",
-    links: [{ label: "Giving", href: "/giving" }],
   },
   shop: {
     title: "Shop",
-    links: [{ label: "Shop", href: "/shop" }],
+    links: [{ label: "Shop", href: "https://verticalchurchnorth.myspreadshop.com/" }],
   },
 };
 
@@ -57,7 +58,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         {/* Logo - Top Left */}
         <div className="mb-10">
-          <Link href="/">
+          <Link href="/" className="inline-block cursor-pointer">
             <VerticalEstLogo className="h-20 w-auto" color="#141C25" />
           </Link>
         </div>
@@ -70,16 +71,20 @@ export function Footer() {
                 {section.title}
               </h3>
               <ul className="mt-3 space-y-2">
-                {section.links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="font-body text-sm text-navy/70 transition-colors hover:text-florence"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
+                {section.links.map((link) => {
+                  const isExternal = link.href.startsWith("http");
+                  return (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        className="font-body text-sm text-navy/70 transition-colors hover:text-florence cursor-pointer"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}
@@ -90,13 +95,13 @@ export function Footer() {
           {/* Copyright & Address */}
           <div className="text-center md:text-left">
             <p className="font-body text-xs text-navy/60">
-              © 2025 Vertical Church
+              © {new Date().getFullYear()} Vertical Church
             </p>
             <Link
               href="https://maps.google.com/?q=5400+Lear+Nagle+Rd+North+Ridgeville+Ohio+44039"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-body text-xs text-navy/60 underline transition-colors hover:text-navy"
+              className="font-body text-xs text-navy/60 underline transition-colors hover:text-navy cursor-pointer"
             >
               5400 Lear Nagle Rd North Ridgeville Ohio 44039
             </Link>
@@ -110,7 +115,7 @@ export function Footer() {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-8 w-8 items-center justify-center text-navy/60 transition-colors hover:text-navy"
+                className="flex h-8 w-8 items-center justify-center text-navy/60 transition-colors hover:text-navy cursor-pointer"
                 aria-label={social.label}
               >
                 <social.icon className="h-5 w-5" />

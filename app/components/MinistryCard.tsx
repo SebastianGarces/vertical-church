@@ -21,7 +21,7 @@ export function MinistryCard({ title, href, image, index = 0 }: MinistryCardProp
     >
       <Link
         href={href}
-        className="group relative block aspect-[3/4] w-56 flex-shrink-0 overflow-hidden rounded-lg md:w-full"
+        className="group relative block aspect-[3/4] w-56 flex-shrink-0 overflow-hidden rounded-lg md:w-full cursor-pointer"
       >
         {/* Image */}
         <Image

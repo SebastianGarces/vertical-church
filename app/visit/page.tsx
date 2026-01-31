@@ -29,7 +29,7 @@ export default function VisitPage() {
   return (
     <div className="min-h-screen overflow-x-hidden bg-navy">
       <Header />
-      <main>
+      <main className="pb-16 md:pb-24">
         <Hero
           mainImage={heroImages.main}
           secondaryImages={heroImages.secondary}

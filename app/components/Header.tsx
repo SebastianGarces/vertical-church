@@ -2,58 +2,63 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
-import { Button } from "./Button";
 import { VerticalMainLogo } from "./icons";
 
 const navLinks = [
+  { label: "Plan A Visit", href: "/visit" },
   { label: "About", href: "/about" },
-  { label: "Connect", href: "/connect", active: true },
-  { label: "Resources", href: "/resources" },
-  { label: "Giving", href: "/giving" },
-  { label: "Shop", href: "/shop" },
+  { label: "Next Steps", href: "/get-involved" },
+  { label: "Events", href: "/events" },
+  { label: "Give", href: "/give" },
+  { label: "Watch", href: "/watch" },
+  { label: "Shop", href: "https://verticalchurchnorth.myspreadshop.com/" },
 ];
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-navy">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:h-20 md:px-8">
+      <div className="flex h-16 items-center justify-between px-4 md:h-20 md:px-8 lg:px-12">
         {/* Logo */}
-        <Link href="/" className="flex items-center">
+        <Link href="/" className="flex items-center cursor-pointer">
           <VerticalMainLogo
             className="h-8 w-auto md:h-10"
             color="#D4D4D0"
           />
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation - Right aligned */}
         <nav className="hidden items-center gap-8 lg:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`font-heading text-sm uppercase tracking-[0.1em] transition-colors hover:text-florence ${
-                link.active ? "text-florence" : "text-pipper/80"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isExternal = link.href.startsWith("http");
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className={`font-heading text-base font-bold uppercase tracking-[0.1em] transition-colors hover:text-florence cursor-pointer ${
+                  isActive(link.href) ? "text-florence" : "text-pipper/80"
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
-
-        {/* Desktop CTA */}
-        <div className="hidden lg:block">
-          <Button href="/visit" variant="outline" className="px-4 py-3 text-base">
-            Plan a Visit
-          </Button>
-        </div>
 
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden"
+          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden cursor-pointer"
           aria-label="Toggle menu"
         >
           <motion.span
@@ -88,36 +93,28 @@ export function Header() {
               transition={{ duration: 0.3, delay: 0.1 }}
               className="flex h-full flex-col items-center justify-center gap-8"
             >
-              {navLinks.map((link, index) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: 0.1 + index * 0.05 }}
-                >
-                  <Link
-                    href={link.href}
-                    onClick={() => setIsMenuOpen(false)}
-                    className="font-heading text-2xl uppercase tracking-[0.15em] text-pipper transition-colors hover:text-florence"
+              {navLinks.map((link, index) => {
+                const isExternal = link.href.startsWith("http");
+                return (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.1 + index * 0.05 }}
                   >
-                    {link.label}
-                  </Link>
-                </motion.div>
-              ))}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.35 }}
-                className="mt-4"
-              >
-                <Button
-                  href="/visit"
-                  variant="primary"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Plan a Visit
-                </Button>
-              </motion.div>
+                    <Link
+                      href={link.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                      className={`font-heading text-2xl uppercase tracking-[0.15em] transition-colors hover:text-florence cursor-pointer ${
+                        isActive(link.href) ? "text-florence" : "text-pipper"
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
+                );
+              })}
             </motion.nav>
           </motion.div>
         )}

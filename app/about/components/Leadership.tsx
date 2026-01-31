@@ -148,7 +148,7 @@ function SectionHeader({
 
 export function Leadership() {
   return (
-    <section className="bg-navy py-16 md:py-24">
+    <section id="leadership" className="bg-navy py-16 md:py-24 scroll-mt-20">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

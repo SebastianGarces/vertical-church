@@ -146,7 +146,7 @@ export function VideoHero({ vimeoVideoId, vimeoHash, title }: VideoHeroProps) {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
               onClick={toggleMute}
-              className="absolute bottom-4 left-4 flex h-10 w-10 items-center justify-center rounded-full bg-navy/70 text-pipper backdrop-blur-sm transition-colors hover:bg-navy/90"
+              className="absolute bottom-4 left-4 flex h-10 w-10 items-center justify-center rounded-full bg-navy/70 text-pipper backdrop-blur-sm transition-colors hover:bg-navy/90 cursor-pointer"
               aria-label={isMuted ? "Unmute video" : "Mute video"}
             >
               <SpeakerIcon muted={isMuted} />
