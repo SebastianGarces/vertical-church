@@ -14,14 +14,12 @@ Environment variables and runtime configuration.
 | `RESEND_FROM_EMAIL` | No | `lib/email.ts` | Sender address (default: `onboarding@resend.dev`) |
 | `RESEND_REPLY_TO` | No | `lib/email.ts` | Reply-to address |
 
-### Email Recipients (one required)
+### Email Recipients
 
-| Variable | Source | Description |
-|----------|--------|-------------|
-| `PLAN_VISIT_NOTIFY_EMAIL_1` | `lib/email.ts` | First recipient |
-| `PLAN_VISIT_NOTIFY_EMAIL_2` | `lib/email.ts` | Second recipient |
-| `PLAN_VISIT_NOTIFY_EMAIL_3` | `lib/email.ts` | Third recipient |
-| `PLAN_VISIT_NOTIFY_EMAIL` | `lib/email.ts` | Comma-separated fallback |
+| Variable | Required | Source | Description |
+|----------|----------|--------|-------------|
+| `PLAN_VISIT_NOTIFY_EMAILS` | Yes | `lib/email.ts` | Plan Visit recipients (comma-separated) |
+| `SMALL_GROUP_NOTIFY_EMAILS` | Yes | `lib/email.ts` | Small Group Interest recipients (comma-separated) |
 
 ### Planning Center
 

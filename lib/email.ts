@@ -3,6 +3,10 @@ import {
   PlanVisitNotificationEmail,
   type PlanVisitNotificationData,
 } from "@/emails/plan-visit-notification";
+import {
+  SmallGroupInterestNotificationEmail,
+  type SmallGroupInterestNotificationData,
+} from "@/emails/small-group-interest-notification";
 import { Resend } from "resend";
 
 const MAX_RETRIES = 3;
@@ -21,23 +25,29 @@ function getResendApiKey(): string {
 }
 
 /**
- * Get notification recipient emails from env.
- * Uses PLAN_VISIT_NOTIFY_EMAIL_1, PLAN_VISIT_NOTIFY_EMAIL_2, PLAN_VISIT_NOTIFY_EMAIL_3, or
- * PLAN_VISIT_NOTIFY_EMAIL (comma-separated).
+ * Get notification recipient emails from a comma-separated env var.
  */
-function getNotificationRecipients(): string[] {
-  const one = process.env.PLAN_VISIT_NOTIFY_EMAIL_1?.trim();
-  const two = process.env.PLAN_VISIT_NOTIFY_EMAIL_2?.trim();
-  const three = process.env.PLAN_VISIT_NOTIFY_EMAIL_3?.trim();
-  const fromEnv = [one, two, three].filter((e): e is string => e !== undefined);
-  if (fromEnv.length > 0) return fromEnv;
-  const combined = process.env.PLAN_VISIT_NOTIFY_EMAIL?.trim();
-  if (combined) {
-    return combined.split(",").map((e) => e.trim()).filter(Boolean);
+function getRecipientsFromEnv(envVar: string, flowName: string): string[] {
+  const value = process.env[envVar]?.trim();
+  if (!value) {
+    throw new Error(
+      `${flowName} notification recipients not configured: set ${envVar} (comma-separated emails)`
+    );
   }
-  throw new Error(
-    "Plan Visit notification recipients not configured: set PLAN_VISIT_NOTIFY_EMAIL_1, PLAN_VISIT_NOTIFY_EMAIL_2, PLAN_VISIT_NOTIFY_EMAIL_3, or PLAN_VISIT_NOTIFY_EMAIL (comma-separated)"
-  );
+  const emails = value.split(",").map((e) => e.trim()).filter(Boolean);
+  if (emails.length === 0) {
+    throw new Error(
+      `${flowName} notification recipients not configured: ${envVar} is empty`
+    );
+  }
+  return emails;
+}
+
+/**
+ * Get Plan Visit notification recipient emails from env.
+ */
+function getPlanVisitRecipients(): string[] {
+  return getRecipientsFromEnv("PLAN_VISIT_NOTIFY_EMAILS", "Plan Visit");
 }
 
 function isRetryableError(error: { name?: string }): boolean {
@@ -56,7 +66,7 @@ export async function sendPlanVisitNotification(
   data: PlanVisitNotificationData
 ): Promise<{ success: true }> {
   const apiKey = getResendApiKey();
-  const recipients = getNotificationRecipients();
+  const recipients = getPlanVisitRecipients();
   const resend = new Resend(apiKey);
 
   const from =
@@ -83,10 +93,63 @@ export async function sendPlanVisitNotification(
   const idempotencyKey = `plan-visit-notification/${crypto.randomUUID()}`;
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
-    const { data: result, error } = await resend.emails.send(
-      payload,
-      { idempotencyKey }
-    );
+    const { error } = await resend.emails.send(payload, { idempotencyKey });
+
+    if (!error) {
+      return { success: true };
+    }
+
+    if (!isRetryableError(error) || attempt === MAX_RETRIES) {
+      throw new Error(`Resend send failed: ${error.message}`);
+    }
+
+    const delayMs = Math.pow(2, attempt) * 1000;
+    await new Promise((resolve) => setTimeout(resolve, delayMs));
+  }
+
+  throw new Error("Resend send failed after retries");
+}
+
+/**
+ * Get Small Group Interest notification recipient emails from env.
+ */
+function getSmallGroupRecipients(): string[] {
+  return getRecipientsFromEnv("SMALL_GROUP_NOTIFY_EMAILS", "Small Group Interest");
+}
+
+/**
+ * Send Small Group Interest notification email with idempotency, retries, and plain-text fallback.
+ */
+export async function sendSmallGroupInterestNotification(
+  data: SmallGroupInterestNotificationData
+): Promise<{ success: true }> {
+  const apiKey = getResendApiKey();
+  const recipients = getSmallGroupRecipients();
+  const resend = new Resend(apiKey);
+
+  const from =
+    process.env.RESEND_FROM_EMAIL?.trim() || "onboarding@resend.dev";
+  const replyTo = process.env.RESEND_REPLY_TO?.trim() || undefined;
+
+  const subject = `Small Group Interest: ${data.firstName} ${data.lastName}`;
+  const reactElement = SmallGroupInterestNotificationEmail({ formData: data });
+
+  const text = await render(reactElement, { plainText: true });
+
+  const payload = {
+    from,
+    to: recipients,
+    subject,
+    react: reactElement,
+    text,
+    ...(replyTo && { reply_to: [replyTo] }),
+    tags: [{ name: "email_type", value: "small-group-interest-notification" }],
+  };
+
+  const idempotencyKey = `small-group-interest-notification/${crypto.randomUUID()}`;
+
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    const { error } = await resend.emails.send(payload, { idempotencyKey });
 
     if (!error) {
       return { success: true };

@@ -14,7 +14,8 @@ Quick reference to all memory artifacts.
 
 | Flow | File | Description |
 |------|------|-------------|
-| Plan Visit Submission | [flows/plan-visit-submission.mmd](./flows/plan-visit-submission.mmd) | Form submission -> PCO -> Email |
+| Plan Visit Submission | [flows/plan-visit-submission.mmd](./flows/plan-visit-submission.mmd) | Form submission -> PCO create -> Email |
+| Small Group Interest | [flows/small-group-interest-submission.mmd](./flows/small-group-interest-submission.mmd) | Modal form -> PCO find/create -> Email |
 
 ## Contracts
 

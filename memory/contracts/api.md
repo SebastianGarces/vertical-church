@@ -36,6 +36,38 @@ Server actions and their request/response shapes.
 
 ---
 
+### `submitSmallGroupInterestForm`
+
+**Source**: `app/get-involved/actions.ts`
+
+**Input** (Zod-validated):
+```typescript
+{
+  firstName: string      // required, min 1
+  lastName: string       // required, min 1
+  email: string          // required, valid email
+  phone?: string         // optional
+  gender: "Male" | "Female"
+  ageRange: string       // e.g., "18-25", "26-35", etc.
+  groupType: "Coed" | "Men's only" | "Women's only"
+  city: string           // required, min 1
+  preferredDay: string   // e.g., "Wednesday"
+  needsKidsCare: "Yes" | "No"
+}
+```
+
+**Output**:
+```typescript
+| { success: true }
+| { success: false; error: string }
+```
+
+**Side effects**:
+1. Finds or creates person in Planning Center (non-blocking on failure)
+2. Sends notification email to small group coordinator(s)
+
+---
+
 ## Internal Functions
 
 ### `createPerson` (Planning Center)
@@ -61,10 +93,47 @@ Server actions and their request/response shapes.
 }
 ```
 
+### `findOrCreatePerson` (Planning Center)
+
+**Source**: `lib/planning-center.ts`
+
+**Input**:
+```typescript
+{
+  firstName: string
+  lastName: string
+  email: string
+  phone?: string
+}
+```
+
+**Output**:
+```typescript
+{
+  success: boolean
+  personId: string | null
+  isExisting: boolean    // true if found, false if created
+  emailAdded: boolean
+  phoneAdded: boolean
+}
+```
+
+**Behavior**: Searches by email first. If found, updates missing email/phone. If not found, creates new person.
+
+---
+
 ### `sendPlanVisitNotification` (Email)
 
 **Source**: `lib/email.ts`
 
 **Input**: `PlanVisitNotificationData` (form data + PCO status)
+
+**Output**: `{ success: true }` or throws on permanent failure
+
+### `sendSmallGroupInterestNotification` (Email)
+
+**Source**: `lib/email.ts`
+
+**Input**: `SmallGroupInterestNotificationData` (form data + PCO status)
 
 **Output**: `{ success: true }` or throws on permanent failure

@@ -14,12 +14,33 @@ Where each major flow starts in the codebase.
 
 **Primary modules**:
 - `app/visit/actions.ts` - Server action, Zod validation
-- `lib/planning-center.ts` - Planning Center API client
+- `lib/planning-center.ts` - Planning Center API client (`createPerson`)
 - `lib/email.ts` - Resend email sender
 - `emails/plan-visit-notification.tsx` - Email template
 
 **Key dependencies**:
 - External: Planning Center People API
+- External: Resend email service
+- Env vars: See `contracts/config.md`
+
+---
+
+## Small Group Interest Form Submission
+
+**Purpose**: Collect small group interest, find/create person in Planning Center, send notification to coordinator.
+
+**Entrypoint**:
+- `app/get-involved/actions.ts` : `submitSmallGroupInterestForm(payload)`
+- Trigger: Form submit from `app/get-involved/components/SmallGroupInterestModal.tsx`
+
+**Primary modules**:
+- `app/get-involved/actions.ts` - Server action, Zod validation
+- `lib/planning-center.ts` - Planning Center API client (`findOrCreatePerson`)
+- `lib/email.ts` - Resend email sender
+- `emails/small-group-interest-notification.tsx` - Email template
+
+**Key dependencies**:
+- External: Planning Center People API (search, create, update)
 - External: Resend email service
 - Env vars: See `contracts/config.md`
 
