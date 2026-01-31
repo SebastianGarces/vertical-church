@@ -67,6 +67,31 @@ Where each major flow starts in the codebase.
 
 ---
 
+## Events Page Data Fetching
+
+**Purpose**: Display upcoming events from Planning Center Registrations API.
+
+**Entrypoint**:
+- `app/events/page.tsx` : Server component that renders `EventsList`
+- `app/events/components/EventsList.tsx` : Server component that calls `getEvents()`
+
+**Primary modules**:
+- `lib/planning-center.ts` - PCO client with `getEvents()` function
+- `app/events/components/EventCard.tsx` - Client component for expandable event card
+
+**Key dependencies**:
+- External: Planning Center Registrations API (`/registrations/v2/signups`)
+- Env vars: Uses existing `PLANNING_CENTER_CLIENT_ID`, `PLANNING_CENTER_SECRET_KEY`
+
+**Data flow**:
+1. Page renders with Suspense boundary
+2. `EventsList` calls `getEvents()` on server
+3. PCO client fetches signups with locations and times included
+4. Response transformed to `EventWithDetails[]`
+5. Events rendered as expandable cards
+
+---
+
 ## Page Routes
 
 | Route | Entrypoint | Purpose |
@@ -76,6 +101,7 @@ Where each major flow starts in the codebase.
 | `/about/beliefs` | `app/about/beliefs/page.tsx` | Doctrinal statements and beliefs (MDX) |
 | `/visit` | `app/visit/page.tsx` | Plan Your Visit page with form |
 | `/get-involved` | `app/get-involved/page.tsx` | Ministries, next steps, small groups |
+| `/events` | `app/events/page.tsx` | Upcoming events from PCO Registrations |
 
 **Shared layout**: `app/layout.tsx` (fonts, metadata)
 
@@ -113,6 +139,7 @@ Each route has its own `components/` folder:
 | `/visit` | `app/visit/components/` | `PlanVisitForm` (multi-step form) |
 | `/about` | `app/about/components/` | `Leadership`, `OurMission`, `OurPillars`, `OurPrinciples`, `OurHistory`, `OurVision`, `PastorBio` |
 | `/get-involved` | `app/get-involved/components/` | `NextSteps`, `Ministries`, `SmallGroups`, `ServeTeams`, `PageIntro` |
+| `/events` | `app/events/components/` | `PageIntro`, `EventCard`, `EventsList` |
 
 ### UI Primitives (`components/ui/`)
 
@@ -127,3 +154,4 @@ shadcn/ui components (Radix-based):
 | `RadioGroup` | `components/ui/radio-group.tsx` | Radio button group |
 | `Progress` | `components/ui/progress.tsx` | Progress bar |
 | `Accordion` | `components/ui/accordion.tsx` | Collapsible accordion |
+| `Card` | `components/ui/card.tsx` | Card container |

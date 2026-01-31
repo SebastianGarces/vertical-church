@@ -56,6 +56,89 @@ interface PCOResourceData {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Registrations API Types
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface SignupAttributes {
+  name: string;
+  description: string | null;
+  logo_url: string | null;
+  new_registration_url: string;
+  open_at: string | null;
+  close_at: string | null;
+  archived: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Signup {
+  type: "Signup";
+  id: string;
+  attributes: SignupAttributes;
+  relationships: {
+    signup_location?: {
+      data: { type: string; id: string } | null;
+    };
+    signup_times?: {
+      data: { type: string; id: string }[];
+    };
+  };
+}
+
+export interface SignupLocationAttributes {
+  name: string;
+  formatted_address: string;
+  full_formatted_address: string;
+  latitude: string;
+  longitude: string;
+  location_type: string;
+}
+
+export interface SignupLocation {
+  type: "SignupLocation";
+  id: string;
+  attributes: SignupLocationAttributes;
+}
+
+export interface SignupTimeAttributes {
+  starts_at: string;
+  ends_at: string | null;
+}
+
+export interface SignupTime {
+  type: "SignupTime";
+  id: string;
+  attributes: SignupTimeAttributes;
+}
+
+export interface SignupsResponse {
+  data: Signup[];
+  included: (SignupLocation | SignupTime)[];
+  meta: {
+    total_count: number;
+    count: number;
+  };
+}
+
+export interface EventWithDetails {
+  id: string;
+  name: string;
+  description: string | null;
+  logoUrl: string | null;
+  registrationUrl: string;
+  location: {
+    name: string;
+    address: string;
+  } | null;
+  times: {
+    startsAt: Date;
+    endsAt: Date | null;
+  }[];
+  openAt: Date | null;
+  closeAt: Date | null;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // PCOClient - Centralized API client
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -262,6 +345,17 @@ class PCOClient {
 
     return this.addPhone(personId, phone);
   }
+
+  /**
+   * Fetch all unarchived signups (events) with location and times included.
+   */
+  async getSignups(): Promise<SignupsResponse | null> {
+    const result = await this.fetch<SignupsResponse>(
+      "/registrations/v2/signups?filter=unarchived&include=signup_location,signup_times",
+      { logPrefix: "Planning Center get signups" }
+    );
+    return result.data || null;
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -347,4 +441,75 @@ export async function findOrCreatePerson(
     emailAdded: createResult.emailAdded,
     phoneAdded: createResult.phoneAdded,
   };
+}
+
+/**
+ * Fetch all unarchived events from PCO Registrations.
+ * Transforms the JSON:API response into a simpler format with included relations resolved.
+ */
+export async function getEvents(): Promise<EventWithDetails[]> {
+  const client = PCOClient.tryCreate();
+  if (!client) {
+    console.error("Failed to create PCO client for events");
+    return [];
+  }
+
+  const response = await client.getSignups();
+  if (!response) return [];
+
+  // Build lookup maps for included resources
+  const locationsMap = new Map<string, SignupLocation>();
+  const timesMap = new Map<string, SignupTime>();
+
+  for (const included of response.included || []) {
+    if (included.type === "SignupLocation") {
+      locationsMap.set(included.id, included as SignupLocation);
+    } else if (included.type === "SignupTime") {
+      timesMap.set(included.id, included as SignupTime);
+    }
+  }
+
+  // Transform signups to events
+  const events: EventWithDetails[] = response.data.map((signup) => {
+    // Resolve location
+    const locationRef = signup.relationships.signup_location?.data;
+    const location = locationRef ? locationsMap.get(locationRef.id) : null;
+
+    // Resolve times
+    const timeRefs = signup.relationships.signup_times?.data || [];
+    const times = timeRefs
+      .map((ref) => timesMap.get(ref.id))
+      .filter((t): t is SignupTime => t !== undefined)
+      .map((t) => ({
+        startsAt: new Date(t.attributes.starts_at),
+        endsAt: t.attributes.ends_at ? new Date(t.attributes.ends_at) : null,
+      }))
+      .sort((a, b) => a.startsAt.getTime() - b.startsAt.getTime());
+
+    return {
+      id: signup.id,
+      name: signup.attributes.name,
+      description: signup.attributes.description,
+      logoUrl: signup.attributes.logo_url,
+      registrationUrl: signup.attributes.new_registration_url,
+      location: location
+        ? {
+            name: location.attributes.name,
+            address: location.attributes.formatted_address,
+          }
+        : null,
+      times,
+      openAt: signup.attributes.open_at ? new Date(signup.attributes.open_at) : null,
+      closeAt: signup.attributes.close_at ? new Date(signup.attributes.close_at) : null,
+    };
+  });
+
+  // Sort events by earliest time, or by open_at if no times
+  events.sort((a, b) => {
+    const aTime = a.times[0]?.startsAt?.getTime() ?? a.openAt?.getTime() ?? 0;
+    const bTime = b.times[0]?.startsAt?.getTime() ?? b.openAt?.getTime() ?? 0;
+    return aTime - bTime;
+  });
+
+  return events;
 }
