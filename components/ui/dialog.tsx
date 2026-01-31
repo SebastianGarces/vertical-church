@@ -7,9 +7,95 @@ import { XIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
+type BodyShiftFixPrev = {
+  marginRight: string
+  marginRightPriority: string
+  paddingRight: string
+  paddingRightPriority: string
+}
+
 function Dialog({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Root>) {
+  const prevBodyShiftFixRef = React.useRef<BodyShiftFixPrev | null>(null)
+
+  // Prevent background layout shift when Radix scroll-lock is enabled.
+  // Radix (via react-remove-scroll-bar) injects styles that set
+  // `body[data-scroll-locked] { margin-right: <gap>px !important; }` which can
+  // visibly shift the page. Inline `!important` wins over that injected sheet.
+  //
+  // Important detail: on close, Radix removes `data-scroll-locked` *after* the
+  // dialog starts closing. If we remove our inline override immediately, the
+  // injected `margin-right: 15px !important` can briefly apply and cause an
+  // extra "left then right" flash. To avoid that, we keep the inline override
+  // until `data-scroll-locked` is actually removed from <body>.
+  React.useLayoutEffect(() => {
+    const body = document.body
+    const isOpen = props.open === true
+
+    let raf = 0
+
+    const capturePrevIfNeeded = () => {
+      if (prevBodyShiftFixRef.current) return
+      prevBodyShiftFixRef.current = {
+        marginRight: body.style.getPropertyValue("margin-right"),
+        marginRightPriority: body.style.getPropertyPriority("margin-right"),
+        paddingRight: body.style.getPropertyValue("padding-right"),
+        paddingRightPriority: body.style.getPropertyPriority("padding-right"),
+      }
+    }
+
+    const applyNoShift = () => {
+      body.style.setProperty("margin-right", "0px", "important")
+      body.style.setProperty("padding-right", "0px", "important")
+    }
+
+    const restorePrev = () => {
+      const prevNow = prevBodyShiftFixRef.current
+      if (!prevNow) return
+
+      if (prevNow.marginRight) {
+        body.style.setProperty("margin-right", prevNow.marginRight, prevNow.marginRightPriority || "")
+      } else {
+        body.style.removeProperty("margin-right")
+      }
+
+      if (prevNow.paddingRight) {
+        body.style.setProperty("padding-right", prevNow.paddingRight, prevNow.paddingRightPriority || "")
+      } else {
+        body.style.removeProperty("padding-right")
+      }
+
+      prevBodyShiftFixRef.current = null
+    }
+
+    const restoreWhenUnlocked = (maxFrames = 120) => {
+      let frames = 0
+      const tick = () => {
+        // Keep preventing shift while scroll-lock is active
+        if (body.hasAttribute("data-scroll-locked")) {
+          applyNoShift()
+          if (frames++ < maxFrames) raf = requestAnimationFrame(tick)
+          return
+        }
+        restorePrev()
+      }
+      tick()
+    }
+
+    if (isOpen) {
+      capturePrevIfNeeded()
+      applyNoShift()
+      return () => cancelAnimationFrame(raf)
+    }
+
+    if (prevBodyShiftFixRef.current) {
+      restoreWhenUnlocked()
+    }
+
+    return () => cancelAnimationFrame(raf)
+  }, [props.open])
+
   return <DialogPrimitive.Root data-slot="dialog" {...props} />
 }
 
