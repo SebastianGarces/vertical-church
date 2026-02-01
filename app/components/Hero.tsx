@@ -287,6 +287,7 @@ export function Hero({ mainImage, secondaryImages, title, badge, titleBottomOffs
                       fill
                       className="object-cover"
                       priority
+                      fetchPriority="high"
                       sizes="(max-width: 768px) 100vw, 45vw"
                     />
                   </motion.div>
@@ -390,6 +391,7 @@ export function Hero({ mainImage, secondaryImages, title, badge, titleBottomOffs
                   height={1000}
                   className="h-auto w-full"
                   priority
+                  fetchPriority="high"
                   sizes="100vw"
                 />
               </motion.div>
