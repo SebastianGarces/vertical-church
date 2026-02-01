@@ -22,6 +22,15 @@ Environment variables and runtime configuration.
 | `SMALL_GROUP_NOTIFY_EMAILS` | Yes | `lib/email.ts` | Small Group Interest recipients (comma-separated) |
 | `WANT_TO_SERVE_NOTIFY_EMAILS` | Yes | `lib/email.ts` | Want To Serve recipients (comma-separated) |
 
+### Better Auth (Admin Dashboard)
+
+| Variable | Required | Source | Description |
+|----------|----------|--------|-------------|
+| `BETTER_AUTH_SECRET` | Yes | `lib/auth.ts` | Encryption secret (min 32 chars, generate: `openssl rand -base64 32`) |
+| `BETTER_AUTH_URL` | Prod only | `lib/auth.ts` | Base URL for auth (e.g., `https://admin.vertical.family`). **Do not set in local dev.** |
+| `BETTER_AUTH_TRUSTED_ORIGINS` | Prod only | `lib/auth.ts` | Comma-separated trusted origins for CSRF |
+| `BETTER_AUTH_COOKIE_DOMAIN` | Prod only | `lib/auth.ts` | Cookie domain for cross-subdomain auth (e.g., `.vertical.family`). **Do not set in local dev.** |
+
 ### Planning Center
 
 | Variable | Required | Source | Description |

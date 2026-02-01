@@ -102,6 +102,64 @@ Where each major flow starts in the codebase.
 | `/visit` | `app/visit/page.tsx` | Plan Your Visit page with form |
 | `/get-involved` | `app/get-involved/page.tsx` | Ministries, next steps, small groups |
 | `/events` | `app/events/page.tsx` | Upcoming events from PCO Registrations |
+| `/watch` | `app/watch/page.tsx` | Sermons listing with filters |
+
+### Admin Routes (admin.vertical.family)
+
+Routes live at `/admin/*` internally. Proxy rewrites subdomain requests.
+
+| URL (user sees) | Internal Route | Purpose |
+|-----------------|----------------|---------|
+| `/login` | `app/admin/login/page.tsx` | Admin login |
+| `/forgot-password` | `app/admin/forgot-password/page.tsx` | Request password reset |
+| `/reset-password` | `app/admin/reset-password/page.tsx` | Reset password with token |
+| `/dashboard` | `app/admin/dashboard/page.tsx` | Dashboard home |
+| `/dashboard/series` | `app/admin/dashboard/series/page.tsx` | Series list |
+| `/dashboard/series/new` | `app/admin/dashboard/series/new/page.tsx` | Create series |
+| `/dashboard/series/[id]` | `app/admin/dashboard/series/[id]/page.tsx` | Edit series |
+| `/dashboard/sermons` | `app/admin/dashboard/sermons/page.tsx` | Sermons list |
+| `/dashboard/sermons/new` | `app/admin/dashboard/sermons/new/page.tsx` | Create sermon |
+| `/dashboard/sermons/[id]` | `app/admin/dashboard/sermons/[id]/page.tsx` | Edit sermon |
+
+---
+
+## Admin Dashboard
+
+**Purpose**: Manage sermon series and individual sermons with authentication.
+
+**Pattern**: Subdomain routing via proxy rewrite. See `memory/patterns/subdomain-routing.md`.
+
+**Entrypoints**:
+- `app/admin/login/page.tsx` : Login form for admin users
+- `app/admin/forgot-password/page.tsx` : Password reset request
+- `app/admin/reset-password/page.tsx` : Password reset form (with token)
+- `app/admin/dashboard/page.tsx` : Dashboard home (protected)
+- `app/admin/dashboard/series/page.tsx` : Series list and management
+- `app/admin/dashboard/sermons/page.tsx` : Sermons list and management
+
+**Primary modules**:
+- `lib/auth.ts` - Better Auth server configuration
+- `lib/auth-client.ts` - Better Auth React client
+- `lib/db/admin-queries.ts` - CRUD operations for series/sermons
+- `app/admin/actions.ts` - Server actions for CRUD
+- `app/api/auth/[...all]/route.ts` - Auth API handler
+- `proxy.ts` - Subdomain rewriting (admin.* → /admin/*)
+
+**Key dependencies**:
+- External: Better Auth (authentication)
+- External: Resend (password reset emails)
+- Database: PostgreSQL (Neon) with Drizzle ORM
+
+**Auth flow**:
+1. User visits admin.vertical.family
+2. Proxy rewrites request to /admin/* routes
+3. Dashboard layout checks session via `auth.api.getSession()`
+4. Unauthenticated users redirected to /login
+5. Password reset via email with token
+
+**Important**: Links and redirects use paths WITHOUT `/admin` prefix (e.g., `/dashboard/series`). The proxy adds the prefix internally.
+
+---
 
 **Shared layout**: `app/layout.tsx` (fonts, metadata)
 

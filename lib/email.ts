@@ -130,6 +130,54 @@ async function sendNotification<T>(
 }
 
 /**
+ * Generic email sender for auth-related emails (password reset, etc.)
+ */
+export async function sendEmail({
+  to,
+  subject,
+  react,
+}: {
+  to: string;
+  subject: string;
+  react: React.ReactElement;
+}): Promise<{ success: true }> {
+  const apiKey = getResendApiKey();
+  const resend = new Resend(apiKey);
+
+  const from =
+    process.env.RESEND_FROM_EMAIL?.trim() || "onboarding@resend.dev";
+  const text = await render(react, { plainText: true });
+
+  const payload = {
+    from,
+    to,
+    subject,
+    react,
+    text,
+    tags: [{ name: "email_type", value: "auth" }],
+  };
+
+  const idempotencyKey = `auth/${crypto.randomUUID()}`;
+
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    const { error } = await resend.emails.send(payload, { idempotencyKey });
+
+    if (!error) {
+      return { success: true };
+    }
+
+    if (!isRetryableError(error) || attempt === MAX_RETRIES) {
+      throw new Error(`Resend send failed: ${error.message}`);
+    }
+
+    const delayMs = Math.pow(2, attempt) * 1000;
+    await new Promise((resolve) => setTimeout(resolve, delayMs));
+  }
+
+  throw new Error("Resend send failed after retries");
+}
+
+/**
  * Send Plan Your Visit notification email.
  */
 export async function sendPlanVisitNotification(

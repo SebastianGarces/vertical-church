@@ -7,6 +7,9 @@ import {
   index,
 } from "drizzle-orm/pg-core";
 
+// Re-export auth tables
+export * from "./auth-schema";
+
 // Series table
 export const series = pgTable(
   "series",

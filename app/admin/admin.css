@@ -1,0 +1,30 @@
+/* Admin dashboard light theme overrides */
+.admin-theme {
+  --background: #f9fafb; /* gray-50 */
+  --foreground: #141C25; /* navy */
+  --card: #ffffff;
+  --card-foreground: #141C25;
+  --popover: #ffffff;
+  --popover-foreground: #141C25;
+  --primary: #141C25; /* navy for buttons */
+  --primary-foreground: #ffffff;
+  --secondary: #f3f4f6; /* gray-100 */
+  --secondary-foreground: #141C25;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280; /* gray-500 */
+  --accent: #f3f4f6;
+  --accent-foreground: #141C25;
+  --border: #e5e7eb; /* gray-200 */
+  --input: #e5e7eb;
+  --ring: #FF5231; /* florence */
+  
+  /* Sidebar stays dark */
+  --sidebar: #141C25;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #FF5231;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1f2937; /* gray-800 */
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #374151; /* gray-700 */
+  --sidebar-ring: #FF5231;
+}
