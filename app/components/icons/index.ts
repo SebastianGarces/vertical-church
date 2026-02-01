@@ -7,3 +7,4 @@ export { FacebookIcon } from "./FacebookIcon";
 export { InstagramIcon } from "./InstagramIcon";
 export { SpotifyIcon } from "./SpotifyIcon";
 export { YoutubeIcon } from "./YoutubeIcon";
+export { SendNetworkLogo } from "./SendNetworkLogo";

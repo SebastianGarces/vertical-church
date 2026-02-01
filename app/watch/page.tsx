@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
+import { PartnersBanner } from "../components/PartnersBanner";
 import {
   LatestSermonHero,
   SeriesCarousel,
@@ -119,6 +120,7 @@ export default function WatchPage() {
           <WatchPageContent />
         </Suspense>
       </main>
+      <PartnersBanner />
       <Footer />
     </div>
   );

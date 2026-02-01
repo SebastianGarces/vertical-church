@@ -3,6 +3,7 @@ import { VideoHero } from "../components/VideoHero";
 import { MinistryCards } from "../components/MinistryCards";
 import { Marquee } from "../components/Marquee";
 import { Footer } from "../components/Footer";
+import { PartnersBanner } from "../components/PartnersBanner";
 import {
   OurHistory,
   OurMission,
@@ -43,6 +44,7 @@ export default function AboutPage() {
         <OurVision />
         <Leadership />
       </main>
+      <PartnersBanner />
       <Footer />
     </div>
   );

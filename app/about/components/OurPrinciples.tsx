@@ -14,7 +14,7 @@ const principles = [
     number: "02",
     title: "Walk with Christ",
     description:
-      "Growing in your walk with Christ is best achieved in rich community. The Vertical Church family encourages everyone to join a Small Group where you experience fellowship, applicational study in God's Word, and mutual ministry.",
+      "Growing in your walk with Christ is best achieved in rich community. The Vertical Church family encourages everyone to join a Small Group where you experience fellowship, applicational study in God's Word, and mutual ministry. Vertical Small Groups are a warm, relational setting where you can get to know other believers and grow as a disciple.",
   },
   {
     number: "03",
@@ -114,10 +114,10 @@ export function OurPrinciples() {
           </p>
 
           <p className="mt-6 max-w-3xl font-body text-base leading-relaxed text-pipper/70 md:text-lg">
-            The Vertical Church exists at Vertical Church is to glorify God by
+            The focus of ministry at Vertical Church is to glorify God by
             fulfilling the mission that Jesus gave His followers to make
             disciples, baptize them, and teach them to follow His ways (Matthew
-            28:19-20). Vertical Church makes disciples of Jesus by encouraging
+            28:19–20). Vertical Church makes disciples of Jesus by encouraging
             them to worship Christ, walk with Christ, work for Christ, and
             witness for Christ.
           </p>

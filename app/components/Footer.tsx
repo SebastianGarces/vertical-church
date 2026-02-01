@@ -37,6 +37,7 @@ const footerLinks = {
       { label: "Watch", href: "/watch" },
       { label: "Events", href: "/events" },
       { label: "Give", href: "/give" },
+      { label: "Contact", href: "/contact" },
     ],
   },
   shop: {
@@ -46,10 +47,10 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { label: "Facebook", href: "https://facebook.com", icon: FacebookIcon },
-  { label: "Instagram", href: "https://instagram.com", icon: InstagramIcon },
-  { label: "Spotify", href: "https://spotify.com", icon: SpotifyIcon },
-  { label: "YouTube", href: "https://youtube.com", icon: YoutubeIcon },
+  { label: "Facebook", href: "https://www.facebook.com/verticalchurch.family", icon: FacebookIcon },
+  { label: "Instagram", href: "https://www.instagram.com/vertical.family/", icon: InstagramIcon },
+  { label: "Spotify", href: "https://open.spotify.com/show/54N7ElGRkMBptcXuZRfoVL?si=36777614dce64960", icon: SpotifyIcon },
+  { label: "YouTube", href: "https://www.youtube.com/@VerticalChurchNorth/featured", icon: YoutubeIcon },
 ];
 
 export function Footer() {
@@ -115,10 +116,10 @@ export function Footer() {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-8 w-8 items-center justify-center text-navy/60 transition-colors hover:text-navy cursor-pointer"
+                className="flex h-10 w-10 items-center justify-center text-navy/60 transition-colors hover:text-navy cursor-pointer"
                 aria-label={social.label}
               >
-                <social.icon className="h-5 w-5" />
+                <social.icon className="h-6 w-6" />
               </Link>
             ))}
           </div>

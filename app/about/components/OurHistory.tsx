@@ -1,45 +1,43 @@
-"use client";
+'use client';
 
-import { motion } from "motion/react";
+import { motion } from 'motion/react';
 
 export function OurHistory() {
   return (
-    <section className="bg-navy pt-8 pb-16 md:pt-12 md:pb-24">
-      <div className="mx-auto max-w-7xl px-4 md:px-8">
+    <section className='bg-navy pt-8 pb-16 md:pt-12 md:pb-24'>
+      <div className='mx-auto max-w-7xl px-4 md:px-8'>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-heading text-3xl font-bold uppercase tracking-[0.05em] text-pipper md:text-5xl">
+          <h2 className='font-heading text-3xl font-bold uppercase tracking-[0.05em] text-pipper md:text-5xl'>
             Our History
           </h2>
-          <p className="mt-2 font-body text-sm uppercase tracking-[0.1em] text-pipper/50">
-            Built on the foundations that preceded it.
+          <p className='mt-2 font-body text-sm uppercase tracking-[0.1em] text-pipper/50'>
+            Rooted in Partnership, Built on Legacy
           </p>
 
-          <div className="mt-8 max-w-3xl space-y-6 font-body text-base leading-relaxed text-pipper/70 md:text-lg">
+          <div className='mt-8 max-w-3xl space-y-6 font-body text-base leading-relaxed text-pipper/70 md:text-lg'>
             <p>
-              Vertical Church was first started as a mission destination at
-              Stony&apos;s Baptist Church, sponsored by the First Southern
-              Baptist Church of Columbus. That started in June of 1967 (over the
-              Bowling Alley on Linden Street in Coshocton. It appears otherwise
-              that it did not last long).
+              Vertical Church North exists because of God’s faithfulness and the vision of gospel-centered churches
+              committed to multiplying.
             </p>
             <p>
-              In 1984, the building at 300 Grace of Columbus is built and First
-              Southern Baptist Church started the first of several churches in
-              what would be the Greater and Columbus. In 1985 and in 1988, Grace
-              Baptist Church within 1st change its name, eventually becoming
-              Known as Vertical Church.
+              In 2024, Gateway Church in North Eaton partnered with Vertical Church in Columbus to plant a new church in
+              North Ridgeville. Gateway has long carried a heart for church planting across Lorain County, while
+              Vertical Columbus brings the DNA of the Vertical Church family, committed to multiplying life-giving,
+              Christ-centered churches.
             </p>
             <p>
-              In 2015, the pastorate of Colonial Village Baptist Church was due
-              to dwindle and give all of the resources to Gateway Church, with
-              the Metro of a supporter. In 2018, Gateway Church of North
-              Ridgeville and Vertical Church Columbus (now came together to
-              Birth Vertical Church North).
+              This new plant began in a building that has served as a place of worship and gospel witness in North
+              Ridgeville for decades. By God’s grace, Vertical Church North is carrying that legacy forward with fresh
+              vision and renewed passion.
+            </p>
+            <p>
+              From the very beginning, our desire has been simple: to see people encounter Jesus, grow as His disciples,
+              and live on mission together for the glory of God.
             </p>
           </div>
         </motion.div>

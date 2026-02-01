@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
+import { PartnersBanner } from "../components/PartnersBanner";
 import { PageIntro, EventsList } from "./components";
 
 export const revalidate = 3600; // Revalidate every hour
@@ -38,6 +39,7 @@ export default function EventsPage() {
           <EventsList />
         </Suspense>
       </main>
+      <PartnersBanner />
       <Footer />
     </div>
   );

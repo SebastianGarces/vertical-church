@@ -11,6 +11,10 @@ import {
   WantToServeNotificationEmail,
   type WantToServeNotificationData,
 } from "@/emails/want-to-serve-notification";
+import {
+  ContactFormNotificationEmail,
+  type ContactFormNotificationData,
+} from "@/emails/contact-form-notification";
 import { Resend } from "resend";
 
 const MAX_RETRIES = 3;
@@ -226,6 +230,24 @@ export async function sendWantToServeNotification(
       flowName: "Want To Serve",
       getSubject: (d) => `Want to Serve: ${d.firstName} ${d.lastName}`,
       renderEmail: (d) => WantToServeNotificationEmail({ formData: d }),
+    },
+    data
+  );
+}
+
+/**
+ * Send Contact Form notification email.
+ */
+export async function sendContactFormNotification(
+  data: ContactFormNotificationData
+): Promise<{ success: true }> {
+  return sendNotification(
+    {
+      emailType: "contact-form-notification",
+      recipientsEnvVar: "CONTACT_FORM_NOTIFY_EMAILS",
+      flowName: "Contact Form",
+      getSubject: (d) => `Contact Form: ${d.firstName} ${d.lastName}`,
+      renderEmail: (d) => ContactFormNotificationEmail({ formData: d }),
     },
     data
   );

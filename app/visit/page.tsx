@@ -1,4 +1,5 @@
 import { Footer } from "../components/Footer";
+import { PartnersBanner } from "../components/PartnersBanner";
 import { Header } from "../components/Header";
 import { Hero } from "../components/Hero";
 import { Marquee } from "../components/Marquee";
@@ -43,6 +44,7 @@ export default function VisitPage() {
         <Marquee />
         <PlanVisitForm />
       </main>
+      <PartnersBanner />
       <Footer />
     </div>
   );

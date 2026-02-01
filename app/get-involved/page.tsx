@@ -1,6 +1,7 @@
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Marquee } from "../components/Marquee";
+import { PartnersBanner } from "../components/PartnersBanner";
 import {
   PageIntro,
   NextSteps,
@@ -21,6 +22,7 @@ export default function GetInvolvedPage() {
         <SmallGroups />
         <ServeTeams />
       </main>
+      <PartnersBanner />
       <Footer />
     </div>
   );

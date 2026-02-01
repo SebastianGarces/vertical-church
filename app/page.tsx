@@ -4,6 +4,7 @@ import { Welcome } from "./components/Welcome";
 import { MinistryCards } from "./components/MinistryCards";
 import { Marquee } from "./components/Marquee";
 import { FeatureSection } from "./components/FeatureSection";
+import { PartnersBanner } from "./components/PartnersBanner";
 import { Footer } from "./components/Footer";
 
 const heroImages = {
@@ -47,6 +48,7 @@ export default function Home() {
         <Marquee />
         <FeatureSection />
       </main>
+      <PartnersBanner />
       <Footer />
     </div>
   );

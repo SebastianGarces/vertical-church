@@ -92,6 +92,27 @@ Where each major flow starts in the codebase.
 
 ---
 
+## Contact Form Submission
+
+**Purpose**: Collect contact form message, find/create person in Planning Center, send notification email to staff.
+
+**Entrypoint**:
+- `app/contact/actions.ts` : `submitContactForm(payload)`
+- Trigger: Form submit from `app/contact/page.tsx`
+
+**Primary modules**:
+- `app/contact/actions.ts` - Server action, Zod validation
+- `lib/planning-center.ts` - Planning Center API client (`findOrCreatePerson`)
+- `lib/email.ts` - Resend email sender (`sendContactFormNotification`)
+- `emails/contact-form-notification.tsx` - Email template
+
+**Key dependencies**:
+- External: Planning Center People API (search, create, update)
+- External: Resend email service
+- Env vars: `CONTACT_FORM_NOTIFY_EMAILS` (comma-separated recipient emails)
+
+---
+
 ## Page Routes
 
 | Route | Entrypoint | Purpose |
@@ -104,6 +125,7 @@ Where each major flow starts in the codebase.
 | `/events` | `app/events/page.tsx` | Upcoming events from PCO Registrations |
 | `/watch` | `app/watch/page.tsx` | Sermons listing with filters |
 | `/give` | `app/give/page.tsx` | Giving instructions (online + check) |
+| `/contact` | `app/contact/page.tsx` | Contact form and church info |
 
 ### Admin Routes (admin.vertical.family)
 

@@ -1,5 +1,6 @@
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
+import { PartnersBanner } from '../../components/PartnersBanner';
 import BeliefsContent from './content.mdx';
 
 export const metadata = {
@@ -27,6 +28,7 @@ export default function BeliefsPage() {
             <BeliefsContent />
           </section>
         </main>
+        <PartnersBanner />
         <Footer />
       </div>
     </div>

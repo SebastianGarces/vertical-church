@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { ExternalLink } from "lucide-react";
 import { Footer } from "../components/Footer";
+import { PartnersBanner } from "../components/PartnersBanner";
 import { Header } from "../components/Header";
 
 function PageIntro() {
@@ -136,6 +137,7 @@ export default function GivePage() {
         <GivingOptions />
         <ThankYou />
       </main>
+      <PartnersBanner />
       <Footer />
     </div>
   );

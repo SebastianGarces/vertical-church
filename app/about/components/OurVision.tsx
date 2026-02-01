@@ -18,7 +18,7 @@ export function OurVision() {
 
           <p className="mt-6 max-w-4xl font-tagline text-xl leading-relaxed text-florence md:text-2xl lg:text-3xl">
             Our vision is to be a church that is faithfully committed to making
-            more disciples and extending the dream of Jesus Christ with an
+            more disciples and stronger disciples of Jesus Christ with an
             effective witness and mutual ministry.
           </p>
         </motion.div>
