@@ -184,8 +184,8 @@ export function SmallGroupInterestModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto border-pipper/20 bg-navy sm:max-w-xl">
-        <DialogHeader>
+      <DialogContent className="flex max-h-[90vh] flex-col overflow-hidden border-pipper/20 bg-navy p-0 sm:max-w-xl">
+        <DialogHeader className="px-6 pt-6">
           <DialogTitle className="font-heading text-xl font-semibold text-pipper">
             Find a Small Group
           </DialogTitle>
@@ -194,16 +194,17 @@ export function SmallGroupInterestModal({
           </DialogDescription>
         </DialogHeader>
 
-        {submitError && (
-          <div
-            role="alert"
-            className="rounded-md border border-red-500/50 bg-red-500/10 px-4 py-3 text-sm text-red-400"
-          >
-            {submitError}
-          </div>
-        )}
+        <div className="overflow-y-auto px-6 pb-6">
+          {submitError && (
+            <div
+              role="alert"
+              className="mb-5 rounded-md border border-red-500/50 bg-red-500/10 px-4 py-3 text-sm text-red-400"
+            >
+              {submitError}
+            </div>
+          )}
 
-        <div className="space-y-5">
+          <div className="space-y-5">
           {/* Contact Information */}
           <FieldGroup className="gap-4">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -450,15 +451,16 @@ export function SmallGroupInterestModal({
           </FieldGroup>
         </div>
 
-        <div className="flex justify-end pt-4">
-          <button
-            type="button"
-            onClick={handleSubmit}
-            disabled={!isFormValid || isSubmitting}
-            className="inline-flex items-center justify-center rounded-md bg-florence px-8 py-3 font-button text-sm font-bold uppercase tracking-[0.2em] text-pipper transition-all duration-200 hover:bg-florence/90 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {isSubmitting ? "Submitting…" : "Submit"}
-          </button>
+          <div className="flex justify-end pt-4">
+            <button
+              type="button"
+              onClick={handleSubmit}
+              disabled={!isFormValid || isSubmitting}
+              className="inline-flex items-center justify-center rounded-md bg-florence px-8 py-3 font-button text-sm font-bold uppercase tracking-[0.2em] text-pipper transition-all duration-200 hover:bg-florence/90 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {isSubmitting ? "Submitting…" : "Submit"}
+            </button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
