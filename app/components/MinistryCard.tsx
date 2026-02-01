@@ -28,6 +28,7 @@ export function MinistryCard({ title, href, image, index = 0 }: MinistryCardProp
           src={image}
           alt={title}
           fill
+          sizes="(max-width: 768px) 224px, 25vw"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
 

@@ -59,7 +59,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         {/* Logo - Top Left */}
         <div className="mb-10">
-          <Link href="/" className="inline-block cursor-pointer">
+          <Link href="/" className="inline-block cursor-pointer" aria-label="Vertical Church - Home">
             <VerticalEstLogo className="h-20 w-auto" color="#141C25" />
           </Link>
         </div>

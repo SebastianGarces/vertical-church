@@ -29,7 +29,7 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-navy">
       <div className="flex h-16 items-center justify-between px-4 md:h-20 md:px-8 lg:px-12">
         {/* Logo */}
-        <Link href="/" className="flex items-center cursor-pointer">
+        <Link href="/" className="flex items-center cursor-pointer" aria-label="Vertical Church - Home">
           <VerticalMainLogo
             className="h-8 w-auto md:h-10"
             color="#D4D4D0"

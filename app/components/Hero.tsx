@@ -287,6 +287,7 @@ export function Hero({ mainImage, secondaryImages, title, badge, titleBottomOffs
                       fill
                       className="object-cover"
                       priority
+                      sizes="(max-width: 768px) 100vw, 45vw"
                     />
                   </motion.div>
                   {/* Gradient overlay for text legibility */}
@@ -313,7 +314,7 @@ export function Hero({ mainImage, secondaryImages, title, badge, titleBottomOffs
                         alt={image.alt}
                         fill
                         className="object-cover"
-                        priority
+                        sizes="(max-width: 768px) 100vw, 55vw"
                       />
                     </motion.div>
                   </div>
@@ -389,6 +390,7 @@ export function Hero({ mainImage, secondaryImages, title, badge, titleBottomOffs
                   height={1000}
                   className="h-auto w-full"
                   priority
+                  sizes="100vw"
                 />
               </motion.div>
               {/* Gradient overlay for text legibility */}
@@ -444,7 +446,8 @@ export function Hero({ mainImage, secondaryImages, title, badge, titleBottomOffs
                     width={800}
                     height={450}
                     className="h-auto w-full"
-                    priority
+                    loading="lazy"
+                    sizes="100vw"
                   />
                 </motion.div>
               </div>

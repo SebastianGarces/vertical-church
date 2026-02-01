@@ -34,6 +34,7 @@ function PersonCard({
           alt={name}
           width={400}
           height={500}
+          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
           className="h-auto w-full"
         />
       </div>
@@ -66,6 +67,7 @@ function ElderCard({
           alt={elder.name}
           width={400}
           height={500}
+          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
           className="h-auto w-full"
         />
       </div>
@@ -108,6 +110,7 @@ function SmallGroupCard({
           alt={leader.names}
           width={400}
           height={500}
+          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
           className="h-auto w-full"
         />
       </div>

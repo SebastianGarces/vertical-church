@@ -187,6 +187,7 @@ export function EventCard({ event }: EventCardProps) {
                     alt={event.name}
                     width={1200}
                     height={800}
+                    sizes="(max-width: 768px) 100vw, 800px"
                     className='h-auto w-full object-cover'
                   />
                 </div>

@@ -52,6 +52,7 @@ export function FeatureSection() {
                   alt="Community at Vertical Church"
                   width={600}
                   height={500}
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="h-auto w-full object-cover"
                 />
                 {/* Coin logo overlay */}

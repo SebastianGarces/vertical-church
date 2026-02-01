@@ -68,6 +68,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Preconnect to image CDN for faster LCP */}
+        <link rel="preconnect" href="https://vertical-church.t3.storage.dev" />
+        <link rel="dns-prefetch" href="https://vertical-church.t3.storage.dev" />
+      </head>
       <body
         className={`${fraunces.variable} ${overpass.variable} ${ptMono.variable} antialiased`}
       >
