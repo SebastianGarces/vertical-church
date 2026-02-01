@@ -103,6 +103,7 @@ Where each major flow starts in the codebase.
 | `/get-involved` | `app/get-involved/page.tsx` | Ministries, next steps, small groups |
 | `/events` | `app/events/page.tsx` | Upcoming events from PCO Registrations |
 | `/watch` | `app/watch/page.tsx` | Sermons listing with filters |
+| `/give` | `app/give/page.tsx` | Giving instructions (online + check) |
 
 ### Admin Routes (admin.vertical.family)
 
