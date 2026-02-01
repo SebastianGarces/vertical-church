@@ -1,12 +1,16 @@
+import type { Metadata } from "next";
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
 import { PartnersBanner } from '../../components/PartnersBanner';
 import BeliefsContent from './content.mdx';
 
-export const metadata = {
-  title: 'What We Believe | Vertical Church',
+export const metadata: Metadata = {
+  title: "What We Believe",
   description:
     "Explore Vertical Church's doctrinal statements and beliefs about scripture, salvation, church governance, and more.",
+  alternates: {
+    canonical: "/about/beliefs",
+  },
 };
 
 export default function BeliefsPage() {

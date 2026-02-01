@@ -28,7 +28,7 @@ export const leadership: LeadershipData = {
   staff: [
     {
       name: 'Bryan Nass',
-      role: 'Senior Pastor & Lead Elder',
+      role: 'Senior Pastor',
       image: 'https://vertical-church.t3.storage.dev/bryan-nass.jpg',
     },
     {

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
@@ -16,10 +17,13 @@ import {
 
 export const revalidate = 3600; // Revalidate every hour
 
-export const metadata = {
-  title: "Watch | Vertical Church",
+export const metadata: Metadata = {
+  title: "Watch",
   description:
     "Watch sermons and teachings from Vertical Church. Browse our library of messages by series, book, pastor, or year.",
+  alternates: {
+    canonical: "/watch",
+  },
 };
 
 function HeroSkeleton() {

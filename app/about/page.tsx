@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Header } from "../components/Header";
 import { VideoHero } from "../components/VideoHero";
 import { MinistryCards } from "../components/MinistryCards";
@@ -14,6 +15,15 @@ import {
   OurVision,
   Leadership,
 } from "./components";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description:
+    "Learn about Vertical Church's history, mission, vision, and leadership. Discover how we're loving God, loving people, and serving the world in North Ridgeville, Ohio.",
+  alternates: {
+    canonical: "/about",
+  },
+};
 
 const heroTitle = (
   <>

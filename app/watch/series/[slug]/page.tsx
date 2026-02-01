@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
@@ -13,17 +14,36 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const result = await getSeriesBySlug(slug);
 
   if (!result) {
-    return { title: "Series Not Found | Vertical Church" };
+    return { title: "Series Not Found" };
   }
 
+  const { series, sermons } = result;
+  const description = `Watch all ${sermons.length} sermon${sermons.length === 1 ? "" : "s"} from the "${series.title}" series at Vertical Church.`;
+
   return {
-    title: `${result.series.title} | Vertical Church`,
-    description: `Watch all sermons from the "${result.series.title}" series at Vertical Church.`,
+    title: series.title,
+    description,
+    alternates: {
+      canonical: `/watch/series/${slug}`,
+    },
+    openGraph: {
+      title: series.title,
+      description,
+      type: "website",
+      ...(series.thumbnailUrl && {
+        images: [
+          {
+            url: series.thumbnailUrl,
+            alt: series.title,
+          },
+        ],
+      }),
+    },
   };
 }
 

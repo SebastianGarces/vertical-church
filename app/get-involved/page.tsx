@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Marquee } from "../components/Marquee";
@@ -9,6 +10,15 @@ import {
   SmallGroups,
   ServeTeams,
 } from "./components";
+
+export const metadata: Metadata = {
+  title: "Get Involved",
+  description:
+    "Discover ways to connect and serve at Vertical Church. Join a small group, find your place on a serve team, and take your next steps in faith.",
+  alternates: {
+    canonical: "/get-involved",
+  },
+};
 
 export default function GetInvolvedPage() {
   return (

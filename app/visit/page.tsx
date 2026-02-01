@@ -1,9 +1,19 @@
+import type { Metadata } from "next";
 import { Footer } from "../components/Footer";
 import { PartnersBanner } from "../components/PartnersBanner";
 import { Header } from "../components/Header";
 import { Hero } from "../components/Hero";
 import { Marquee } from "../components/Marquee";
 import { FAQ, PlanVisitForm, ServiceInfo, WhatToExpect } from "./components";
+
+export const metadata: Metadata = {
+  title: "Plan Your Visit",
+  description:
+    "Plan your visit to Vertical Church in North Ridgeville, Ohio. Join us Sundays at 10am for worship. Learn what to expect and let us know you're coming.",
+  alternates: {
+    canonical: "/visit",
+  },
+};
 
 const heroImages = {
   main: {

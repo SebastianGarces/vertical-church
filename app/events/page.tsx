@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
@@ -6,10 +7,13 @@ import { PageIntro, EventsList } from "./components";
 
 export const revalidate = 3600; // Revalidate every hour
 
-export const metadata = {
-  title: "Events | Vertical Church",
+export const metadata: Metadata = {
+  title: "Events",
   description:
     "Join us for worship gatherings, community events, and opportunities to connect at Vertical Church.",
+  alternates: {
+    canonical: "/events",
+  },
 };
 
 function EventsLoading() {

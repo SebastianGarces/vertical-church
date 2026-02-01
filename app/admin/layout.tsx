@@ -1,9 +1,14 @@
+import type { Metadata } from "next";
 import "@/app/globals.css";
 import "./admin.css";
 
-export const metadata = {
-  title: "Admin | Vertical Church",
+export const metadata: Metadata = {
+  title: "Admin",
   description: "Vertical Church Admin Dashboard",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function AdminRootLayout({

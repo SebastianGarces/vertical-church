@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
@@ -13,17 +14,57 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: PageProps) {
+function getYouTubeId(url: string): string | null {
+  const match = url.match(
+    /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+  );
+  return match ? match[1] : null;
+}
+
+function getVideoThumbnail(url: string): string | null {
+  const youtubeId = getYouTubeId(url);
+  if (youtubeId) {
+    return `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
+  }
+  return null;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const sermon = await getSermonBySlug(slug);
 
   if (!sermon) {
-    return { title: "Sermon Not Found | Vertical Church" };
+    return { title: "Sermon Not Found" };
   }
 
+  const thumbnailUrl =
+    sermon.series?.thumbnailUrl || getVideoThumbnail(sermon.videoUrl);
+
+  const description = sermon.pastor
+    ? `Watch "${sermon.title}" by ${sermon.pastor} from ${sermon.series?.title || "Vertical Church"}.`
+    : `Watch "${sermon.title}" from ${sermon.series?.title || "Vertical Church"}.`;
+
   return {
-    title: `${sermon.title} | Vertical Church`,
-    description: `Watch "${sermon.title}" from ${sermon.series?.title || "Vertical Church"}.`,
+    title: sermon.title,
+    description,
+    alternates: {
+      canonical: `/watch/${slug}`,
+    },
+    openGraph: {
+      title: sermon.title,
+      description,
+      type: "video.other",
+      ...(thumbnailUrl && {
+        images: [
+          {
+            url: thumbnailUrl,
+            width: 480,
+            height: 360,
+            alt: sermon.title,
+          },
+        ],
+      }),
+    },
   };
 }
 
