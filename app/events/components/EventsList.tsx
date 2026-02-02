@@ -1,4 +1,5 @@
 import { getEvents } from "@/lib/planning-center";
+import { getEventsSchema, JsonLd } from "@/lib/json-ld";
 import { EventCard } from "./EventCard";
 
 export async function EventsList() {
@@ -18,8 +19,13 @@ export async function EventsList() {
     );
   }
 
+  // Generate Event schemas for AI discoverability
+  const eventsSchema = getEventsSchema(events);
+
   return (
     <section className="bg-navy pb-16 md:pb-24">
+      {/* Event structured data for AI systems */}
+      {eventsSchema.length > 0 && <JsonLd data={eventsSchema} />}
       <div className="mx-auto max-w-[1080px] px-4 md:px-8">
         <div className="flex flex-col gap-4">
           {events.map((event) => (

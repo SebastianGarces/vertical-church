@@ -5,6 +5,7 @@ import { ChevronLeft } from "lucide-react";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
 import { getSermonBySlug, getSermons } from "@/lib/db/queries";
+import { getVideoObjectSchema, JsonLd } from "@/lib/json-ld";
 import { VideoPlayer } from "./VideoPlayer";
 import { SermonCard } from "../components/SermonCard";
 
@@ -94,8 +95,19 @@ export default async function SermonPage({ params }: PageProps) {
   const relatedSermons =
     moreFromSeries?.sermons.filter((s) => s.id !== sermon.id).slice(0, 3) || [];
 
+  // Prepare VideoObject schema for AI discoverability
+  const videoSchema = getVideoObjectSchema({
+    title: sermon.title,
+    sermonDate: sermon.sermonDate,
+    videoUrl: sermon.videoUrl,
+    thumbnailUrl: sermon.series?.thumbnailUrl,
+    pastor: sermon.pastor,
+    series: sermon.series,
+  });
+
   return (
     <div className="min-h-screen overflow-x-hidden bg-navy">
+      <JsonLd data={videoSchema} />
       <Header />
       <main className="pb-16 md:pb-24">
         {/* Back link */}

@@ -1,6 +1,7 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Fraunces, Overpass, PT_Mono } from "next/font/google";
+import { getOrganizationSchema, JsonLd } from "@/lib/json-ld";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -72,6 +73,8 @@ export default function RootLayout({
         {/* Preconnect to image CDN for faster LCP */}
         <link rel="preconnect" href="https://vertical-church.t3.storage.dev" />
         <link rel="dns-prefetch" href="https://vertical-church.t3.storage.dev" />
+        {/* Organization/Church structured data for AI discoverability */}
+        <JsonLd data={getOrganizationSchema()} />
       </head>
       <body
         className={`${fraunces.variable} ${overpass.variable} ${ptMono.variable} antialiased`}
