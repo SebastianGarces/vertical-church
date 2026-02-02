@@ -37,10 +37,20 @@ export interface FilterOptions {
 }
 
 /**
- * Get all series (for filter dropdown)
+ * Get all series (for carousel and filter dropdown)
+ * Standalone messages always appears first, then rest by date
  */
 export async function getSeries(): Promise<Series[]> {
-  return db.select().from(series).orderBy(desc(series.createdAt));
+  const results = await db
+    .select()
+    .from(series)
+    .orderBy(desc(series.createdAt));
+
+  return results.sort((a, b) => {
+    if (a.slug === "standalone-messages") return -1;
+    if (b.slug === "standalone-messages") return 1;
+    return 0;
+  });
 }
 
 /**

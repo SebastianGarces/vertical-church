@@ -1,6 +1,6 @@
 import { db } from "./index";
 import { series, sermons } from "./schema";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, sql } from "drizzle-orm";
 import { randomUUID } from "crypto";
 
 export type SeriesInput = {
@@ -58,7 +58,17 @@ export async function getSeriesById(id: string) {
 }
 
 export async function getAllSeries() {
-  return db.select().from(series).orderBy(desc(series.createdAt));
+  const results = await db
+    .select()
+    .from(series)
+    .orderBy(desc(series.createdAt));
+
+  // Put standalone-messages first, then rest by date
+  return results.sort((a, b) => {
+    if (a.slug === "standalone-messages") return -1;
+    if (b.slug === "standalone-messages") return 1;
+    return 0; // Keep original date order for the rest
+  });
 }
 
 // Sermons CRUD

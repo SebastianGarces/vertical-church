@@ -13,6 +13,7 @@ import {
   updateSermon,
   deleteSermon,
 } from "@/lib/db/admin-queries";
+import { S3 } from "@/lib/s3";
 
 // Helper to check auth
 async function requireAuth() {
@@ -181,4 +182,43 @@ export async function deleteSermonAction(id: string) {
 
   revalidatePath("/dashboard/sermons");
   redirect("/dashboard/sermons");
+}
+
+// Image Upload
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
+export async function uploadImageAction(
+  formData: FormData
+): Promise<{ url: string } | { error: string }> {
+  await requireAuth();
+
+  const file = formData.get("file") as File | null;
+  const slug = formData.get("slug") as string | null;
+  const type = formData.get("type") as "thumbnail" | "background" | null;
+
+  if (!file || !slug || !type) {
+    return { error: "Missing required fields" };
+  }
+
+  if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+    return { error: "Invalid file type. Allowed: JPEG, PNG, WebP" };
+  }
+
+  if (file.size > MAX_FILE_SIZE) {
+    return { error: "File too large. Maximum size is 5MB" };
+  }
+
+  if (!["thumbnail", "background"].includes(type)) {
+    return { error: "Invalid image type" };
+  }
+
+  try {
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const url = await S3.uploadImage(slug, type, buffer, file.type);
+    return { url };
+  } catch (error) {
+    console.error("Upload error:", error);
+    return { error: "Failed to upload image" };
+  }
 }

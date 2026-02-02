@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition } from "react";
+import { useTransition, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,7 +11,16 @@ import {
   updateSeriesAction,
   deleteSeriesAction,
 } from "../../actions";
+import { ImageUpload } from "./ImageUpload";
 import type { Series } from "@/lib/db/queries";
+
+// Helper to create slug from title (mirrors server-side logic)
+function createSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
 
 interface SeriesFormProps {
   series?: Series;
@@ -20,6 +29,13 @@ interface SeriesFormProps {
 export function SeriesForm({ series }: SeriesFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [title, setTitle] = useState(series?.title || "");
+  const [customSlug, setCustomSlug] = useState(series?.slug || "");
+  const [thumbnailUrl, setThumbnailUrl] = useState(series?.thumbnailUrl || "");
+  const [backgroundUrl, setBackgroundUrl] = useState(series?.backgroundUrl || "");
+
+  // Compute effective slug for image uploads
+  const effectiveSlug = customSlug || createSlug(title);
 
   const handleSubmit = (formData: FormData) => {
     startTransition(async () => {
@@ -40,6 +56,14 @@ export function SeriesForm({ series }: SeriesFormProps) {
     });
   };
 
+  const handleThumbnailUpload = useCallback((url: string) => {
+    setThumbnailUrl(url);
+  }, []);
+
+  const handleBackgroundUpload = useCallback((url: string) => {
+    setBackgroundUrl(url);
+  }, []);
+
   return (
     <Card>
       <CardContent className="pt-6">
@@ -49,7 +73,8 @@ export function SeriesForm({ series }: SeriesFormProps) {
             <Input
               id="title"
               name="title"
-              defaultValue={series?.title}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               required
               disabled={isPending}
             />
@@ -60,8 +85,9 @@ export function SeriesForm({ series }: SeriesFormProps) {
             <Input
               id="slug"
               name="slug"
-              defaultValue={series?.slug}
-              placeholder="auto-generated-from-title"
+              value={customSlug}
+              onChange={(e) => setCustomSlug(e.target.value)}
+              placeholder={effectiveSlug || "auto-generated-from-title"}
               disabled={isPending}
             />
             <p className="text-xs text-muted-foreground">
@@ -69,29 +95,25 @@ export function SeriesForm({ series }: SeriesFormProps) {
             </p>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="thumbnailUrl">Thumbnail URL</Label>
-            <Input
-              id="thumbnailUrl"
-              name="thumbnailUrl"
-              type="url"
-              defaultValue={series?.thumbnailUrl || ""}
-              placeholder="https://example.com/image.jpg"
-              disabled={isPending}
-            />
-          </div>
+          <ImageUpload
+            name="thumbnailUrl"
+            label="Thumbnail Image"
+            currentUrl={thumbnailUrl}
+            slug={effectiveSlug}
+            type="thumbnail"
+            onUploadComplete={handleThumbnailUpload}
+            disabled={isPending || !effectiveSlug}
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="backgroundUrl">Background URL</Label>
-            <Input
-              id="backgroundUrl"
-              name="backgroundUrl"
-              type="url"
-              defaultValue={series?.backgroundUrl || ""}
-              placeholder="https://example.com/background.jpg"
-              disabled={isPending}
-            />
-          </div>
+          <ImageUpload
+            name="backgroundUrl"
+            label="Background Image"
+            currentUrl={backgroundUrl}
+            slug={effectiveSlug}
+            type="background"
+            onUploadComplete={handleBackgroundUpload}
+            disabled={isPending || !effectiveSlug}
+          />
 
           <div className="flex gap-4 pt-4">
             <Button type="submit" disabled={isPending}>
