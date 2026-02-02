@@ -12,6 +12,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "vertical-church.t3.storage.dev",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "registrations-production.s3.amazonaws.com",
         pathname: "/uploads/**",
       },
