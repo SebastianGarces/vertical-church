@@ -38,6 +38,8 @@ interface NotificationConfig<T> {
   getSubject: (data: T) => string;
   /** Render the React email component */
   renderEmail: (data: T) => React.ReactElement;
+  /** Additional recipients to include (e.g., team-specific emails) */
+  additionalRecipients?: string[];
 }
 
 function getResendApiKey(): string {
@@ -89,10 +91,14 @@ async function sendNotification<T>(
   data: T
 ): Promise<{ success: true }> {
   const apiKey = getResendApiKey();
-  const recipients = getRecipientsFromEnv(
+  const baseRecipients = getRecipientsFromEnv(
     config.recipientsEnvVar,
     config.flowName
   );
+  // Merge base recipients with any additional team-specific recipients
+  const recipients = [
+    ...new Set([...baseRecipients, ...(config.additionalRecipients ?? [])]),
+  ];
   const resend = new Resend(apiKey);
 
   const from =
@@ -219,9 +225,12 @@ export async function sendSmallGroupInterestNotification(
 
 /**
  * Send Want To Serve notification email.
+ * @param data - Form submission data
+ * @param teamEmails - Optional team-specific notification emails
  */
 export async function sendWantToServeNotification(
-  data: WantToServeNotificationData
+  data: WantToServeNotificationData,
+  teamEmails?: string[]
 ): Promise<{ success: true }> {
   return sendNotification(
     {
@@ -230,6 +239,7 @@ export async function sendWantToServeNotification(
       flowName: "Want To Serve",
       getSubject: (d) => `Want to Serve: ${d.firstName} ${d.lastName}`,
       renderEmail: (d) => WantToServeNotificationEmail({ formData: d }),
+      additionalRecipients: teamEmails,
     },
     data
   );

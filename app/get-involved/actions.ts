@@ -6,6 +6,7 @@ import {
   sendSmallGroupInterestNotification,
   sendWantToServeNotification,
 } from "@/lib/email";
+import { getTeamNotifyEmails } from "./components/serve-teams-data";
 
 const smallGroupInterestFormSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -128,32 +129,38 @@ export async function submitWantToServeForm(
     phone: formData.phone?.trim() || undefined,
   });
 
+  // Look up team-specific notification emails based on selected interests
+  const teamEmails = getTeamNotifyEmails(formData.serviceInterests);
+
   try {
-    await sendWantToServeNotification({
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      phone: formData.phone ?? "",
-      serviceInterests: formData.serviceInterests,
-      isExistingPerson: pcoResult.isExisting,
-      planningCenterStatus: pcoResult.success
-        ? pcoResult.isExisting
-          ? "Found"
-          : "Created"
-        : "Failed",
-      planningCenterEmailAdded: pcoResult.success
-        ? pcoResult.emailAdded
-          ? "Succeeded"
-          : "Failed"
-        : "N/A",
-      planningCenterPhoneAdded: formData.phone?.trim()
-        ? pcoResult.success
-          ? pcoResult.phoneAdded
+    await sendWantToServeNotification(
+      {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone ?? "",
+        serviceInterests: formData.serviceInterests,
+        isExistingPerson: pcoResult.isExisting,
+        planningCenterStatus: pcoResult.success
+          ? pcoResult.isExisting
+            ? "Found"
+            : "Created"
+          : "Failed",
+        planningCenterEmailAdded: pcoResult.success
+          ? pcoResult.emailAdded
             ? "Succeeded"
             : "Failed"
-          : "N/A"
-        : "N/A",
-    });
+          : "N/A",
+        planningCenterPhoneAdded: formData.phone?.trim()
+          ? pcoResult.success
+            ? pcoResult.phoneAdded
+              ? "Succeeded"
+              : "Failed"
+            : "N/A"
+          : "N/A",
+      },
+      teamEmails
+    );
   } catch (err) {
     console.error("Resend notification failed:", err);
     return { success: false, error: USER_FACING_ERROR };
