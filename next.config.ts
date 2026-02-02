@@ -7,11 +7,6 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "vertical-church.t3.storageapi.dev",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
         hostname: "vertical-church.t3.storage.dev",
         pathname: "/**",
       },
