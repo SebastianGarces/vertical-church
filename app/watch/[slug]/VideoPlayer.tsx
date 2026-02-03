@@ -22,10 +22,11 @@ export function VideoPlayer({ videoUrl, title }: VideoPlayerProps) {
   const vimeoId = getVimeoId(videoUrl);
 
   if (youtubeId) {
+    // Use youtube-nocookie.com for privacy-enhanced mode (reduces tracking)
     return (
       <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black">
         <iframe
-          src={`https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1`}
+          src={`https://www.youtube-nocookie.com/embed/${youtubeId}?rel=0&modestbranding=1`}
           title={title}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
@@ -36,10 +37,11 @@ export function VideoPlayer({ videoUrl, title }: VideoPlayerProps) {
   }
 
   if (vimeoId) {
+    // dnt=1 enables "Do Not Track" - disables cookies and analytics
     return (
       <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black">
         <iframe
-          src={`https://player.vimeo.com/video/${vimeoId}?title=0&byline=0&portrait=0`}
+          src={`https://player.vimeo.com/video/${vimeoId}?title=0&byline=0&portrait=0&dnt=1`}
           title={title}
           allow="autoplay; fullscreen; picture-in-picture"
           allowFullScreen

@@ -70,8 +70,9 @@ export function VideoHero({ vimeoVideoId, vimeoHash, title }: VideoHeroProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Build Vimeo embed URL with background mode (no controls)
+  // dnt=1 enables "Do Not Track" - disables cookies and analytics
   const hashParam = vimeoHash ? `&h=${vimeoHash}` : "";
-  const vimeoSrc = `https://player.vimeo.com/video/${vimeoVideoId}?background=1&autoplay=1&loop=1&muted=1&playsinline=1${hashParam}`;
+  const vimeoSrc = `https://player.vimeo.com/video/${vimeoVideoId}?background=1&autoplay=1&loop=1&muted=1&playsinline=1&dnt=1${hashParam}`;
 
   useEffect(() => {
     if (iframeRef.current && !playerRef.current) {
