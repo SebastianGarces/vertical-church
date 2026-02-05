@@ -27,6 +27,13 @@ Quick reference to all memory artifacts.
 | Events | [contracts/events.md](./contracts/events.md) | Event names and payloads |
 | Config | [contracts/config.md](./contracts/config.md) | Env vars, feature flags |
 
+## Patterns
+
+|| Pattern | File | Description |
+||---------|------|-------------|
+|| Subdomain Routing | [patterns/subdomain-routing.md](./patterns/subdomain-routing.md) | Admin subdomain via proxy.ts |
+|| Form Spam Protection | [patterns/form-spam-protection.md](./patterns/form-spam-protection.md) | Honeypot, gibberish detection, timing checks |
+
 ## When Memory Is Sufficient
 
 Use memory alone when:
