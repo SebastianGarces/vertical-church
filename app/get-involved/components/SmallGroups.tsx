@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { Button } from "@/app/components/Button";
 import { SmallGroupInterestModal } from "./SmallGroupInterestModal";
@@ -13,14 +14,13 @@ export function SmallGroups() {
       <section id="small-groups" className="bg-navy py-16 md:py-24 scroll-mt-20">
         <div className="mx-auto max-w-7xl px-4 md:px-8">
           <div className="overflow-hidden rounded-lg bg-cream md:flex md:p-5">
-            {/* IMAGE PLACEHOLDER - replace with real image when available */}
-            <div
-              className="relative aspect-[4/3] w-full flex-shrink-0 bg-salte md:aspect-auto md:w-1/2 md:min-h-[320px]"
-              aria-label="Image placeholder: small group community"
-            >
-              <span className="absolute inset-0 flex items-center justify-center p-6 text-center font-body text-sm uppercase tracking-wider text-pipper/60 md:text-base">
-                IMAGE PLACEHOLDER: small group community
-              </span>
+            <div className="relative aspect-[4/3] w-full flex-shrink-0 md:aspect-auto md:w-1/2 md:min-h-[320px] md:rounded-lg md:overflow-hidden">
+              <Image
+                src="https://vertical-church.t3.storage.dev/small-group.png"
+                alt="Small group community gathering"
+                fill
+                className="object-cover"
+              />
             </div>
 
             <motion.div
