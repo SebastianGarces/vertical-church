@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { z } from "zod";
@@ -152,6 +152,10 @@ function ContactForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  
+  // Spam protection: honeypot field and form load timestamp
+  const [honeypot, setHoneypot] = useState("");
+  const formLoadedAt = useRef(Date.now());
 
   const updateFormData = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -183,7 +187,11 @@ function ContactForm() {
 
     setSubmitError(null);
     setIsSubmitting(true);
-    const result = await submitContactForm(formData);
+    const result = await submitContactForm({
+      ...formData,
+      honeypot,
+      formLoadedAt: formLoadedAt.current,
+    });
     setIsSubmitting(false);
 
     if (result.success) {
@@ -220,6 +228,8 @@ function ContactForm() {
               onClick={() => {
                 setIsSubmitted(false);
                 setFormData(initialFormData);
+                setHoneypot("");
+                formLoadedAt.current = Date.now();
               }}
               className="mt-8 inline-flex items-center justify-center border-2 border-navy bg-transparent px-6 py-3 font-button text-sm font-bold uppercase tracking-[0.2em] text-navy transition-all duration-200 hover:bg-navy/10"
             >
@@ -258,6 +268,29 @@ function ContactForm() {
           )}
 
           <form onSubmit={handleSubmit} className="mt-8">
+            {/* Honeypot field - hidden from users, bots will fill it */}
+            <div
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                left: "-9999px",
+                opacity: 0,
+                height: 0,
+                overflow: "hidden",
+              }}
+            >
+              <label htmlFor="website">Website</label>
+              <input
+                type="text"
+                id="website"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+              />
+            </div>
+            
             <FieldGroup className="gap-5">
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <Field data-invalid={!!formErrors.firstName}>

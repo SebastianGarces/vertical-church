@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { z } from "zod";
 import {
@@ -91,6 +91,10 @@ export function SmallGroupInterestModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  
+  // Spam protection: honeypot field and form load timestamp
+  const [honeypot, setHoneypot] = useState("");
+  const formLoadedAt = useRef(Date.now());
 
   // Auto-close after success
   useEffect(() => {
@@ -102,6 +106,8 @@ export function SmallGroupInterestModal({
           setIsSubmitted(false);
           setFormData(initialFormData);
           setFormErrors({});
+          setHoneypot("");
+          formLoadedAt.current = Date.now();
         }, 300);
       }, 5000);
       return () => clearTimeout(timer);
@@ -131,9 +137,11 @@ export function SmallGroupInterestModal({
     setSubmitError(null);
     setIsSubmitting(true);
 
-    const submitResult = await submitSmallGroupInterestForm(
-      result.data as SmallGroupInterestFormPayload
-    );
+    const submitResult = await submitSmallGroupInterestForm({
+      ...result.data,
+      honeypot,
+      formLoadedAt: formLoadedAt.current,
+    });
 
     setIsSubmitting(false);
 
@@ -195,6 +203,29 @@ export function SmallGroupInterestModal({
         </DialogHeader>
 
         <div className="overflow-y-auto px-6 pb-6">
+          {/* Honeypot field - hidden from users, bots will fill it */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              left: "-9999px",
+              opacity: 0,
+              height: 0,
+              overflow: "hidden",
+            }}
+          >
+            <label htmlFor="sg-website">Website</label>
+            <input
+              type="text"
+              id="sg-website"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+            />
+          </div>
+          
           {submitError && (
             <div
               role="alert"

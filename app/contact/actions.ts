@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { findOrCreatePerson } from "@/lib/planning-center";
 import { sendContactFormNotification } from "@/lib/email";
+import { validateSubmission } from "@/lib/spam-protection";
 
 const contactFormSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -10,6 +11,8 @@ const contactFormSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
   phone: z.string().optional(),
   message: z.string().min(1, "Message is required"),
+  honeypot: z.string().optional(),
+  formLoadedAt: z.number().optional(),
 });
 
 export type ContactFormPayload = z.infer<typeof contactFormSchema>;
@@ -22,7 +25,7 @@ const USER_FACING_ERROR =
   "Something went wrong. Please try again or contact the church office.";
 
 /**
- * Submit Contact Form: find or create person in Planning Center,
+ * Submit Contact Form: validate for spam, find or create person in Planning Center,
  * then send notification email with form data and PCO status.
  */
 export async function submitContactForm(
@@ -35,6 +38,26 @@ export async function submitContactForm(
   }
 
   const formData = parsed.data;
+
+  // Spam protection validation
+  const spamCheck = validateSubmission({
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+    email: formData.email,
+    phone: formData.phone,
+    message: formData.message,
+    honeypot: formData.honeypot,
+    formLoadedAt: formData.formLoadedAt,
+  });
+
+  if (!spamCheck.passed) {
+    // Silent reject for bots - return success but don't create PCO record
+    if (spamCheck.isSilentReject) {
+      return { success: true };
+    }
+    // User-facing error for invalid input
+    return { success: false, error: spamCheck.reason };
+  }
 
   const pcoResult = await findOrCreatePerson({
     firstName: formData.firstName.trim(),

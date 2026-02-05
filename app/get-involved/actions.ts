@@ -7,6 +7,7 @@ import {
   sendWantToServeNotification,
 } from "@/lib/email";
 import { getTeamNotifyEmails } from "./components/serve-teams-data";
+import { validateSubmission } from "@/lib/spam-protection";
 
 const smallGroupInterestFormSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -19,6 +20,8 @@ const smallGroupInterestFormSchema = z.object({
   city: z.string().min(1, "City is required"),
   preferredDay: z.string().min(1, "Please select your preferred day"),
   needsKidsCare: z.enum(["Yes", "No"], "Please indicate if you need kids care"),
+  honeypot: z.string().optional(),
+  formLoadedAt: z.number().optional(),
 });
 
 export type SmallGroupInterestFormPayload = z.infer<typeof smallGroupInterestFormSchema>;
@@ -31,7 +34,7 @@ const USER_FACING_ERROR =
   "Something went wrong. Please try again or contact the church office.";
 
 /**
- * Submit Small Group Interest form: search for existing person in Planning Center
+ * Submit Small Group Interest form: validate for spam, search for existing person in Planning Center
  * (create if not found, update email/phone if missing), then send notification email.
  */
 export async function submitSmallGroupInterestForm(
@@ -44,6 +47,25 @@ export async function submitSmallGroupInterestForm(
   }
 
   const formData = parsed.data;
+
+  // Spam protection validation
+  const spamCheck = validateSubmission({
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+    email: formData.email,
+    phone: formData.phone,
+    honeypot: formData.honeypot,
+    formLoadedAt: formData.formLoadedAt,
+  });
+
+  if (!spamCheck.passed) {
+    // Silent reject for bots - return success but don't create PCO record
+    if (spamCheck.isSilentReject) {
+      return { success: true };
+    }
+    // User-facing error for invalid input
+    return { success: false, error: spamCheck.reason };
+  }
 
   const pcoResult = await findOrCreatePerson({
     firstName: formData.firstName.trim(),
@@ -99,6 +121,8 @@ const wantToServeFormSchema = z.object({
   serviceInterests: z
     .array(z.string())
     .min(1, "Please select at least one service interest"),
+  honeypot: z.string().optional(),
+  formLoadedAt: z.number().optional(),
 });
 
 export type WantToServeFormPayload = z.infer<typeof wantToServeFormSchema>;
@@ -108,7 +132,7 @@ export type SubmitWantToServeResult =
   | { success: false; error: string };
 
 /**
- * Submit Want To Serve form: search for existing person in Planning Center
+ * Submit Want To Serve form: validate for spam, search for existing person in Planning Center
  * (create if not found, update email/phone if missing), then send notification email.
  */
 export async function submitWantToServeForm(
@@ -121,6 +145,25 @@ export async function submitWantToServeForm(
   }
 
   const formData = parsed.data;
+
+  // Spam protection validation
+  const spamCheck = validateSubmission({
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+    email: formData.email,
+    phone: formData.phone,
+    honeypot: formData.honeypot,
+    formLoadedAt: formData.formLoadedAt,
+  });
+
+  if (!spamCheck.passed) {
+    // Silent reject for bots - return success but don't create PCO record
+    if (spamCheck.isSilentReject) {
+      return { success: true };
+    }
+    // User-facing error for invalid input
+    return { success: false, error: spamCheck.reason };
+  }
 
   const pcoResult = await findOrCreatePerson({
     firstName: formData.firstName.trim(),

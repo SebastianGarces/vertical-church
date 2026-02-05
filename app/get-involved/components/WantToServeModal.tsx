@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { motion } from "motion/react";
 import { z } from "zod";
 import {
@@ -64,6 +64,10 @@ export function WantToServeModal({ open, onOpenChange }: WantToServeModalProps) 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  
+  // Spam protection: honeypot field and form load timestamp
+  const [honeypot, setHoneypot] = useState("");
+  const formLoadedAt = useRef(Date.now());
 
   const serviceInterestIds = useMemo(() => {
     return SERVE_TEAM_OPTIONS.map((t) => ({
@@ -82,6 +86,8 @@ export function WantToServeModal({ open, onOpenChange }: WantToServeModalProps) 
           setIsSubmitted(false);
           setFormData(initialFormData);
           setFormErrors({});
+          setHoneypot("");
+          formLoadedAt.current = Date.now();
         }, 300);
       }, 5000);
       return () => clearTimeout(timer);
@@ -119,7 +125,11 @@ export function WantToServeModal({ open, onOpenChange }: WantToServeModalProps) 
     setSubmitError(null);
     setIsSubmitting(true);
 
-    const submitResult = await submitWantToServeForm(result.data as WantToServeFormPayload);
+    const submitResult = await submitWantToServeForm({
+      ...result.data,
+      honeypot,
+      formLoadedAt: formLoadedAt.current,
+    });
 
     setIsSubmitting(false);
 
@@ -176,6 +186,29 @@ export function WantToServeModal({ open, onOpenChange }: WantToServeModalProps) 
         </DialogHeader>
 
         <div className="overflow-y-auto px-6 pb-6">
+          {/* Honeypot field - hidden from users, bots will fill it */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              left: "-9999px",
+              opacity: 0,
+              height: 0,
+              overflow: "hidden",
+            }}
+          >
+            <label htmlFor="serve-website">Website</label>
+            <input
+              type="text"
+              id="serve-website"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+            />
+          </div>
+          
           {submitError && (
             <div
               role="alert"

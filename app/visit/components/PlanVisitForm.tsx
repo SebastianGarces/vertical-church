@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
@@ -65,6 +65,10 @@ export function PlanVisitForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  
+  // Spam protection: honeypot field and form load timestamp
+  const [honeypot, setHoneypot] = useState("");
+  const formLoadedAt = useRef(Date.now());
 
   const totalSteps = 3;
   const progress = (currentStep / totalSteps) * 100;
@@ -116,7 +120,11 @@ export function PlanVisitForm() {
   const handleSubmit = async () => {
     setSubmitError(null);
     setIsSubmitting(true);
-    const result = await submitPlanVisitForm(formData);
+    const result = await submitPlanVisitForm({
+      ...formData,
+      honeypot,
+      formLoadedAt: formLoadedAt.current,
+    });
     setIsSubmitting(false);
     if (result.success) {
       setIsSubmitted(true);
@@ -133,7 +141,13 @@ export function PlanVisitForm() {
   const isStep3Valid = formData.wantsContact !== "";
 
   if (isSubmitted) {
-    return <ThankYouState onReset={() => { setIsSubmitted(false); setFormData(initialFormData); setCurrentStep(1); }} />;
+    return <ThankYouState onReset={() => {
+      setIsSubmitted(false);
+      setFormData(initialFormData);
+      setCurrentStep(1);
+      setHoneypot("");
+      formLoadedAt.current = Date.now();
+    }} />;
   }
 
   return (
@@ -166,6 +180,29 @@ export function PlanVisitForm() {
 
         {/* Form Container */}
         <div className="rounded-[20px] border-2 border-pipper/20 bg-navy/50 p-6 md:p-8">
+          {/* Honeypot field - hidden from users, bots will fill it */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              left: "-9999px",
+              opacity: 0,
+              height: 0,
+              overflow: "hidden",
+            }}
+          >
+            <label htmlFor="visit-website">Website</label>
+            <input
+              type="text"
+              id="visit-website"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+            />
+          </div>
+          
           <AnimatePresence mode="wait">
             {currentStep === 1 && (
               <Step1
