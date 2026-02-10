@@ -111,13 +111,12 @@
 
 /* Base body styles */
 html {
-  overflow-x: hidden;
+  overflow-x: clip;
   overscroll-behavior: none;
 }
 
 body {
   min-height: 100vh;
-  overflow-x: hidden;
   overscroll-behavior: none;
   background: var(--color-navy);
   color: var(--color-text-primary);
