@@ -39,7 +39,7 @@ export const leadership: LeadershipData = {
   ],
   leadership: [
     {
-      name: 'Cory Tutor',
+      name: 'Corey Tutor',
       role: 'Small Group Coordinator',
       image: 'https://vertical-church.t3.storage.dev/cory-tutor.jpg',
     },
