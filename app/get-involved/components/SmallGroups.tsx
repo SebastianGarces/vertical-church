@@ -19,6 +19,7 @@ export function SmallGroups() {
                 src="https://vertical-church.t3.storage.dev/small-group.png"
                 alt="Small group community gathering"
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
               />
             </div>

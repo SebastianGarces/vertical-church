@@ -20,6 +20,7 @@ export function ServeTeams() {
                 src="https://vertical-church.t3.storage.dev/corn-festival.jpg"
                 alt="Vertical Church community outreach at local event"
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
               />
             </div>

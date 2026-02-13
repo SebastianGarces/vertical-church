@@ -21,6 +21,10 @@ const nextConfig: NextConfig = {
         pathname: "/vi/**",
       },
     ],
+    localPatterns: [],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [48, 128, 256, 384],
+    minimumCacheTTL: 2678400, // 31 days – most images are static and won't change
   },
 };
 

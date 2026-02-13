@@ -67,7 +67,7 @@ function MinistryCard({
       <div className='flex h-full flex-col overflow-hidden rounded-lg bg-cream'>
         <div className='relative aspect-[4/3] w-full bg-salte'>
           {image ? (
-            <Image src={image} alt={placeholderLabel} fill className='object-cover' />
+            <Image src={image} alt={placeholderLabel} fill sizes="(max-width: 768px) 100vw, 33vw" className='object-cover' />
           ) : (
             <span className='absolute inset-0 flex items-center justify-center p-4 text-center font-body text-xs uppercase tracking-wider text-pipper/60'>
               IMAGE PLACEHOLDER: {placeholderLabel}
