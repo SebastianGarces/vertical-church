@@ -3,6 +3,19 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+  async headers() {
+    return [
+      {
+        source: '/',
+        headers: [
+          {
+            key: 'Vary',
+            value: 'Accept, Accept-Encoding',
+          },
+        ],
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {

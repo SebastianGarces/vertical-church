@@ -32,6 +32,9 @@ export const metadata: Metadata = {
     default: 'Vertical Church',
   },
   description: 'Love God. Love People. Serve the World.',
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     siteName: 'Vertical Church',
     locale: 'en_US',

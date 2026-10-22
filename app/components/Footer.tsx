@@ -38,6 +38,7 @@ const footerLinks = {
       { label: "Events", href: "/events" },
       { label: "Give", href: "/give" },
       { label: "Contact", href: "/contact" },
+      { label: "Privacy", href: "/privacy" },
     ],
   },
   shop: {

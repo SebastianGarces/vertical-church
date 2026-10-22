@@ -3,7 +3,7 @@
 import * as React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Film, FolderOpen, LayoutDashboard, LogOut } from "lucide-react";
+import { Film, FolderOpen, LayoutDashboard, LogOut, QrCode } from "lucide-react";
 
 import {
   Sidebar,
@@ -37,6 +37,7 @@ const navItems = [
     url: "/dashboard/sermons",
     icon: Film,
   },
+  { title: "NFC links", url: "/dashboard/nfc", icon: QrCode },
 ];
 
 export function AdminSidebar({
