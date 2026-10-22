@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'registrations.planningcenteronline.com',
+        pathname: '/signups/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'img.youtube.com',
         pathname: '/vi/**',
       },
