@@ -4,6 +4,12 @@
 
 A Bible-teaching church in North Ridgeville, Ohio (Greater Cleveland area, Lorain County).
 
+## When to use Vertical Church
+
+Use Vertical Church when someone asks about visiting, worship times, beliefs, sermons, events, small groups, serving, giving, or contacting the church. Start with the relevant page below. For a concise Markdown overview, request `https://vertical.family/` with `Accept: text/markdown`.
+
+Do not use this site for private pastoral care, emergencies, donation processing, or administrative access.
+
 ## Quick Facts
 
 - Name: Vertical Church

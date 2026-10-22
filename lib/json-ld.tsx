@@ -68,6 +68,12 @@ export interface OrganizationSchema {
     opens: string;
     closes: string;
   };
+  contactPoint: {
+    "@type": string;
+    telephone: string;
+    contactType: string;
+    availableLanguage: string;
+  };
   sameAs: string[];
 }
 
@@ -98,6 +104,12 @@ export function getOrganizationSchema(): OrganizationSchema {
       dayOfWeek: "Sunday",
       opens: "10:00",
       closes: "12:00",
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+1-440-420-7335",
+      contactType: "customer service",
+      availableLanguage: "en",
     },
     sameAs: SOCIAL_PROFILES,
   };

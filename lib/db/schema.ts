@@ -5,7 +5,26 @@ import {
   date,
   timestamp,
   index,
+  check,
+  boolean,
 } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+import { nfcColors } from "../nfc";
+
+export const nfcLinks = pgTable("nfc_links", {
+  color: text("color", { enum: nfcColors }).primaryKey(),
+  label: text("label").notNull(),
+  destination: text("destination"),
+  enabled: boolean("enabled").default(false).notNull(),
+}, (table) => [check("nfc_links_color_check", sql`${table.color} in ('orange', 'green', 'black', 'burgundy', 'blue')`)]);
+
+export const nfcOpens = pgTable("nfc_opens", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  color: text("color", { enum: nfcColors }).notNull().references(() => nfcLinks.color),
+  label: text("label").notNull(),
+  destination: text("destination").notNull(),
+  openedAt: timestamp("opened_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [index("idx_nfc_opens_opened_at").on(table.openedAt)]);
 
 // Re-export auth tables
 export * from "./auth-schema";

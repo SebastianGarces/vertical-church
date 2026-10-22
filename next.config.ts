@@ -3,6 +3,19 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+  async headers() {
+    return [
+      {
+        source: '/',
+        headers: [
+          {
+            key: 'Vary',
+            value: 'Accept, Accept-Encoding',
+          },
+        ],
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
@@ -14,6 +27,11 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'registrations-production.s3.amazonaws.com',
         pathname: '/uploads/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'registrations.planningcenteronline.com',
+        pathname: '/signups/**',
       },
       {
         protocol: 'https',
