@@ -95,5 +95,6 @@ export const leadership: LeadershipData = {
     { names: 'Bryan & Sara Nass', image: 'https://vertical-church.t3.storage.dev/bryan-sara-nass.jpg' },
     { names: 'Corey & Jen Tutor', image: 'https://vertical-church.t3.storage.dev/corey-jen-tutor.jpg' },
     { names: 'Visobe Welch-Burnett', image: 'https://vertical-church.t3.storage.dev/visobe-welch-burnett.jpg' },
+    { names: 'David & Tiffany Fairbairn', image: 'https://vertical-church.t3.storage.dev/fairbairn-family.jpg' },
   ],
 };
