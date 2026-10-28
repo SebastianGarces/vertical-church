@@ -25,8 +25,8 @@ const ADDRESS = {
 };
 
 const GEO = {
-  latitude: 41.3892,
-  longitude: -82.019,
+  latitude: 41.4112,
+  longitude: -81.9897,
 };
 
 const SOCIAL_PROFILES = [
