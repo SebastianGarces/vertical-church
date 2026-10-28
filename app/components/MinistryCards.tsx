@@ -6,10 +6,10 @@ import { MinistryCard } from "./MinistryCard";
 import { Button } from "./Button";
 
 const ministries = [
-  { title: "Small Groups", href: "/get-involved#small-groups", image: "https://vertical-church.t3.storage.dev/small-groups.png" },
-  { title: "Worship Services", href: "/get-involved#ministries", image: "https://vertical-church.t3.storage.dev/worship-services.png" },
-  { title: "Children's Ministry", href: "/get-involved#ministries", image: "https://vertical-church.t3.storage.dev/children-ministry.png" },
-  { title: "Student Ministry", href: "/get-involved#ministries", image: "https://vertical-church.t3.storage.dev/student-ministry.png" },
+  { title: "Small Groups", href: "/get-involved#small-groups", image: "https://vertical-church.t3.storage.dev/small-groups.png", imageAlt: "A man in a plaid shirt points to a passage in an open Bible during a group study" },
+  { title: "Worship Services", href: "/get-involved#ministries", image: "https://vertical-church.t3.storage.dev/worship-services.png", imageAlt: "A woman sings into a microphone on stage, with a drum kit behind her and a Vertical Church banner beside her" },
+  { title: "Children's Ministry", href: "/get-involved#ministries", image: "https://vertical-church.t3.storage.dev/children-ministry.png", imageAlt: "A young leader sits at a round table with five children doing crafts and activities" },
+  { title: "Student Ministry", href: "/get-involved#ministries", image: "https://vertical-church.t3.storage.dev/student-ministry.png", imageAlt: "Two young women laugh together while seated in chairs, one holding a stack of books on her lap" },
 ];
 
 interface MinistryCardsProps {
@@ -71,6 +71,7 @@ export function MinistryCards({ showGetInvolvedButton = false }: MinistryCardsPr
                 title={ministry.title}
                 href={ministry.href}
                 image={ministry.image}
+                imageAlt={ministry.imageAlt}
                 index={index}
               />
             </div>
@@ -78,13 +79,17 @@ export function MinistryCards({ showGetInvolvedButton = false }: MinistryCardsPr
         </div>
 
         {/* Mobile: Pagination dots */}
-        <div className="flex items-center justify-center gap-3 pt-4 md:hidden">
+        <div className="flex items-center justify-center pt-4 md:hidden">
           {ministries.map((_, index) => (
             <button
               key={index}
+              type="button"
               onClick={() => scrollToCard(index)}
-              className="relative flex h-3 items-center justify-center cursor-pointer"
-              aria-label={`Go to card ${index + 1}`}
+              // 44px-tall, >=24px-wide hit area via padding; negative margins cancel the
+              // padding so the visible 8px dots keep their original size and spacing.
+              className="relative -mx-0.5 -my-4 flex h-11 items-center justify-center px-2 cursor-pointer"
+              aria-label={`Go to slide ${index + 1}`}
+              aria-current={activeIndex === index ? "true" : undefined}
             >
               <motion.div
                 className="bg-pipper/50"
@@ -109,6 +114,7 @@ export function MinistryCards({ showGetInvolvedButton = false }: MinistryCardsPr
               title={ministry.title}
               href={ministry.href}
               image={ministry.image}
+              imageAlt={ministry.imageAlt}
               index={index}
             />
           ))}

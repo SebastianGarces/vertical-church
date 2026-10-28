@@ -150,13 +150,17 @@ export function OurPrinciples() {
           </div>
 
           {/* Mobile: Pagination dots */}
-          <div className="flex items-center justify-center gap-3 pt-4">
+          <div className="flex items-center justify-center pt-4">
             {principles.map((_, index) => (
               <button
                 key={index}
+                type="button"
                 onClick={() => scrollToCard(index)}
-                className="relative flex h-3 items-center justify-center cursor-pointer"
-                aria-label={`Go to card ${index + 1}`}
+                // 44px-tall, >=24px-wide hit area via padding; negative margins cancel the
+                // padding so the visible 8px dots keep their original size and spacing.
+                className="relative -mx-0.5 -my-4 flex h-11 items-center justify-center px-2 cursor-pointer"
+                aria-label={`Go to slide ${index + 1}`}
+                aria-current={activeIndex === index ? "true" : undefined}
               >
                 <motion.div
                   className="bg-pipper/50"
