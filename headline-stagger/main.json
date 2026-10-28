@@ -1,0 +1,140 @@
+[
+  {
+    "target": 0,
+    "actual": 38,
+    "file": "main-000ms.png",
+    "lines": [
+      {
+        "text": "Show up for",
+        "offsetPct": 100
+      },
+      {
+        "text": "church.",
+        "offsetPct": 100
+      },
+      {
+        "text": "End up with",
+        "offsetPct": 100
+      },
+      {
+        "text": "family",
+        "offsetPct": 100
+      }
+    ]
+  },
+  {
+    "target": 150,
+    "actual": 167,
+    "file": "main-150ms.png",
+    "lines": [
+      {
+        "text": "Show up for",
+        "offsetPct": 100
+      },
+      {
+        "text": "church.",
+        "offsetPct": 100
+      },
+      {
+        "text": "End up with",
+        "offsetPct": 100
+      },
+      {
+        "text": "family",
+        "offsetPct": 100
+      }
+    ]
+  },
+  {
+    "target": 300,
+    "actual": 306,
+    "file": "main-300ms.png",
+    "lines": [
+      {
+        "text": "Show up for",
+        "offsetPct": 100
+      },
+      {
+        "text": "church.",
+        "offsetPct": 100
+      },
+      {
+        "text": "End up with",
+        "offsetPct": 100
+      },
+      {
+        "text": "family",
+        "offsetPct": 100
+      }
+    ]
+  },
+  {
+    "target": 450,
+    "actual": 458,
+    "file": "main-450ms.png",
+    "lines": [
+      {
+        "text": "Show up for",
+        "offsetPct": 68
+      },
+      {
+        "text": "church.",
+        "offsetPct": 100
+      },
+      {
+        "text": "End up with",
+        "offsetPct": 100
+      },
+      {
+        "text": "family",
+        "offsetPct": 100
+      }
+    ]
+  },
+  {
+    "target": 600,
+    "actual": 617,
+    "file": "main-600ms.png",
+    "lines": [
+      {
+        "text": "Show up for",
+        "offsetPct": 17
+      },
+      {
+        "text": "church.",
+        "offsetPct": 42
+      },
+      {
+        "text": "End up with",
+        "offsetPct": 86
+      },
+      {
+        "text": "family",
+        "offsetPct": 100
+      }
+    ]
+  },
+  {
+    "target": 900,
+    "actual": 906,
+    "file": "main-900ms.png",
+    "lines": [
+      {
+        "text": "Show up for",
+        "offsetPct": 0
+      },
+      {
+        "text": "church.",
+        "offsetPct": 1
+      },
+      {
+        "text": "End up with",
+        "offsetPct": 5
+      },
+      {
+        "text": "family",
+        "offsetPct": 19
+      }
+    ]
+  }
+]

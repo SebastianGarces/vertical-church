@@ -1,0 +1,68 @@
+[
+  {
+    "target": 0,
+    "actual": 105,
+    "file": "pr10-000ms.png",
+    "lines": [
+      {
+        "text": "Show up forchurch.End up withfamily",
+        "offsetPct": 100
+      }
+    ]
+  },
+  {
+    "target": 150,
+    "actual": 153,
+    "file": "pr10-150ms.png",
+    "lines": [
+      {
+        "text": "Show up forchurch.End up withfamily",
+        "offsetPct": 100
+      }
+    ]
+  },
+  {
+    "target": 300,
+    "actual": 306,
+    "file": "pr10-300ms.png",
+    "lines": [
+      {
+        "text": "Show up forchurch.End up withfamily",
+        "offsetPct": 100
+      }
+    ]
+  },
+  {
+    "target": 450,
+    "actual": 467,
+    "file": "pr10-450ms.png",
+    "lines": [
+      {
+        "text": "Show up forchurch.End up withfamily",
+        "offsetPct": 40
+      }
+    ]
+  },
+  {
+    "target": 600,
+    "actual": 615,
+    "file": "pr10-600ms.png",
+    "lines": [
+      {
+        "text": "Show up forchurch.End up withfamily",
+        "offsetPct": 8
+      }
+    ]
+  },
+  {
+    "target": 900,
+    "actual": 909,
+    "file": "pr10-900ms.png",
+    "lines": [
+      {
+        "text": "Show up forchurch.End up withfamily",
+        "offsetPct": 0
+      }
+    ]
+  }
+]

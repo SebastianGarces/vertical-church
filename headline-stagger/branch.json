@@ -1,0 +1,140 @@
+[
+  {
+    "target": 0,
+    "actual": 78,
+    "file": "branch-000ms.png",
+    "lines": [
+      {
+        "text": "Show up for",
+        "offsetPct": 100
+      },
+      {
+        "text": "church.",
+        "offsetPct": 100
+      },
+      {
+        "text": "End up with",
+        "offsetPct": 100
+      },
+      {
+        "text": "family",
+        "offsetPct": 100
+      }
+    ]
+  },
+  {
+    "target": 150,
+    "actual": 165,
+    "file": "branch-150ms.png",
+    "lines": [
+      {
+        "text": "Show up for",
+        "offsetPct": 100
+      },
+      {
+        "text": "church.",
+        "offsetPct": 100
+      },
+      {
+        "text": "End up with",
+        "offsetPct": 100
+      },
+      {
+        "text": "family",
+        "offsetPct": 100
+      }
+    ]
+  },
+  {
+    "target": 300,
+    "actual": 302,
+    "file": "branch-300ms.png",
+    "lines": [
+      {
+        "text": "Show up for",
+        "offsetPct": 100
+      },
+      {
+        "text": "church.",
+        "offsetPct": 100
+      },
+      {
+        "text": "End up with",
+        "offsetPct": 100
+      },
+      {
+        "text": "family",
+        "offsetPct": 100
+      }
+    ]
+  },
+  {
+    "target": 450,
+    "actual": 452,
+    "file": "branch-450ms.png",
+    "lines": [
+      {
+        "text": "Show up for",
+        "offsetPct": 51
+      },
+      {
+        "text": "church.",
+        "offsetPct": 100
+      },
+      {
+        "text": "End up with",
+        "offsetPct": 100
+      },
+      {
+        "text": "family",
+        "offsetPct": 100
+      }
+    ]
+  },
+  {
+    "target": 600,
+    "actual": 618,
+    "file": "branch-600ms.png",
+    "lines": [
+      {
+        "text": "Show up for",
+        "offsetPct": 8
+      },
+      {
+        "text": "church.",
+        "offsetPct": 26
+      },
+      {
+        "text": "End up with",
+        "offsetPct": 58
+      },
+      {
+        "text": "family",
+        "offsetPct": 100
+      }
+    ]
+  },
+  {
+    "target": 900,
+    "actual": 907,
+    "file": "branch-900ms.png",
+    "lines": [
+      {
+        "text": "Show up for",
+        "offsetPct": 0
+      },
+      {
+        "text": "church.",
+        "offsetPct": 0
+      },
+      {
+        "text": "End up with",
+        "offsetPct": 3
+      },
+      {
+        "text": "family",
+        "offsetPct": 13
+      }
+    ]
+  }
+]
