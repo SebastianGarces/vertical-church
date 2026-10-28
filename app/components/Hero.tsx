@@ -236,6 +236,21 @@ function AnimatedTitle({ children, className }: { children: ReactNode; className
   );
 }
 
+// Mobile: keep the photo, headline and both CTA buttons inside the first screen.
+// 100svh is the viewport with the browser toolbars showing (in iOS 26 Safari that is
+// the area above the floating bottom toolbar), so the photo gets whatever height is
+// left after everything else in the mobile hero:
+//   4rem     header offset (section pt-14 + py-2)
+//   6rem     headline overhang + gap below the photo (mb-24)
+//   7.25rem  two 52px buttons + 12px gap
+//   1.5rem   breathing room above the browser toolbar
+//   + env(safe-area-inset-bottom) (home indicator, if the page is ever edge-to-edge)
+// It never grows past the photo's natural size and never shrinks below 15rem, so very
+// short screens scroll instead of squashing the photo. object-cover crops instead of
+// distorting when the cap applies.
+const MOBILE_CTA_IMAGE_MAX_H =
+  "object-cover max-h-[max(15rem,calc(100svh_-_18.75rem_-_env(safe-area-inset-bottom,0px)))]";
+
 interface HeroImage {
   src: string;
   alt: string;
@@ -389,7 +404,7 @@ export function Hero({ mainImage, secondaryImages, title, badge, titleBottomOffs
                   alt={mainImage.alt}
                   width={800}
                   height={1000}
-                  className="h-auto w-full"
+                  className={showCTAs ? `h-auto w-full ${MOBILE_CTA_IMAGE_MAX_H}` : "h-auto w-full"}
                   priority
                   fetchPriority="high"
                   sizes="100vw"
