@@ -10,6 +10,8 @@ const fraunces = Fraunces({
   subsets: ['latin'],
   style: 'italic',
   display: 'swap',
+  // Not used above the fold on the home page; don't let it compete with the hero image.
+  preload: false,
 });
 
 const overpass = Overpass({

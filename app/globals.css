@@ -137,6 +137,130 @@ body {
   animation: marquee 80s linear infinite;
 }
 
+/* Hero entrance animation (app/components/Hero.tsx).
+   Plain CSS so it starts on first paint instead of waiting for React to hydrate.
+   Per-element delays are set inline with animation-delay. */
+@keyframes hero-clip-from-bottom {
+  from {
+    clip-path: inset(100% 0% 0% 0%);
+  }
+  to {
+    clip-path: inset(0% 0% 0% 0%);
+  }
+}
+
+@keyframes hero-clip-from-left {
+  from {
+    clip-path: inset(0% 100% 0% 0%);
+  }
+  to {
+    clip-path: inset(0% 0% 0% 0%);
+  }
+}
+
+@keyframes hero-clip-from-center {
+  from {
+    clip-path: inset(50% 0% 50% 0%);
+  }
+  to {
+    clip-path: inset(0% 0% 0% 0%);
+  }
+}
+
+@keyframes hero-scale-120 {
+  from {
+    transform: scale(1.2);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes hero-scale-115 {
+  from {
+    transform: scale(1.15);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes hero-scale-110 {
+  from {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes hero-slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Desktop main image */
+.hero-reveal-main {
+  animation:
+    hero-clip-from-bottom 1s cubic-bezier(0.77, 0, 0.175, 1) both,
+    hero-scale-120 1.2s cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+
+/* Desktop secondary images */
+.hero-reveal-secondary {
+  animation:
+    hero-clip-from-left 0.9s cubic-bezier(0.77, 0, 0.175, 1) both,
+    hero-scale-115 1.1s cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+
+/* Mobile main image */
+.hero-reveal-main-mobile {
+  animation:
+    hero-clip-from-bottom 0.9s cubic-bezier(0.77, 0, 0.175, 1) both,
+    hero-scale-115 1.1s cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+
+/* Mobile secondary images */
+.hero-reveal-secondary-mobile {
+  animation:
+    hero-clip-from-center 0.8s cubic-bezier(0.77, 0, 0.175, 1) both,
+    hero-scale-110 1s cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+
+/* Headline lines and CTA buttons */
+.hero-slide-up {
+  animation: hero-slide-up 0.5s cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+
+/* Badge */
+.hero-fade-in {
+  animation: hero-fade-in 0.4s cubic-bezier(0.25, 0.1, 0.35, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-reveal-main,
+  .hero-reveal-secondary,
+  .hero-reveal-main-mobile,
+  .hero-reveal-secondary-mobile,
+  .hero-slide-up,
+  .hero-fade-in {
+    animation: none;
+  }
+}
+
 /* Hide scrollbar */
 .scrollbar-hide {
   -ms-overflow-style: none;

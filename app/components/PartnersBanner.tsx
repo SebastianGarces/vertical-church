@@ -24,6 +24,10 @@ export function PartnersBanner() {
           <img
             src="https://vertical-church.t3.storage.dev/cle-hope.webp"
             alt="Cleveland Hope"
+            width={496}
+            height={188}
+            loading="lazy"
+            decoding="async"
             className="h-14 w-auto md:h-16"
           />
         </a>
