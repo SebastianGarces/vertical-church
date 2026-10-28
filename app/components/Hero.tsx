@@ -266,10 +266,10 @@ interface HeroProps {
 export function Hero({ mainImage, secondaryImages, title, badge, titleBottomOffset, mobileTitleBottomOffset, showCTAs }: HeroProps) {
   return (
     <section className="relative bg-navy pt-14 md:pt-20">
-      <div className="mx-auto max-w-7xl px-4 py-2 md:px-8 md:py-16 lg:py-20">
+      <div className="mx-auto max-w-7xl px-4 py-2 md:px-8 md:py-16 lg:py-[min(5rem,7.5svh)]">
         {/* Desktop Layout */}
         <div className="hidden md:block">
-          <div className="relative pb-32 lg:pb-40">
+          <div className="relative pb-32 lg:pb-[min(10rem,15svh)]">
             {/* Image Collage */}
             <div className="flex gap-3">
               {/* Large left image - height matches two right images + gap */}
@@ -301,7 +301,7 @@ export function Hero({ mainImage, secondaryImages, title, badge, titleBottomOffs
                 {secondaryImages.map((image, index) => (
                   <div
                     key={index}
-                    className="relative aspect-[16/9] overflow-hidden rounded-[20px]"
+                    className="relative aspect-[16/9] overflow-hidden rounded-[20px] lg:max-h-[max(10rem,calc((100svh_-_5rem_-_min(5rem,7.5svh)_-_min(10rem,15svh)_-_1.25rem)_/_2))]"
                   >
                     <motion.div
                       variants={secondaryImageVariants}
@@ -325,7 +325,7 @@ export function Hero({ mainImage, secondaryImages, title, badge, titleBottomOffs
 
             {/* Text Overlay - positioned to straddle bottom of images */}
             <div className={`absolute left-8 lg:left-12 ${titleBottomOffset || "bottom-0"}`}>
-              <AnimatedTitle className="font-heading text-5xl font-bold uppercase leading-[1.1] tracking-tight text-pipper lg:text-6xl xl:text-7xl">
+              <AnimatedTitle className="font-heading text-5xl font-bold uppercase leading-[1.1] tracking-tight text-pipper lg:text-[length:min(3.75rem,6.7svh)] xl:text-[length:min(4.5rem,6.7svh)]">
                 {title}
               </AnimatedTitle>
             </div>
