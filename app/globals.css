@@ -240,9 +240,17 @@ body {
     hero-scale-110 1s cubic-bezier(0.33, 1, 0.68, 1) both;
 }
 
-/* Headline lines and CTA buttons */
+/* CTA buttons */
 .hero-slide-up {
   animation: hero-slide-up 0.5s cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+
+/* Headline lines, one per line mask. Same timing as the old Motion variants:
+   delayChildren 0.3s, staggerChildren 0.1s, duration 0.5s. --hero-line is the
+   0-based line index, set inline by AnimatedLine. */
+.hero-headline-line {
+  animation: hero-slide-up 0.5s cubic-bezier(0.33, 1, 0.68, 1) both;
+  animation-delay: calc(0.3s + var(--hero-line, 0) * 0.1s);
 }
 
 /* Badge */
@@ -256,6 +264,7 @@ body {
   .hero-reveal-main-mobile,
   .hero-reveal-secondary-mobile,
   .hero-slide-up,
+  .hero-headline-line,
   .hero-fade-in {
     animation: none;
   }

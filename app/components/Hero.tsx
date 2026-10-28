@@ -1,11 +1,10 @@
 import Image from "next/image";
-import { ReactNode, Children, isValidElement, CSSProperties } from "react";
+import { ReactNode, Children, Fragment, isValidElement, CSSProperties } from "react";
 import { Button } from "./Button";
 
 // The entrance animation is plain CSS (hero-* classes in app/globals.css) so the
 // photo, headline and CTAs start animating on first paint, not after hydration.
-// Only the per-element delays live here:
-//   headline lines   0.3s + 0.1s per line
+// Only the per-element delays live here (headline lines: see .hero-headline-line):
 //   desktop CTAs     0.8s + 0.12s per button
 //   mobile CTAs      0.5s + 0.1s per button
 //   desktop side     0.2s + 0.15s per image
@@ -14,11 +13,11 @@ function delay(seconds: number): CSSProperties {
   return { animationDelay: `${seconds}s` };
 }
 
-// Component to animate each line of text
+// Component to animate each line of text. --hero-line drives the stagger delay.
 function AnimatedLine({ children, className, index }: { children: ReactNode; className?: string; index: number }) {
   return (
     <span className={`block overflow-hidden ${className || ""}`}>
-      <span className="hero-slide-up block" style={delay(0.3 + index * 0.1)}>
+      <span className="hero-headline-line block" style={{ "--hero-line": index } as CSSProperties}>
         {children}
       </span>
     </span>
@@ -33,8 +32,13 @@ function AnimatedTitle({ children, className }: { children: ReactNode; className
   const processChildren = (node: ReactNode) => {
     Children.forEach(node, (child) => {
       if (child === null || child === undefined) return;
-      
-      if (isValidElement(child) && child.type === "br") {
+
+      // Titles are usually a <>...</> fragment. Hero is a server component, so the
+      // fragment arrives as one element (not as an array, as it did across the
+      // client boundary), and it must be opened up to find the <br /> line breaks.
+      if (isValidElement(child) && child.type === Fragment) {
+        processChildren((child.props as { children?: ReactNode }).children);
+      } else if (isValidElement(child) && child.type === "br") {
         if (currentLine.length > 0) {
           lines.push(currentLine.length === 1 ? currentLine[0] : currentLine);
           currentLine = [];
