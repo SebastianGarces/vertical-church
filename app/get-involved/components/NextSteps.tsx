@@ -162,8 +162,8 @@ export function NextSteps() {
                 type="button"
                 onClick={() => scrollToCard(index)}
                 // 44px-tall, >=24px-wide hit area via padding; negative margins cancel the
-                // padding so the visible 8px dots keep their original size and spacing.
-                className="relative -mx-0.5 -my-4 flex h-11 items-center justify-center px-2 cursor-pointer"
+                // vertical padding so the row height is unchanged. No horizontal overlap (axe target-size).
+                className="relative -my-4 flex h-11 min-w-6 items-center justify-center px-2 cursor-pointer"
                 aria-label={`Go to slide ${index + 1}`}
                 aria-current={activeIndex === index ? "true" : undefined}
               >
