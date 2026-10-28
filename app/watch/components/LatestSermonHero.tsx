@@ -45,9 +45,9 @@ export function LatestSermonHero({ sermon }: LatestSermonHeroProps) {
   return (
     <section className="bg-navy pt-24 pb-12 md:pt-28 md:pb-16">
       <div className="mx-auto max-w-6xl px-4 md:px-8">
-        <h2 className="mb-6 font-heading text-[32px] font-bold uppercase leading-none tracking-[0.2em] text-pipper md:text-[48px]">
+        <h1 className="mb-6 font-heading text-[32px] font-bold uppercase leading-none tracking-[0.2em] text-pipper md:text-[48px]">
           Latest Teaching
-        </h2>
+        </h1>
 
         <Link
           href={`/watch/${sermon.slug}`}

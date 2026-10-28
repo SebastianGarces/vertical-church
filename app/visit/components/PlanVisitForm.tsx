@@ -175,7 +175,12 @@ export function PlanVisitForm() {
             <span>Step {currentStep} of {totalSteps}</span>
             <span>{Math.round(progress)}% complete</span>
           </div>
-          <Progress value={progress} className="h-2 bg-pipper/20" />
+          <Progress
+            value={progress}
+            className="h-2 bg-pipper/20"
+            aria-label="Form progress"
+            aria-valuetext={`Step ${currentStep} of ${totalSteps}`}
+          />
         </div>
 
         {/* Form Container */}

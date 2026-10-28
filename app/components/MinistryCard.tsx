@@ -8,10 +8,11 @@ interface MinistryCardProps {
   title: string;
   href: string;
   image: string;
+  imageAlt: string;
   index?: number;
 }
 
-export function MinistryCard({ title, href, image, index = 0 }: MinistryCardProps) {
+export function MinistryCard({ title, href, image, imageAlt, index = 0 }: MinistryCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -26,7 +27,7 @@ export function MinistryCard({ title, href, image, index = 0 }: MinistryCardProp
         {/* Image */}
         <Image
           src={image}
-          alt={title}
+          alt={imageAlt}
           fill
           sizes="(max-width: 768px) 224px, 25vw"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
