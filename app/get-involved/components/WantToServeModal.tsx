@@ -26,6 +26,7 @@ import {
   type WantToServeFormPayload,
 } from "@/app/get-involved/actions";
 import { SERVE_TEAM_OPTIONS } from "./serve-teams-data";
+import { trackEvent } from "@/lib/analytics";
 
 // Zod schema for client-side validation
 const formSchema = z.object({
@@ -134,6 +135,7 @@ export function WantToServeModal({ open, onOpenChange }: WantToServeModalProps) 
     setIsSubmitting(false);
 
     if (submitResult.success) {
+      trackEvent("want_to_serve", { form_name: "want_to_serve" });
       setIsSubmitted(true);
     } else {
       setSubmitError(submitResult.error);

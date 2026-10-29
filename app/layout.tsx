@@ -1,8 +1,10 @@
+import { GA_MEASUREMENT_ID, isGoogleAnalyticsEnabled } from '@/lib/analytics';
 import { getOrganizationSchema, JsonLd } from '@/lib/json-ld';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 import { Fraunces, Overpass, PT_Mono } from 'next/font/google';
+import { GoogleAnalytics } from './components/GoogleAnalytics';
 import './globals.css';
 
 const fraunces = Fraunces({
@@ -84,6 +86,8 @@ export default function RootLayout({
         {children}
         <SpeedInsights />
         <Analytics />
+        {/* GA4: production deployments only; never preloaded or render-blocking. */}
+        {isGoogleAnalyticsEnabled && <GoogleAnalytics measurementId={GA_MEASUREMENT_ID} />}
       </body>
     </html>
   );

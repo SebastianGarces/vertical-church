@@ -22,6 +22,7 @@ import {
   FieldGroup,
 } from "@/components/ui/field";
 import { submitPlanVisitForm } from "@/app/visit/actions";
+import { trackEvent } from "@/lib/analytics";
 
 // Zod schema for Step 1 validation
 const step1Schema = z.object({
@@ -127,6 +128,7 @@ export function PlanVisitForm() {
     });
     setIsSubmitting(false);
     if (result.success) {
+      trackEvent("plan_visit", { form_name: "plan_visit" });
       setIsSubmitted(true);
     } else {
       setSubmitError(result.error);

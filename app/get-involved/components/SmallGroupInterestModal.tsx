@@ -29,6 +29,7 @@ import {
   submitSmallGroupInterestForm,
   type SmallGroupInterestFormPayload,
 } from "@/app/get-involved/actions";
+import { trackEvent } from "@/lib/analytics";
 
 // Zod schema for client-side validation
 const formSchema = z.object({
@@ -146,6 +147,7 @@ export function SmallGroupInterestModal({
     setIsSubmitting(false);
 
     if (submitResult.success) {
+      trackEvent("small_group_interest", { form_name: "small_group_interest" });
       setIsSubmitted(true);
     } else {
       setSubmitError(submitResult.error);
