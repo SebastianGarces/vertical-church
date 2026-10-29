@@ -30,7 +30,7 @@ const sections: { title: string; body: ReactNode }[] = [
   },
   {
     title: "Service providers",
-    body: "The site sends form information to the church's church management software so staff can create or update a people record. An email delivery provider sends form notifications to church recipients. A website hosting and performance-measurement provider runs the site and measures how its pages perform. Each provider handles information under its own terms and privacy practices.",
+    body: "The site sends form information to the church management software Vertical Church uses, so staff can create or update a people record. An email delivery provider sends form notifications to church recipients. A website hosting and performance-measurement provider runs the site and measures how its pages perform. Each provider handles information under its own terms and privacy practices.",
   },
   {
     title: "Google Analytics",
