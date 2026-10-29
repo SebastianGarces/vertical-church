@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 
@@ -11,7 +12,10 @@ export const metadata: Metadata = {
   },
 };
 
-const sections = [
+const linkClassName =
+  "text-florence underline underline-offset-4 transition-colors hover:text-pipper";
+
+const sections: { title: string; body: ReactNode }[] = [
   {
     title: "What this policy covers",
     body: "This policy explains how Vertical Church handles information submitted through vertical.family. It applies to the public website and its forms. It does not cover services run by other organizations after you follow an external link.",
@@ -26,7 +30,26 @@ const sections = [
   },
   {
     title: "Service providers",
-    body: "The site sends form information to Planning Center so the church can create or update a people record. It uses Resend to deliver form notifications to church recipients. Vercel provides site hosting, analytics, and performance measurement. Each provider handles information under its own terms and privacy practices.",
+    body: "The site sends form information to the church's church management software so staff can create or update a people record. An email delivery provider sends form notifications to church recipients. A website hosting and performance-measurement provider runs the site and measures how its pages perform. Each provider handles information under its own terms and privacy practices.",
+  },
+  {
+    title: "Google Analytics",
+    body: (
+      <>
+        The site uses Google Analytics to understand how visitors use the site and to measure form
+        submissions. Google Analytics uses cookies and similar technologies to collect information
+        such as pages viewed and general device and location details. The site does not send your
+        name, email address, phone number, or message to Google Analytics. Learn{" "}
+        <a className={linkClassName} href="https://policies.google.com/technologies/partner-sites">
+          how Google uses information from sites or apps that use its services
+        </a>
+        . You can opt out with the{" "}
+        <a className={linkClassName} href="https://tools.google.com/dlpage/gaoptout">
+          Google Analytics opt-out browser add-on
+        </a>
+        .
+      </>
+    ),
   },
   {
     title: "Your choices",
@@ -54,7 +77,7 @@ export default function PrivacyPage() {
             A clear account of the information the website receives and where it goes.
           </p>
           <p className="mt-10 border-y border-pipper/20 py-4 font-button text-xs uppercase tracking-[0.16em] text-pipper/55">
-            Last updated August 26, 2026
+            Last updated October 29, 2026
           </p>
         </section>
 

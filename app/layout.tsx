@@ -1,4 +1,6 @@
+import { GA_MEASUREMENT_ID, isGoogleAnalyticsEnabled } from '@/lib/analytics';
 import { getOrganizationSchema, JsonLd } from '@/lib/json-ld';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
@@ -85,6 +87,8 @@ export default function RootLayout({
         <SpeedInsights />
         <Analytics />
       </body>
+      {/* GA4 (production only). Loads after hydration via next/script afterInteractive; never render-blocking. */}
+      {isGoogleAnalyticsEnabled && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
     </html>
   );
 }

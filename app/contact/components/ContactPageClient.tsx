@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Field, FieldLabel, FieldError, FieldGroup } from "@/components/ui/field";
 import { submitContactForm } from "../actions";
+import { trackEvent } from "@/lib/analytics";
 
 const formSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -195,6 +196,7 @@ function ContactForm() {
     setIsSubmitting(false);
 
     if (result.success) {
+      trackEvent("contact", { form_name: "contact" });
       setIsSubmitted(true);
     } else {
       setSubmitError(result.error);
