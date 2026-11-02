@@ -66,6 +66,19 @@ export function isGibberish(text: string): boolean {
 }
 
 /**
+ * Detect keyboard-mash in a free-text message. isGibberish is tuned for names
+ * and rejects normal sentences (all-caps words, "strengths"), so a message is
+ * only checked when it is a single run of letters longer than 15 with no spaces.
+ * An all-upper or all-lower run is checked without the case heuristics.
+ */
+export function isGibberishMessage(text: string): boolean {
+  const trimmed = text.trim();
+  if (!/^[a-zA-Z]{16,}$/.test(trimmed)) return false;
+  const singleCase = trimmed === trimmed.toUpperCase() || trimmed === trimmed.toLowerCase();
+  return isGibberish(singleCase ? trimmed.toLowerCase() : trimmed);
+}
+
+/**
  * Validate a name field:
  * - Reasonable length (2-50 chars)
  * - Contains at least some letters
@@ -157,7 +170,7 @@ export function validateSubmission(input: SpamCheckInput): SpamCheckResult {
   }
 
   // 4. Message validation (if provided)
-  if (input.message && isGibberish(input.message)) {
+  if (input.message && isGibberishMessage(input.message)) {
     return { passed: false, reason: "Please enter a valid message" };
   }
 
