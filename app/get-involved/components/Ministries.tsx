@@ -19,7 +19,7 @@ const ministries = [
   },
   {
     title: "Children's Ministry",
-    description: 'Age-appropriate Bible teaching and activities for kids from birth through 5th grade.',
+    description: 'Age-appropriate Bible teaching and activities for kids ages 0–12.',
     placeholderLabel: "Children's ministry",
     image: 'https://vertical-church.t3.storage.dev/kids-ministry.png',
   },
