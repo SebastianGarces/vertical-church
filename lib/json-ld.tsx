@@ -10,7 +10,7 @@ import type { EventWithDetails } from "./planning-center";
 // Constants
 // ─────────────────────────────────────────────────────────────────────────────
 
-const SITE_URL = "https://vertical.family";
+const SITE_URL = "https://www.vertical.family";
 const CHURCH_NAME = "Vertical Church";
 const CHURCH_SLOGAN = "Show up for Church. End up with Family.";
 const CHURCH_DESCRIPTION =

@@ -6,7 +6,7 @@ A Bible-teaching church in North Ridgeville, Ohio (Greater Cleveland area, Lorai
 
 ## When to use Vertical Church
 
-Use Vertical Church when someone asks about visiting, worship times, beliefs, sermons, events, small groups, serving, giving, or contacting the church. Start with the relevant page below. For a concise Markdown overview, request `https://vertical.family/` with `Accept: text/markdown`.
+Use Vertical Church when someone asks about visiting, worship times, beliefs, sermons, events, small groups, serving, giving, or contacting the church. Start with the relevant page below. For a concise Markdown overview, request `https://www.vertical.family/` with `Accept: text/markdown`.
 
 Do not use this site for private pastoral care, emergencies, donation processing, or administrative access.
 
@@ -16,7 +16,7 @@ Do not use this site for private pastoral care, emergencies, donation processing
 - Location: North Ridgeville, Ohio (Greater Cleveland / Lorain County)
 - Address: 5400 Lear Nagle Rd, North Ridgeville, OH 44039
 - Sunday Service: 10:00 AM
-- [Website](https://vertical.family)
+- [Website](https://www.vertical.family)
 
 ## Mission & Vision
 
@@ -51,13 +51,13 @@ Vertical Church makes disciples of Jesus by encouraging them to:
 - We believe salvation is by grace through faith in Jesus Christ alone
 - We believe in the personal, premillennial return of Jesus Christ
 - We believe in water baptism by immersion as a public declaration of faith
-- [Full doctrinal statement](https://vertical.family/about/beliefs)
+- [Full doctrinal statement](https://www.vertical.family/about/beliefs)
 
 ## What We Offer
 
 - Sunday worship services with biblical preaching and contemporary worship
 - Small Groups for community, Bible study, and mutual ministry
-- Children's Ministry (birth through 5th grade)
+- Children's Ministry (ages 0–12)
 - Student Ministry (grades 6-12), coming soon
 - Men's and Women's Bible studies
 - Serving opportunities on various ministry teams
@@ -74,15 +74,15 @@ Vertical Church makes disciples of Jesus by encouraging them to:
 
 ## Key Pages
 
-- [Plan a Visit](https://vertical.family/visit)
-- [Watch Sermons](https://vertical.family/watch)
-- [Our Beliefs](https://vertical.family/about/beliefs)
-- [About Us](https://vertical.family/about)
-- [Events](https://vertical.family/events)
-- [Get Involved](https://vertical.family/get-involved)
-- [Small Groups](https://vertical.family/get-involved#small-groups)
-- [Give](https://vertical.family/give)
-- [Contact](https://vertical.family/contact)
+- [Plan a Visit](https://www.vertical.family/visit)
+- [Watch Sermons](https://www.vertical.family/watch)
+- [Our Beliefs](https://www.vertical.family/about/beliefs)
+- [About Us](https://www.vertical.family/about)
+- [Events](https://www.vertical.family/events)
+- [Get Involved](https://www.vertical.family/get-involved)
+- [Small Groups](https://www.vertical.family/get-involved#small-groups)
+- [Give](https://www.vertical.family/give)
+- [Contact](https://www.vertical.family/contact)
 
 ## Social Media
 
@@ -94,5 +94,5 @@ Vertical Church makes disciples of Jesus by encouraging them to:
 ## Contact
 
 For questions about visiting, small groups, serving, or general inquiries:
-- [Website](https://vertical.family/contact)
+- [Website](https://www.vertical.family/contact)
 - Visit us on Sunday at 10:00 AM at 5400 Lear Nagle Rd, North Ridgeville, OH 44039

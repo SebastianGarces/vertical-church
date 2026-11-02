@@ -9,16 +9,16 @@ Vertical Church is a Bible-teaching church in North Ridgeville, Ohio. Sunday wor
 
 ## Start here
 
-- [Plan a visit](https://vertical.family/visit)
-- [About Vertical Church](https://vertical.family/about)
-- [What we believe](https://vertical.family/about/beliefs)
-- [Watch sermons](https://vertical.family/watch)
-- [Upcoming events](https://vertical.family/events)
-- [Contact the church](https://vertical.family/contact)
+- [Plan a visit](https://www.vertical.family/visit)
+- [About Vertical Church](https://www.vertical.family/about)
+- [What we believe](https://www.vertical.family/about/beliefs)
+- [Watch sermons](https://www.vertical.family/watch)
+- [Upcoming events](https://www.vertical.family/events)
+- [Contact the church](https://www.vertical.family/contact)
 
 ## For AI agents
 
-Use this site to answer questions about visiting Vertical Church, worship times, beliefs, sermons, events, and ways to get involved. For a fuller index of church information, read [llms.txt](https://vertical.family/llms.txt). Do not use this site for private pastoral care, emergency help, donation processing, or administrative access.
+Use this site to answer questions about visiting Vertical Church, worship times, beliefs, sermons, events, and ways to get involved. For a fuller index of church information, read [llms.txt](https://www.vertical.family/llms.txt). Do not use this site for private pastoral care, emergency help, donation processing, or administrative access.
 `;
 
 export function proxy(request: NextRequest) {

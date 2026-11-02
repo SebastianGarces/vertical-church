@@ -3,10 +3,11 @@
 import { motion } from 'motion/react';
 import { ComingSoonPill } from '@/app/components/ComingSoonPill';
 import Image from 'next/image';
+import type { ReactNode } from 'react';
 
 type Ministry = {
   title: string;
-  description: string;
+  description: ReactNode;
   placeholderLabel: string;
   image: string | null;
   comingSoon?: boolean;
@@ -28,7 +29,11 @@ const ministries: Ministry[] = [
   },
   {
     title: "Children's Ministry",
-    description: 'Age-appropriate Bible teaching and activities for kids from birth through 5th grade.',
+    description: (
+      <>
+        Age-appropriate Bible teaching and activities for kids ages <span className='whitespace-nowrap'>0–12</span>.
+      </>
+    ),
     placeholderLabel: "Children's ministry",
     image: 'https://vertical-church.t3.storage.dev/kids-ministry.png',
   },

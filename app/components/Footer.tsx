@@ -107,6 +107,10 @@ export function Footer() {
             >
               5400 Lear Nagle Rd North Ridgeville Ohio 44039
             </Link>
+            <p className="mt-1 font-body text-xs text-navy/60">
+              Vertical Church North is a 501(c)(3) nonprofit organization.{" "}
+              <span className="whitespace-nowrap">EIN 33-3563937.</span>
+            </p>
           </div>
 
           {/* Social Icons */}
