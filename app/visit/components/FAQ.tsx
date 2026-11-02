@@ -27,6 +27,10 @@ const faqs = [
         engaging, age-appropriate curriculum to draw their hearts toward Jesus.
       </>,
   },
+  {
+    question: "Where do I park?",
+    answer: "Parking is free in our lot right next to the building.",
+  },
 ];
 
 export function FAQ() {
