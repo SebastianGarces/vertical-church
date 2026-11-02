@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { Button } from "@/app/components/Button";
+import { ComingSoonPill } from "@/app/components/ComingSoonPill";
 import { WantToServeModal } from "./WantToServeModal";
 import { SERVE_TEAM_OPTIONS } from "./serve-teams-data";
 
@@ -59,11 +60,7 @@ export function ServeTeams() {
                       <h3 className="font-heading text-sm font-bold uppercase tracking-wide text-navy md:text-base">
                         {team.title}
                       </h3>
-                      {team.comingSoon && (
-                        <span className="inline-flex h-6 items-center justify-center leading-none rounded-full bg-navy px-2.5 pt-0.5 font-heading text-[11px] font-bold uppercase tracking-[0.1em] text-cream">
-                          Coming soon
-                        </span>
-                      )}
+                      {team.comingSoon && <ComingSoonPill variant="dark" />}
                     </div>
                     <p className="mt-1 font-body text-xs text-navy/60 md:text-sm">
                       {team.description}

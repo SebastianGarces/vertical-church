@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
+import { ComingSoonPill } from '@/app/components/ComingSoonPill';
 import Image from 'next/image';
 
 type Ministry = {
@@ -83,11 +84,7 @@ function MinistryCard({
           <p className='mt-2 font-body text-sm leading-relaxed text-navy/70'>{description}</p>
         </div>
         {/* After the heading in DOM order so screen readers announce the title first; positioned over the image. */}
-        {comingSoon && (
-          <span className='absolute left-3 top-3 inline-flex h-6 items-center justify-center leading-none rounded-full bg-cream px-3 pt-0.5 font-heading text-xs font-bold uppercase tracking-[0.1em] text-navy shadow-sm'>
-            Coming soon
-          </span>
-        )}
+        {comingSoon && <ComingSoonPill variant='light' size='md' overlay />}
       </div>
     </motion.div>
   );
