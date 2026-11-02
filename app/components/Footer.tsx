@@ -44,7 +44,6 @@ const footerLinks = {
   shop: {
     title: "Shop",
     links: [{ label: "Shop", href: "https://verticalchurchnorth.myspreadshop.com/" }],
-    note: "Every purchase supports the ministry of Vertical Church North.",
   },
 };
 
@@ -89,9 +88,6 @@ export function Footer() {
                   );
                 })}
               </ul>
-              {"note" in section && (
-                <p className="mt-2 font-body text-xs text-navy/60">{section.note}</p>
-              )}
             </div>
           ))}
         </div>
