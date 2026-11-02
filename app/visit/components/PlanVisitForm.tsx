@@ -431,7 +431,7 @@ function Step2({ formData, updateFormData, onNext, onBack, isValid }: StepProps 
           </RadioGroup>
           {formData.hasKids === "yes" && (
             <FieldDescription className="text-pipper/60">
-              Great! Our Vertical Kids ministry has programs for kids ages 0–12.
+              Great! Our Vertical Kids ministry has programs for kids ages <span className="whitespace-nowrap">0–12</span>.
             </FieldDescription>
           )}
         </Field>

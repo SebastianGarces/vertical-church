@@ -22,7 +22,10 @@ const faqs = [
   {
     question: "Where do my kids go during service?",
     answer:
-      "The Vertical Kids ministry is open for kids ages 0–12, with an engaging, age-appropriate curriculum to draw their hearts toward Jesus.",
+      <>
+        The Vertical Kids ministry is open for kids ages <span className="whitespace-nowrap">0–12</span>, with an
+        engaging, age-appropriate curriculum to draw their hearts toward Jesus.
+      </>,
   },
 ];
 
