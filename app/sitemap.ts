@@ -4,7 +4,7 @@ import { sermons, series } from "@/lib/db/schema";
 import { desc } from "drizzle-orm";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://vertical.family";
+  const baseUrl = "https://www.vertical.family";
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [

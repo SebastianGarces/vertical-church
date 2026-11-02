@@ -30,7 +30,7 @@ const ptMono = PT_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://vertical.family'),
+  metadataBase: new URL('https://www.vertical.family'),
   title: {
     template: '%s | Vertical Church',
     default: 'Vertical Church',

@@ -44,6 +44,7 @@ const footerLinks = {
   shop: {
     title: "Shop",
     links: [{ label: "Shop", href: "https://verticalchurchnorth.myspreadshop.com/" }],
+    note: "Every purchase supports the ministry of Vertical Church North.",
   },
 };
 
@@ -88,6 +89,9 @@ export function Footer() {
                   );
                 })}
               </ul>
+              {"note" in section && (
+                <p className="mt-2 font-body text-xs text-navy/60">{section.note}</p>
+              )}
             </div>
           ))}
         </div>
@@ -107,6 +111,10 @@ export function Footer() {
             >
               5400 Lear Nagle Rd North Ridgeville Ohio 44039
             </Link>
+            <p className="mt-1 font-body text-xs text-navy/60">
+              Vertical Church North is a 501(c)(3) nonprofit organization.{" "}
+              <span className="whitespace-nowrap">EIN 33-3563937.</span>
+            </p>
           </div>
 
           {/* Social Icons */}
