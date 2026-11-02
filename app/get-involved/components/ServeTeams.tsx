@@ -60,7 +60,7 @@ export function ServeTeams() {
                         {team.title}
                       </h3>
                       {team.comingSoon && (
-                        <span className="rounded-full bg-navy px-2.5 py-0.5 font-heading text-[11px] font-bold uppercase tracking-[0.1em] text-cream">
+                        <span className="inline-flex h-6 items-center justify-center leading-none rounded-full bg-navy px-2.5 pt-0.5 font-heading text-[11px] font-bold uppercase tracking-[0.1em] text-cream">
                           Coming soon
                         </span>
                       )}

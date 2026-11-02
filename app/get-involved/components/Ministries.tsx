@@ -84,7 +84,7 @@ function MinistryCard({
         </div>
         {/* After the heading in DOM order so screen readers announce the title first; positioned over the image. */}
         {comingSoon && (
-          <span className='absolute left-3 top-3 rounded-full bg-cream px-3 py-1 font-heading text-xs font-bold uppercase tracking-[0.1em] text-navy shadow-sm'>
+          <span className='absolute left-3 top-3 inline-flex h-6 items-center justify-center leading-none rounded-full bg-cream px-3 pt-0.5 font-heading text-xs font-bold uppercase tracking-[0.1em] text-navy shadow-sm'>
             Coming soon
           </span>
         )}
