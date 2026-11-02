@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { Button } from "@/app/components/Button";
+import { ComingSoonPill } from "@/app/components/ComingSoonPill";
 import { WantToServeModal } from "./WantToServeModal";
 import { SERVE_TEAM_OPTIONS } from "./serve-teams-data";
 
@@ -55,9 +56,12 @@ export function ServeTeams() {
                     transition={{ duration: 0.4, delay: index * 0.08 }}
                     className="border-l-4 border-florence pl-4"
                   >
-                    <h3 className="font-heading text-sm font-bold uppercase tracking-wide text-navy md:text-base">
-                      {team.title}
-                    </h3>
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                      <h3 className="font-heading text-sm font-bold uppercase tracking-wide text-navy md:text-base">
+                        {team.title}
+                      </h3>
+                      {team.comingSoon && <ComingSoonPill variant="dark" />}
+                    </div>
                     <p className="mt-1 font-body text-xs text-navy/60 md:text-sm">
                       {team.description}
                     </p>

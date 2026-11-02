@@ -25,6 +25,7 @@ import {
   submitWantToServeForm,
   type WantToServeFormPayload,
 } from "@/app/get-involved/actions";
+import { ComingSoonPill } from "@/app/components/ComingSoonPill";
 import { SERVE_TEAM_OPTIONS } from "./serve-teams-data";
 import { trackEvent } from "@/lib/analytics";
 
@@ -323,10 +324,16 @@ export function WantToServeModal({ open, onOpenChange }: WantToServeModalProps) 
                       <FieldContent>
                         <FieldTitle className="font-heading text-sm font-semibold uppercase tracking-wide text-pipper">
                           {team.title}
+                          {team.comingSoon && <ComingSoonPill variant="light" />}
                         </FieldTitle>
                         <FieldDescription className="font-body text-sm text-pipper/60">
                           {team.description}
                         </FieldDescription>
+                        {team.comingSoon && (
+                          <FieldDescription className="font-body text-sm text-florence">
+                            We&apos;ll reach out when it launches.
+                          </FieldDescription>
+                        )}
                       </FieldContent>
                     </Field>
                   </FieldLabel>
