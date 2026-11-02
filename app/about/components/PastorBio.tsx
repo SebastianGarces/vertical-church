@@ -50,8 +50,8 @@ export function PastorBio() {
               <p>
                 In time, God began leading Bryan and Sara toward church planting. Through a series of closed
                 doors—and God&apos;s clear direction and provision through training with the SEND Network and a church
-                planting residency at Vertical Church Columbus—the Nasses prepared to plant Vertical Church North in
-                Lorain County. In October 2024, Vertical Church North officially launched, and Bryan and Sara now
+                planting residency at Vertical Church Columbus—the Nasses prepared to plant Vertical Church in
+                Lorain County. In October 2024, Vertical Church officially launched, and Bryan and Sara now
                 serve the church as it continues to grow in worship, discipleship, and gospel-centered community
                 throughout the region. We&apos;d love to connect with you—{' '}
                 <a href='/contact' className='text-florence hover:underline'>

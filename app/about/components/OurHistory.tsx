@@ -21,7 +21,7 @@ export function OurHistory() {
 
           <div className='mt-8 max-w-3xl space-y-6 font-body text-base leading-relaxed text-pipper/70 md:text-lg'>
             <p>
-              Vertical Church North exists because of God’s faithfulness and the vision of gospel-centered churches
+              Vertical Church exists because of God’s faithfulness and the vision of gospel-centered churches
               committed to multiplying.
             </p>
             <p>
@@ -32,7 +32,7 @@ export function OurHistory() {
             </p>
             <p>
               This new plant began in a building that has served as a place of worship and gospel witness in North
-              Ridgeville for decades. By God’s grace, Vertical Church North is carrying that legacy forward with fresh
+              Ridgeville for decades. By God’s grace, Vertical Church is carrying that legacy forward with fresh
               vision and renewed passion.
             </p>
             <p>
