@@ -2,6 +2,7 @@
 
 import { motion } from 'motion/react';
 import Image from 'next/image';
+import type { ReactNode } from 'react';
 
 const ministries = [
   {
@@ -19,7 +20,11 @@ const ministries = [
   },
   {
     title: "Children's Ministry",
-    description: 'Age-appropriate Bible teaching and activities for kids from birth through 5th grade.',
+    description: (
+      <>
+        Age-appropriate Bible teaching and activities for kids ages <span className='whitespace-nowrap'>0–12</span>.
+      </>
+    ),
     placeholderLabel: "Children's ministry",
     image: 'https://vertical-church.t3.storage.dev/kids-ministry.png',
   },
@@ -51,7 +56,7 @@ function MinistryCard({
   index,
 }: {
   title: string;
-  description: string;
+  description: ReactNode;
   placeholderLabel: string;
   image: string | null;
   index: number;

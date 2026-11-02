@@ -11,8 +11,13 @@ interface EventCardProps {
   event: EventWithDetails;
 }
 
+// Events happen at the church in Ohio. Pin the zone so the server render
+// (UTC on Vercel) and every browser show the same Eastern time.
+const EVENT_TIME_ZONE = 'America/New_York';
+
 function formatDate(date: Date): string {
   return date.toLocaleDateString('en-US', {
+    timeZone: EVENT_TIME_ZONE,
     weekday: 'long',
     month: 'long',
     day: 'numeric',
@@ -22,6 +27,7 @@ function formatDate(date: Date): string {
 
 function formatTime(date: Date): string {
   return date.toLocaleTimeString('en-US', {
+    timeZone: EVENT_TIME_ZONE,
     hour: 'numeric',
     minute: '2-digit',
     hour12: true,
