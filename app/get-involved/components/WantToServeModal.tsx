@@ -323,10 +323,20 @@ export function WantToServeModal({ open, onOpenChange }: WantToServeModalProps) 
                       <FieldContent>
                         <FieldTitle className="font-heading text-sm font-semibold uppercase tracking-wide text-pipper">
                           {team.title}
+                          {team.comingSoon && (
+                            <span className="rounded-full bg-cream px-2.5 py-0.5 text-[11px] font-bold tracking-[0.1em] text-navy">
+                              Coming soon
+                            </span>
+                          )}
                         </FieldTitle>
                         <FieldDescription className="font-body text-sm text-pipper/60">
                           {team.description}
                         </FieldDescription>
+                        {team.comingSoon && (
+                          <FieldDescription className="font-body text-sm text-florence">
+                            We&apos;ll reach out when it launches.
+                          </FieldDescription>
+                        )}
                       </FieldContent>
                     </Field>
                   </FieldLabel>

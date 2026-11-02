@@ -3,6 +3,8 @@ export type ServeTeamOption = {
   description: string;
   /** Optional team-specific notification email (set via env var reference) */
   notifyEmailEnvVar?: string;
+  /** Team is not active yet. Still selectable in the Want to Serve form to gauge interest. */
+  comingSoon?: boolean;
 };
 
 /**
@@ -56,6 +58,7 @@ export const SERVE_TEAM_OPTIONS: ServeTeamOption[] = [
     description:
       "Invest in middle and high school students through teaching, mentoring, and community.",
     notifyEmailEnvVar: "SERVE_NOTIFY_STUDENTS",
+    comingSoon: true,
   },
   {
     title: "Tech Team",

@@ -3,7 +3,15 @@
 import { motion } from 'motion/react';
 import Image from 'next/image';
 
-const ministries = [
+type Ministry = {
+  title: string;
+  description: string;
+  placeholderLabel: string;
+  image: string | null;
+  comingSoon?: boolean;
+};
+
+const ministries: Ministry[] = [
   {
     title: 'Small Groups',
     description:
@@ -25,9 +33,10 @@ const ministries = [
   },
   {
     title: 'Student Ministry',
-    description: 'Middle and high school students gathering for worship, teaching, and community.',
+    description: 'Coming soon: a place for middle and high school students to gather for worship, teaching, and community.',
     placeholderLabel: 'Student ministry',
     image: 'https://vertical-church.t3.storage.dev/student-ministry.png',
+    comingSoon: true,
   },
   {
     title: "Women's Ministry",
@@ -48,14 +57,9 @@ function MinistryCard({
   description,
   placeholderLabel,
   image,
+  comingSoon = false,
   index,
-}: {
-  title: string;
-  description: string;
-  placeholderLabel: string;
-  image: string | null;
-  index: number;
-}) {
+}: Ministry & { index: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -64,10 +68,10 @@ function MinistryCard({
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className='group h-full'
     >
-      <div className='flex h-full flex-col overflow-hidden rounded-lg bg-cream'>
+      <div className='relative flex h-full flex-col overflow-hidden rounded-lg bg-cream'>
         <div className='relative aspect-[4/3] w-full bg-salte'>
           {image ? (
-            <Image src={image} alt={placeholderLabel} fill sizes="(max-width: 768px) 100vw, 33vw" className='object-cover' />
+            <Image src={image} alt={placeholderLabel} fill sizes="(max-width: 768px) 100vw, 33vw" className={comingSoon ? 'object-cover opacity-65 grayscale-[35%]' : 'object-cover'} />
           ) : (
             <span className='absolute inset-0 flex items-center justify-center p-4 text-center font-body text-xs uppercase tracking-wider text-pipper/60'>
               IMAGE PLACEHOLDER: {placeholderLabel}
@@ -78,6 +82,12 @@ function MinistryCard({
           <h3 className='font-heading text-lg font-bold uppercase tracking-wide text-navy md:text-xl'>{title}</h3>
           <p className='mt-2 font-body text-sm leading-relaxed text-navy/70'>{description}</p>
         </div>
+        {/* After the heading in DOM order so screen readers announce the title first; positioned over the image. */}
+        {comingSoon && (
+          <span className='absolute left-3 top-3 rounded-full bg-cream px-3 py-1 font-heading text-xs font-bold uppercase tracking-[0.1em] text-navy shadow-sm'>
+            Coming soon
+          </span>
+        )}
       </div>
     </motion.div>
   );
@@ -108,6 +118,7 @@ export function Ministries() {
               description={ministry.description}
               placeholderLabel={ministry.placeholderLabel}
               image={ministry.image}
+              comingSoon={ministry.comingSoon}
               index={index}
             />
           ))}

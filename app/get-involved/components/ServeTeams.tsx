@@ -55,9 +55,16 @@ export function ServeTeams() {
                     transition={{ duration: 0.4, delay: index * 0.08 }}
                     className="border-l-4 border-florence pl-4"
                   >
-                    <h3 className="font-heading text-sm font-bold uppercase tracking-wide text-navy md:text-base">
-                      {team.title}
-                    </h3>
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                      <h3 className="font-heading text-sm font-bold uppercase tracking-wide text-navy md:text-base">
+                        {team.title}
+                      </h3>
+                      {team.comingSoon && (
+                        <span className="rounded-full bg-navy px-2.5 py-0.5 font-heading text-[11px] font-bold uppercase tracking-[0.1em] text-cream">
+                          Coming soon
+                        </span>
+                      )}
+                    </div>
                     <p className="mt-1 font-body text-xs text-navy/60 md:text-sm">
                       {team.description}
                     </p>

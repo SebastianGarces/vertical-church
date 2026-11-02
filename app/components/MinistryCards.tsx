@@ -5,11 +5,17 @@ import { motion } from "motion/react";
 import { MinistryCard } from "./MinistryCard";
 import { Button } from "./Button";
 
-const ministries = [
+const ministries: {
+  title: string;
+  href: string;
+  image: string;
+  imageAlt: string;
+  comingSoon?: boolean;
+}[] = [
   { title: "Small Groups", href: "/get-involved#small-groups", image: "https://vertical-church.t3.storage.dev/small-groups.png", imageAlt: "A man in a plaid shirt points to a passage in an open Bible during a group study" },
   { title: "Worship Services", href: "/get-involved#ministries", image: "https://vertical-church.t3.storage.dev/worship-services.png", imageAlt: "A woman sings into a microphone on stage, with a drum kit behind her and a Vertical Church banner beside her" },
   { title: "Children's Ministry", href: "/get-involved#ministries", image: "https://vertical-church.t3.storage.dev/children-ministry.png", imageAlt: "A young leader sits at a round table with five children doing crafts and activities" },
-  { title: "Student Ministry", href: "/get-involved#ministries", image: "https://vertical-church.t3.storage.dev/student-ministry.png", imageAlt: "Two young women laugh together while seated in chairs, one holding a stack of books on her lap" },
+  { title: "Student Ministry", href: "/get-involved#ministries", image: "https://vertical-church.t3.storage.dev/student-ministry.png", imageAlt: "Two young women laugh together while seated in chairs, one holding a stack of books on her lap", comingSoon: true },
 ];
 
 interface MinistryCardsProps {
@@ -72,6 +78,7 @@ export function MinistryCards({ showGetInvolvedButton = false }: MinistryCardsPr
                 href={ministry.href}
                 image={ministry.image}
                 imageAlt={ministry.imageAlt}
+                comingSoon={ministry.comingSoon}
                 index={index}
               />
             </div>
@@ -115,6 +122,7 @@ export function MinistryCards({ showGetInvolvedButton = false }: MinistryCardsPr
               href={ministry.href}
               image={ministry.image}
               imageAlt={ministry.imageAlt}
+              comingSoon={ministry.comingSoon}
               index={index}
             />
           ))}

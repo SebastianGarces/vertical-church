@@ -9,10 +9,11 @@ interface MinistryCardProps {
   href: string;
   image: string;
   imageAlt: string;
+  comingSoon?: boolean;
   index?: number;
 }
 
-export function MinistryCard({ title, href, image, imageAlt, index = 0 }: MinistryCardProps) {
+export function MinistryCard({ title, href, image, imageAlt, comingSoon = false, index = 0 }: MinistryCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -30,7 +31,7 @@ export function MinistryCard({ title, href, image, imageAlt, index = 0 }: Minist
           alt={imageAlt}
           fill
           sizes="(max-width: 768px) 224px, 25vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className={`object-cover transition-transform duration-500 group-hover:scale-105${comingSoon ? " opacity-65 grayscale-[35%]" : ""}`}
         />
 
         {/* Overlay gradient */}
@@ -42,6 +43,13 @@ export function MinistryCard({ title, href, image, imageAlt, index = 0 }: Minist
             {title}
           </h3>
         </div>
+
+        {/* After the heading in DOM order so screen readers announce the title first; positioned over the image. */}
+        {comingSoon && (
+          <span className="absolute left-3 top-3 rounded-full bg-cream px-3 py-1 font-heading text-[11px] font-bold uppercase tracking-[0.1em] text-navy shadow-sm">
+            Coming soon
+          </span>
+        )}
       </Link>
     </motion.div>
   );
