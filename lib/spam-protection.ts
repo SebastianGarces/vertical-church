@@ -79,19 +79,41 @@ export function isGibberishMessage(text: string): boolean {
 }
 
 /**
- * Validate a name field:
- * - Reasonable length (2-50 chars)
- * - Contains at least some letters
- * - Not gibberish
+ * Detect keyboard-mash in one word of a name. Only words of 12+ letters are
+ * checked, and case is ignored. A consonant pair is "unusual" unless the first
+ * letter is h/l/m/n/r/s, the second is h/l/r/w, or the letters are doubled
+ * (so "sch", "str", "nd", "rz", "chw" all pass). Three or more unusual pairs
+ * means mash ("cgzt", "qtgx"); long real surnames have 0-2.
+ */
+function isMashWord(word: string): boolean {
+  const letters = word.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
+  if (letters.length < 12) return false;
+  const consonant = /[bcdfghjklmnpqrstvwxz]/;
+  let unusual = 0;
+  for (let i = 1; i < letters.length; i++) {
+    const a = letters[i - 1];
+    const b = letters[i];
+    if (!consonant.test(a) || !consonant.test(b)) continue;
+    if (a === b || "hlmnrs".includes(a) || "hlrw".includes(b)) continue;
+    unusual++;
+  }
+  return unusual >= 3;
+}
+
+/**
+ * Validate a name field. Blocks only obvious junk: a real visitor with an
+ * unusual name must get through.
+ * - 1-50 chars after trimming, with at least one letter
+ * - Only letters (any script, accents included), spaces, hyphens,
+ *   apostrophes (' and ’) and periods
+ * - No word of 12+ letters that looks like keyboard-mash
  */
 export function isValidName(name: string): boolean {
   const trimmed = name.trim();
-  // Reasonable length (2-50 chars)
-  if (trimmed.length < 2 || trimmed.length > 50) return false;
-  // Contains at least some letters
-  if (!/[a-zA-Z]/.test(trimmed)) return false;
-  // Not gibberish
-  return !isGibberish(trimmed);
+  if (trimmed.length < 1 || trimmed.length > 50) return false;
+  if (!/\p{L}/u.test(trimmed)) return false;
+  if (!/^[\p{L}\p{M} '’.-]+$/u.test(trimmed)) return false;
+  return !trimmed.split(/[ '’.-]+/).some(isMashWord);
 }
 
 /**
