@@ -106,6 +106,7 @@ function isMashWord(word: string): boolean {
  * - 1-50 chars after trimming, with at least one letter
  * - Only letters (any script, accents included), spaces, hyphens,
  *   apostrophes (' and ’) and periods
+ * - No domain-like text ("spam.com"): a letter, a period, then 2+ letters
  * - No word of 12+ letters that looks like keyboard-mash
  */
 export function isValidName(name: string): boolean {
@@ -113,6 +114,7 @@ export function isValidName(name: string): boolean {
   if (trimmed.length < 1 || trimmed.length > 50) return false;
   if (!/\p{L}/u.test(trimmed)) return false;
   if (!/^[\p{L}\p{M} '’.-]+$/u.test(trimmed)) return false;
+  if (/\p{L}\.\p{L}{2,}/u.test(trimmed)) return false;
   return !trimmed.split(/[ '’.-]+/).some(isMashWord);
 }
 
