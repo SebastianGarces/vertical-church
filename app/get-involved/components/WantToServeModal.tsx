@@ -136,7 +136,7 @@ export function WantToServeModal({ open, onOpenChange }: WantToServeModalProps) 
     setIsSubmitting(false);
 
     if (submitResult.success) {
-      trackEvent("want_to_serve", { form_name: "want_to_serve" });
+      if (submitResult.counted) trackEvent("want_to_serve", { form_name: "want_to_serve" });
       setIsSubmitted(true);
     } else {
       setSubmitError(submitResult.error);
