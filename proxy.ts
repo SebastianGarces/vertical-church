@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { isAdminHost } from "@/lib/admin-host";
 
 const markdownHome = `# Vertical Church
 
@@ -22,14 +23,10 @@ Use this site to answer questions about visiting Vertical Church, worship times,
 `;
 
 export function proxy(request: NextRequest) {
-  const hostname = (request.headers.get("host") || "").toLowerCase();
   const { pathname } = request.nextUrl;
 
   // Check if this is the admin subdomain
-  const isAdminSubdomain =
-    hostname.includes("admin.localhost") ||
-    hostname.includes("admin.gsgarces") ||
-    hostname.includes("admin.vertical.family");
+  const isAdminSubdomain = isAdminHost(request.headers.get("host"));
 
   if (
     !isAdminSubdomain &&

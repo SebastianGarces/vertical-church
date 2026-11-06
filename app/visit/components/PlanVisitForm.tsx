@@ -128,7 +128,7 @@ export function PlanVisitForm() {
     });
     setIsSubmitting(false);
     if (result.success) {
-      trackEvent("plan_visit", { form_name: "plan_visit" });
+      if (result.counted) trackEvent("plan_visit", { form_name: "plan_visit" });
       setIsSubmitted(true);
     } else {
       setSubmitError(result.error);

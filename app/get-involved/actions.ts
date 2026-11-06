@@ -27,7 +27,7 @@ const smallGroupInterestFormSchema = z.object({
 export type SmallGroupInterestFormPayload = z.infer<typeof smallGroupInterestFormSchema>;
 
 export type SubmitSmallGroupInterestResult =
-  | { success: true }
+  | { success: true; counted: boolean }
   | { success: false; error: string };
 
 const USER_FACING_ERROR =
@@ -61,7 +61,7 @@ export async function submitSmallGroupInterestForm(
   if (!spamCheck.passed) {
     // Silent reject for bots - return success but don't create PCO record
     if (spamCheck.isSilentReject) {
-      return { success: true };
+      return { success: true, counted: false };
     }
     // User-facing error for invalid input
     return { success: false, error: spamCheck.reason };
@@ -110,7 +110,7 @@ export async function submitSmallGroupInterestForm(
     return { success: false, error: USER_FACING_ERROR };
   }
 
-  return { success: true };
+  return { success: true, counted: true };
 }
 
 const wantToServeFormSchema = z.object({
@@ -128,7 +128,7 @@ const wantToServeFormSchema = z.object({
 export type WantToServeFormPayload = z.infer<typeof wantToServeFormSchema>;
 
 export type SubmitWantToServeResult =
-  | { success: true }
+  | { success: true; counted: boolean }
   | { success: false; error: string };
 
 /**
@@ -159,7 +159,7 @@ export async function submitWantToServeForm(
   if (!spamCheck.passed) {
     // Silent reject for bots - return success but don't create PCO record
     if (spamCheck.isSilentReject) {
-      return { success: true };
+      return { success: true, counted: false };
     }
     // User-facing error for invalid input
     return { success: false, error: spamCheck.reason };
@@ -209,5 +209,5 @@ export async function submitWantToServeForm(
     return { success: false, error: USER_FACING_ERROR };
   }
 
-  return { success: true };
+  return { success: true, counted: true };
 }

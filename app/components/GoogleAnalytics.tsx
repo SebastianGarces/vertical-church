@@ -1,7 +1,7 @@
 import Script from 'next/script';
 
 /**
- * GA4 tag. Rendered from the root layout only on production deployments.
+ * GA4 tag. Rendered from the `@analytics` slot only on production deployments.
  *
  * Deliberately not using `@next/third-parties/google`: its `afterInteractive` script emits a
  * `<link rel="preload">` for gtag.js in the document head, which competes with the hero LCP.

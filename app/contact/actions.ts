@@ -18,7 +18,7 @@ const contactFormSchema = z.object({
 export type ContactFormPayload = z.infer<typeof contactFormSchema>;
 
 export type SubmitContactFormResult =
-  | { success: true }
+  | { success: true; counted: boolean }
   | { success: false; error: string };
 
 const USER_FACING_ERROR =
@@ -53,7 +53,7 @@ export async function submitContactForm(
   if (!spamCheck.passed) {
     // Silent reject for bots - return success but don't create PCO record
     if (spamCheck.isSilentReject) {
-      return { success: true };
+      return { success: true, counted: false };
     }
     // User-facing error for invalid input
     return { success: false, error: spamCheck.reason };
@@ -97,5 +97,5 @@ export async function submitContactForm(
     return { success: false, error: USER_FACING_ERROR };
   }
 
-  return { success: true };
+  return { success: true, counted: true };
 }

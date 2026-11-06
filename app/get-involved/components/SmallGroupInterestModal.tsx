@@ -147,7 +147,9 @@ export function SmallGroupInterestModal({
     setIsSubmitting(false);
 
     if (submitResult.success) {
-      trackEvent("small_group_interest", { form_name: "small_group_interest" });
+      if (submitResult.counted) {
+        trackEvent("small_group_interest", { form_name: "small_group_interest" });
+      }
       setIsSubmitted(true);
     } else {
       setSubmitError(submitResult.error);

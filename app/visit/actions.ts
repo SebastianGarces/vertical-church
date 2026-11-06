@@ -21,7 +21,7 @@ const planVisitFormSchema = z.object({
 export type PlanVisitFormPayload = z.infer<typeof planVisitFormSchema>;
 
 export type SubmitPlanVisitResult =
-  | { success: true }
+  | { success: true; counted: boolean }
   | { success: false; error: string };
 
 const USER_FACING_ERROR =
@@ -57,7 +57,7 @@ export async function submitPlanVisitForm(
   if (!spamCheck.passed) {
     // Silent reject for bots - return success but don't create PCO record
     if (spamCheck.isSilentReject) {
-      return { success: true };
+      return { success: true, counted: false };
     }
     // User-facing error for invalid input
     return { success: false, error: spamCheck.reason };
@@ -89,5 +89,5 @@ export async function submitPlanVisitForm(
     return { success: false, error: USER_FACING_ERROR };
   }
 
-  return { success: true };
+  return { success: true, counted: true };
 }

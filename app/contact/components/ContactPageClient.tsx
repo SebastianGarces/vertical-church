@@ -196,7 +196,7 @@ function ContactForm() {
     setIsSubmitting(false);
 
     if (result.success) {
-      trackEvent("contact", { form_name: "contact" });
+      if (result.counted) trackEvent("contact", { form_name: "contact" });
       setIsSubmitted(true);
     } else {
       setSubmitError(result.error);
