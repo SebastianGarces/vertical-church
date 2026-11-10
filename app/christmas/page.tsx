@@ -21,7 +21,8 @@ const description =
   "You're invited to celebrate the hope of Jesus with us this Christmas. Join Vertical Church on Christmas Eve at 4 PM at 5400 Lear Nagle Rd, North Ridgeville, Ohio.";
 
 export const metadata: Metadata = {
-  title,
+  // absolute: the name is already in the title, so skip the root "%s | Vertical Church" template.
+  title: { absolute: title },
   description,
   alternates: {
     canonical: "https://www.vertical.family/christmas",
