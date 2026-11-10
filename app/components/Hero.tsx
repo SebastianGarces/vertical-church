@@ -110,11 +110,12 @@ function AnimatedTitle({ children, className }: { children: ReactNode; className
 //   7.25rem  two 52px buttons + 12px gap
 //   1.5rem   breathing room above the browser toolbar
 //   + env(safe-area-inset-bottom) (home indicator, if the page is ever edge-to-edge)
+//   + var(--site-banner-h) (seasonal banner above the header; 0 when it isn't shown)
 // It never grows past the photo's natural size and never shrinks below 15rem, so very
 // short screens scroll instead of squashing the photo. object-cover crops instead of
 // distorting when the cap applies.
 const MOBILE_CTA_IMAGE_MAX_H =
-  "object-cover max-h-[max(15rem,calc(100svh_-_18.75rem_-_env(safe-area-inset-bottom,0px)))]";
+  "object-cover max-h-[max(15rem,calc(100svh_-_18.75rem_-_env(safe-area-inset-bottom,0px)_-_var(--site-banner-h)))]";
 
 interface HeroImage {
   src: string;
@@ -178,7 +179,7 @@ export function Hero({ mainImage, secondaryImages, title, badge, titleBottomOffs
                 {secondaryImages.map((image, index) => (
                   <div
                     key={index}
-                    className="relative aspect-[16/9] overflow-hidden rounded-[20px] lg:max-h-[max(10rem,calc((100svh_-_5rem_-_min(5rem,7.5svh)_-_min(10rem,15svh)_-_1.25rem)_/_2))]"
+                    className="relative aspect-[16/9] overflow-hidden rounded-[20px] lg:max-h-[max(10rem,calc((100svh_-_var(--site-banner-h)_-_5rem_-_min(5rem,7.5svh)_-_min(10rem,15svh)_-_1.25rem)_/_2))]"
                   >
                     <div
                       className="hero-reveal-secondary relative h-full w-full"

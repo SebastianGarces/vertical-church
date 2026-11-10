@@ -109,6 +109,24 @@
   font-family: var(--font-overpass), -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+/* Seasonal site banner (app/components/ChristmasBanner.tsx).
+   The banner is fixed above the fixed header. Its height lives in one variable that is
+   0 unless the banner is in the DOM, so dismissing it (unmounting) collapses the offset
+   with no JS. Read by: body padding, Header top offsets, Hero's viewport-fit math. */
+:root {
+  --site-banner-h: 0px;
+}
+
+:root:has([data-site-banner]) {
+  --site-banner-h: 2.75rem;
+}
+
+@media (min-width: 768px) {
+  :root:has([data-site-banner]) {
+    --site-banner-h: 3rem;
+  }
+}
+
 /* Base body styles */
 html {
   overflow-x: clip;
@@ -117,6 +135,7 @@ html {
 
 body {
   min-height: 100vh;
+  padding-top: var(--site-banner-h);
   overscroll-behavior: none;
   background: var(--color-navy);
   color: var(--color-text-primary);

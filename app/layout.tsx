@@ -1,3 +1,5 @@
+import { ChristmasBannerProvider } from '@/app/components/ChristmasBanner';
+import { CHRISTMAS_BANNER_ENABLED } from '@/lib/christmas';
 import { getOrganizationSchema, JsonLd } from '@/lib/json-ld';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -83,7 +85,8 @@ export default function RootLayout({
         <JsonLd data={getOrganizationSchema()} />
       </head>
       <body className={`${fraunces.variable} ${overpass.variable} ${ptMono.variable} antialiased`}>
-        {children}
+        {/* Seasonal banner: flip CHRISTMAS_BANNER_ENABLED in lib/christmas.ts to retire it. */}
+        {CHRISTMAS_BANNER_ENABLED ? <ChristmasBannerProvider>{children}</ChristmasBannerProvider> : children}
         <SpeedInsights />
         <Analytics />
         {/* GA4: production deployments only; never preloaded or render-blocking. */}

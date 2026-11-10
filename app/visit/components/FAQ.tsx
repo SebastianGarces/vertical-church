@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import type { ReactNode } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -8,7 +9,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const faqs = [
+export interface FAQItem {
+  question: string;
+  answer: ReactNode;
+}
+
+const defaultFaqs: FAQItem[] = [
   {
     question: "Do I have to be a Christian to come?",
     answer:
@@ -33,7 +39,13 @@ const faqs = [
   },
 ];
 
-export function FAQ() {
+interface FAQProps {
+  faqs?: FAQItem[];
+  eyebrow?: string;
+  heading?: string;
+}
+
+export function FAQ({ faqs = defaultFaqs, eyebrow = "Questions?", heading = "Frequently Asked" }: FAQProps = {}) {
   return (
     <section className="bg-cream py-16 md:py-24">
       <div className="mx-auto max-w-3xl px-4 md:px-8">
@@ -46,10 +58,10 @@ export function FAQ() {
           className="mb-12 text-center"
         >
           <h2 className="font-heading text-sm uppercase tracking-[0.2em] text-florence">
-            Questions?
+            {eyebrow}
           </h2>
           <p className="mt-4 font-heading text-3xl font-bold uppercase tracking-wide text-navy md:text-4xl">
-            Frequently Asked
+            {heading}
           </p>
         </motion.div>
 

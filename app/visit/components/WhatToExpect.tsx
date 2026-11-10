@@ -2,7 +2,13 @@
 
 import { motion } from "motion/react";
 
-const expectations = [
+export interface Expectation {
+  number: string;
+  title: string;
+  description: string;
+}
+
+const defaultExpectations: Expectation[] = [
   {
     number: "01",
     title: "Fervent Worship",
@@ -47,7 +53,20 @@ function ExpectationCard({
   );
 }
 
-export function WhatToExpect() {
+interface WhatToExpectProps {
+  items?: Expectation[];
+  heading?: string;
+  subheading?: string;
+  /** Optional lead paragraph under the heading. */
+  intro?: string;
+}
+
+export function WhatToExpect({
+  items = defaultExpectations,
+  heading = "What to Expect",
+  subheading = "When You Visit",
+  intro,
+}: WhatToExpectProps = {}) {
   return (
     <section id="what-to-expect" className="bg-navy py-16 md:py-24 scroll-mt-20">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
@@ -60,16 +79,21 @@ export function WhatToExpect() {
           className="mb-12 md:mb-16"
         >
           <h2 className="font-heading text-2xl font-bold uppercase tracking-[0.05em] text-pipper md:text-4xl">
-            What to Expect
+            {heading}
           </h2>
           <p className="mt-2 font-body text-sm uppercase tracking-[0.1em] text-florence">
-            When You Visit
+            {subheading}
           </p>
+          {intro && (
+            <p className="mt-6 max-w-2xl font-body text-base leading-relaxed text-pipper/80 md:text-lg">
+              {intro}
+            </p>
+          )}
         </motion.div>
 
         {/* Expectation Cards */}
         <div className="grid gap-6 md:grid-cols-3 md:gap-8">
-          {expectations.map((item, index) => (
+          {items.map((item, index) => (
             <motion.div
               key={item.number}
               initial={{ opacity: 0, y: 30 }}
