@@ -20,16 +20,17 @@ const DETAILS = [
  * Sizes are in container query units (cqi) so the overlapping type keeps the mockup's
  * proportions from a 320px phone up to the 56rem desktop block.
  *
- * Desktop alignment: "At Vertical Church", the details row and the button live in one
+ * Details: a 2-column grid of equal cells, the same width as the button. Each pair is
+ * centered in its cell ("4PM" over "Christmas Eve", "5400" over "Lear Nagle Rd").
+ *
+ * Desktop: "At Vertical Church", the details grid and the button live in one
  * inline-grid column. The script line is the only child that sizes the column; the
- * details row and the button are `w-0 min-w-full`, so they add nothing to the column's
- * intrinsic width and then stretch to exactly that width. "4PM" starts on the script
- * line's left edge, "5400 / Lear Nagle Rd" ends on its right edge (justify-between),
- * and the button spans the same width, at every md+ viewport.
+ * details grid and the button are `w-0 min-w-full`, so they add nothing to the column's
+ * intrinsic width and then stretch to exactly that width, at every md+ viewport.
  *
  * Phones: "At Vertical Church" stays directly under "Christmas" (its own aria-hidden
- * copy inside the h1 overlay), and the details row and button move below the card at
- * the full content width: 4PM on the left edge, Lear Nagle Rd on the right edge.
+ * copy inside the h1 overlay), and the details grid and button move below the card at
+ * the full content width.
  */
 export function ChristmasHero() {
   return (
@@ -94,10 +95,10 @@ export function ChristmasHero() {
                 At Vertical Church
               </p>
 
-              <div className="flex w-0 min-w-full justify-between md:mt-[3.5cqi]">
+              <div className="grid w-0 min-w-full grid-cols-2 md:mt-[3.5cqi]">
                 {DETAILS.map((item) => (
                   <div key={item.big} className="overflow-hidden">
-                    <p className="hero-slide-up flex flex-col text-pipper" style={delay(item.d)}>
+                    <p className="hero-slide-up flex flex-col items-center text-center text-pipper" style={delay(item.d)}>
                       <span className="font-heading text-[12cqi] font-bold leading-none tracking-[-0.04em] md:text-[6.2cqi]">
                         {item.big}
                       </span>{" "}
