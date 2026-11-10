@@ -20,13 +20,13 @@ const PHOTOS = [
   },
   {
     src: `${BUCKET}/vertical-christmas-2.jpg`,
-    alt: "Children sit on the floor listening to a Christmas story, with a Christmas slide on the screen behind them",
+    alt: "A man in an armchair reads a Christmas story to children gathered on the stage floor, with Christmas trees, poinsettias and a Christmas at Vertical Church slide on the screen behind him",
     className: "aspect-[3/4]",
     sizes: "(min-width: 1152px) 180px, (min-width: 1024px) 16vw, 32vw",
   },
   {
     src: `${BUCKET}/vertical-christmas-1.jpg`,
-    alt: "A single lit candle from a candlelight service, glowing against soft blurred lights",
+    alt: "A single white candle with a paper drip guard, lit during a candlelight service, with colored lights blurred in the dark behind it",
     className: "aspect-[3/4]",
     sizes: "(min-width: 1152px) 180px, (min-width: 1024px) 16vw, 32vw",
   },
