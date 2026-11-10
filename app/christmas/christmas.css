@@ -54,3 +54,9 @@
 .christmas-theme main section.bg-navy {
   background-color: transparent;
 }
+
+/* On cream surfaces (cards, FAQ, footer) the swapped-in green is a bit light for the
+   muted /70 body text. Use a deeper green there so it stays above 4.5:1. */
+.christmas-theme .bg-cream {
+  --color-navy: #18241a;
+}
