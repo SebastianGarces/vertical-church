@@ -67,10 +67,9 @@ function ChristmasBanner() {
         </p>
         <Link
           href={CHRISTMAS_PATH}
-          aria-label="Learn more about Christmas at Vertical Church"
           className="shrink-0 border border-[#EAECEA] px-2.5 py-1.5 font-button text-[0.6875rem] uppercase leading-none tracking-[0.2em] whitespace-pre transition-colors hover:bg-[#EAECEA] hover:text-[#2D412F] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#EAECEA] md:px-3 md:text-xs"
         >
-          Learn more
+          Learn more<span className="sr-only"> about Christmas at Vertical Church</span>
         </Link>
       </div>
       <button
