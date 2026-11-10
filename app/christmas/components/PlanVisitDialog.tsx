@@ -18,6 +18,9 @@ import { PlanVisitForm } from "@/app/visit/components";
  * spam handling and GA4 event). Radix Dialog provides the focus trap, Esc to close,
  * scroll lock and focus return to the button that opened it.
  *
+ * The dialog surface is a shade deeper than the page green (#253627 vs #2D412F) so the
+ * form's muted /60 helper text keeps 4.5:1 against it.
+ *
  * MotionConfig here also makes every Motion animation on the page honor
  * prefers-reduced-motion (transform animations are skipped, opacity still fades).
  */
@@ -34,7 +37,7 @@ export function PlanVisitDialogProvider({ children }: { children: React.ReactNod
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogContent
             showCloseButton={false}
-            className="block gap-0 overflow-y-auto overscroll-contain border-0 bg-navy p-0 text-pipper shadow-2xl max-sm:inset-0 max-sm:h-[100dvh] max-sm:max-w-none max-sm:translate-x-0 max-sm:translate-y-0 max-sm:rounded-none sm:max-h-[min(52rem,calc(100dvh-3rem))] sm:max-w-2xl sm:rounded-[20px] sm:border-2 sm:border-pipper/20"
+            className="block gap-0 overflow-y-auto [--color-navy:#253627] overscroll-contain border-0 bg-navy p-0 text-pipper shadow-2xl max-sm:inset-0 max-sm:h-[100dvh] max-sm:max-w-none max-sm:translate-x-0 max-sm:translate-y-0 max-sm:rounded-none sm:max-h-[min(52rem,calc(100dvh-3rem))] sm:max-w-2xl sm:rounded-[20px] sm:border-2 sm:border-pipper/20"
           >
             <DialogTitle className="sr-only">Plan your Christmas Eve visit</DialogTitle>
             <DialogDescription className="sr-only">

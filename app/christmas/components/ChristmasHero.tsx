@@ -8,12 +8,24 @@ function delay(seconds: number): CSSProperties {
   return { animationDelay: `${seconds}s` };
 }
 
+const DETAILS = [
+  { big: "4PM", small: "Christmas Eve", d: 0.85 },
+  { big: "5400", small: "Lear Nagle Rd", d: 0.95 },
+];
+
 /**
  * Top of /christmas, after the mockup: candle photo card, "Join us for" / Christmas /
  * "At Vertical Church", the time and address, and the first PLAN YOUR VISIT button.
  *
  * Sizes are in container query units (cqi) so the overlapping type keeps the mockup's
  * proportions from a 320px phone up to the 56rem desktop block.
+ *
+ * Alignment: "At Vertical Church", the details row and the button live in one
+ * inline-grid column. The script line is the only child that sizes the column; the
+ * details row and the button are `w-0 min-w-full`, so they add nothing to the column's
+ * intrinsic width and then stretch to exactly that width. "4PM" starts on the script
+ * line's left edge, "5400 / Lear Nagle Rd" ends on its right edge (justify-between),
+ * and the button spans the same width, at every viewport.
  */
 export function ChristmasHero() {
   return (
@@ -35,8 +47,9 @@ export function ChristmasHero() {
             </div>
           </div>
 
-          {/* Headline over the card */}
-          <h1 className="absolute inset-x-0 top-[7%] text-pipper md:top-[6%]">
+          {/* Headline over the card. "At Vertical Church" is drawn in the column below
+              (so it can set that column's width); the h1 carries it for screen readers. */}
+          <h1 className="absolute inset-x-0 top-[7cqi] text-pipper md:top-[4cqi]">
             <span
               className="hero-fade-in font-christmas-script block pl-[5%] text-[9.5cqi] leading-none md:text-[7.5cqi]"
               style={delay(0.35)}
@@ -51,37 +64,42 @@ export function ChristmasHero() {
                 Christmas
               </span>
             </span>
-            <span
-              className="hero-fade-in font-christmas-script block pt-[2cqi] pl-[53%] text-[7.6cqi] leading-none whitespace-nowrap md:pl-[48%] md:text-[8cqi]"
-              style={delay(0.75)}
-            >
-              At Vertical Church
-            </span>
+            <span className="sr-only"> At Vertical Church</span>
           </h1>
-        </div>
 
-        {/* Time, address and CTA. Under the card on phones; beside it from md up. */}
-        <div className="mt-8 md:absolute md:right-8 md:bottom-0 md:left-[calc(2rem_+_48%)] md:mt-0">
-          <div className="grid grid-cols-2 gap-4 md:gap-[3cqi]">
-            {[
-              { big: "4PM", small: "Christmas Eve", d: 0.85 },
-              { big: "5400", small: "Lear Nagle Rd", d: 0.95 },
-            ].map((item) => (
-              <div key={item.big} className="overflow-hidden">
-                <p className="hero-slide-up flex flex-col text-pipper" style={delay(item.d)}>
-                  <span className="font-heading text-[2.75rem] font-bold leading-none tracking-[-0.04em] md:text-[6.4cqi]">
-                    {item.big}
-                  </span>{" "}
-                  <span className="font-christmas-display text-[1.375rem] font-bold leading-tight tracking-[-0.04em] md:text-[3.6cqi]">
-                    {item.small}
-                  </span>
-                </p>
+          {/* Script line + details + CTA. Phones: under the card, right-aligned.
+              md+: beside the card, starting just under "Christmas"
+              (h1 top 4cqi + "Join us for" 7.5cqi + "Christmas" 23cqi x 0.82 + 2cqi gap). */}
+          <div className="mt-5 flex justify-end md:absolute md:top-[32.4cqi] md:left-[48%] md:mt-0 md:block">
+            <div className="inline-grid">
+              <p
+                aria-hidden="true"
+                className="hero-fade-in font-christmas-script text-[12.5cqi] leading-none whitespace-nowrap text-pipper md:text-[8cqi]"
+                style={delay(0.75)}
+              >
+                At Vertical Church
+              </p>
+
+              <div className="mt-[5cqi] flex w-0 min-w-full justify-between md:mt-[3.5cqi]">
+                {DETAILS.map((item) => (
+                  <div key={item.big} className="overflow-hidden">
+                    <p className="hero-slide-up flex flex-col text-pipper" style={delay(item.d)}>
+                      <span className="font-heading text-[9.5cqi] font-bold leading-none tracking-[-0.04em] md:text-[6.2cqi]">
+                        {item.big}
+                      </span>{" "}
+                      <span className="font-christmas-display text-[5.2cqi] font-bold leading-tight tracking-[-0.04em] whitespace-nowrap md:text-[3.4cqi]">
+                        {item.small}
+                      </span>
+                    </p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <div className="mt-6 overflow-hidden p-1 md:mt-[3cqi]">
-            <div className="hero-slide-up" style={delay(1.05)}>
-              <PlanVisitButton className="w-full py-3.5 md:py-2.5" />
+
+              <div className="mt-[5cqi] w-0 min-w-full md:mt-[3cqi]">
+                <div className="hero-fade-in" style={delay(1.05)}>
+                  <PlanVisitButton className="w-full py-3.5 md:py-2.5" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
