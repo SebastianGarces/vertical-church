@@ -35,48 +35,56 @@ export default async function OpenGraphImage() {
           background: "#2D412F",
           color: "#EAECEA",
           display: "flex",
-          flexDirection: "column",
+          gap: 56,
           height: "100%",
-          justifyContent: "center",
-          position: "relative",
+          padding: "0 72px",
           width: "100%",
         }}
       >
-        <div style={{ display: "flex", fontFamily: "Tinos", fontSize: 60, fontStyle: "italic", lineHeight: 1, marginLeft: -440 }}>
-          Join us for
-        </div>
-        <div
-          style={{
-            color: "#F83236",
-            display: "flex",
-            fontFamily: "Tinos",
-            fontSize: 250,
-            fontWeight: 700,
-            letterSpacing: -15,
-            lineHeight: 0.9,
-          }}
-        >
-          Christmas
-        </div>
-        <div style={{ display: "flex", fontFamily: "Tinos", fontSize: 60, fontStyle: "italic", lineHeight: 1, marginLeft: 380 }}>
-          At Vertical Church
-        </div>
-        <div
-          style={{
-            alignItems: "center",
-            display: "flex",
-            fontFamily: "Overpass",
-            fontSize: 34,
-            fontWeight: 700,
-            gap: 40,
-            letterSpacing: 1,
-            marginTop: 40,
-            textTransform: "uppercase",
-          }}
-        >
-          <span>Christmas Eve at 4PM</span>
-          <div style={{ background: "#F83236", borderRadius: 999, height: 14, width: 14 }} />
-          <span>5400 Lear Nagle Rd</span>
+        <img
+          alt="Lit candles on a wooden table, ringed with pine and red berries"
+          src="https://vertical-church.t3.storage.dev/vertical-candles.jpg"
+          width={340}
+          height={510}
+          style={{ borderRadius: 28, height: 510, objectFit: "cover", width: 340 }}
+        />
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", fontFamily: "Tinos", fontSize: 52, fontStyle: "italic", lineHeight: 1 }}>
+            Join us for
+          </div>
+          <div
+            style={{
+              color: "#F83236",
+              display: "flex",
+              fontFamily: "Tinos",
+              fontSize: 168,
+              fontWeight: 700,
+              letterSpacing: -10,
+              lineHeight: 0.95,
+              marginLeft: -6,
+            }}
+          >
+            Christmas
+          </div>
+          <div style={{ display: "flex", fontFamily: "Tinos", fontSize: 52, fontStyle: "italic", lineHeight: 1, marginLeft: 220 }}>
+            At Vertical Church
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              fontFamily: "Overpass",
+              fontSize: 30,
+              fontWeight: 700,
+              gap: 8,
+              letterSpacing: 1,
+              marginTop: 44,
+              textTransform: "uppercase",
+            }}
+          >
+            <span>Christmas Eve at 4PM</span>
+            <span>5400 Lear Nagle Rd</span>
+          </div>
         </div>
       </div>
     ),

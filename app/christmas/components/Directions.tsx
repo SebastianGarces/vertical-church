@@ -18,9 +18,6 @@ import { Doodle } from "./Doodle";
 export function Directions() {
   return (
     <section id="directions" className="relative scroll-mt-24 py-16 md:py-24">
-      <Doodle name="snowflake" idle="twinkle" className="absolute top-10 right-4 w-9 md:hidden" />
-      <Doodle name="star" idle="twinkle" className="absolute bottom-24 left-[3%] hidden w-12 xl:block 2xl:left-[8%]" phase={1.2} />
-
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -29,9 +26,12 @@ export function Directions() {
           transition={{ duration: 0.5 }}
           className="mb-10 md:mb-12"
         >
-          <h2 className="font-heading text-2xl font-bold uppercase tracking-[0.05em] text-pipper md:text-4xl">
-            Getting Here
-          </h2>
+          <div className="flex items-end gap-3">
+            <h2 className="font-heading text-2xl font-bold uppercase tracking-[0.05em] text-pipper md:text-4xl">
+              Getting Here
+            </h2>
+            <Doodle name="star" idle="twinkle" className="mb-1 w-8 shrink-0 md:w-10" />
+          </div>
           <p className="mt-2 font-body text-sm uppercase tracking-[0.1em] text-florence">
             Directions &amp; Parking
           </p>

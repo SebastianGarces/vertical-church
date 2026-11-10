@@ -9,25 +9,22 @@ import { PlanVisitButton } from "./PlanVisitDialog";
 /** Bottom call to action: the second PLAN YOUR VISIT button and a contact fallback. */
 export function ClosingCTA() {
   return (
-    <section className="relative overflow-hidden py-20 md:py-28">
-      <Doodle name="bow" className="absolute top-10 left-4 w-12 md:left-[8%] md:w-20" />
-      <Doodle name="tree" className="absolute right-4 bottom-10 w-12 md:right-[8%] md:w-20" phase={0.6} />
-      <Doodle name="ornament" className="absolute top-12 right-[16%] hidden w-14 lg:block" phase={1.1} />
-      <Doodle name="holly" className="absolute bottom-12 left-[15%] hidden w-16 lg:block" phase={0.2} />
-
+    <section className="py-16 md:py-24">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.6 }}
-        className="relative mx-auto flex max-w-xl flex-col items-center px-14 text-center sm:px-4"
+        className="mx-auto flex max-w-2xl flex-col items-center px-4 text-center md:px-8"
       >
-        <p className="font-christmas-script text-5xl leading-none text-pipper md:text-6xl">We’d love to see you</p>
-        <h2 className="font-christmas-display mt-2 text-[3.25rem] font-bold leading-[0.9] tracking-[-0.045em] text-florence md:text-[5.5rem]">
-          Christmas Eve
-          <span className="block text-pipper">at 4PM</span>
-        </h2>
-        <p className="mt-6 font-body text-lg leading-relaxed text-pipper/85">
+        <p className="font-heading text-sm uppercase tracking-[0.2em] text-florence">We&apos;d Love to See You</p>
+        <div className="mt-4 flex items-end justify-center gap-3">
+          <h2 className="font-heading text-3xl font-bold uppercase tracking-wide text-pipper md:text-4xl">
+            Christmas Eve at 4PM
+          </h2>
+          <Doodle name="bow" className="mb-1 w-9 shrink-0 md:w-11" />
+        </div>
+        <p className="mt-4 font-body text-base leading-relaxed text-pipper/80 md:text-lg">
           5400 Lear Nagle Rd, North Ridgeville
         </p>
         <PlanVisitButton className="mt-8 w-full max-w-xs py-4" />

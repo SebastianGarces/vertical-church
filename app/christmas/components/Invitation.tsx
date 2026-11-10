@@ -11,33 +11,31 @@ const fadeUp = {
 };
 
 /**
- * "You Are Invited!" block, after the back of the printed card: invitation copy on the
+ * "You're Invited!" block, after the back of the printed card: invitation copy on the
  * left, three photo slots on the right. Wording from the card (minus the unconfirmed
  * Dec 27 date) plus the welcome line from the campaign plan.
  */
 export function Invitation() {
   return (
     <section className="relative py-12 md:py-20">
-      <Doodle name="gift" className="absolute top-16 left-[3%] hidden w-14 xl:block 2xl:left-[8%] 2xl:w-16" phase={0.3} />
-      <Doodle name="ornament" className="absolute right-3 -top-2 w-10 md:hidden" />
-
       <div className="mx-auto grid max-w-6xl gap-10 px-4 md:px-8 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-14">
         <div>
-          <motion.div {...fadeUp} transition={{ duration: 0.5 }} className="flex items-end gap-4">
-            <h2 className="font-christmas-serif text-[3.25rem] leading-[0.95] tracking-[-0.03em] text-pipper md:text-7xl">
-              You Are Invited!
-            </h2>
-            {/* The bow and tree from the card, beside the heading on wider screens. */}
-            <div className="hidden shrink-0 items-end gap-1 sm:flex lg:hidden xl:flex" aria-hidden="true">
-              <Doodle name="bow" className="w-14" />
-              <Doodle name="tree" className="w-16" phase={0.5} />
+          <motion.div {...fadeUp} transition={{ duration: 0.5 }}>
+            <div className="flex items-end gap-3">
+              <h2 className="font-heading text-2xl font-bold uppercase tracking-[0.05em] text-pipper md:text-4xl">
+                You&apos;re Invited!
+              </h2>
+              <Doodle name="tree" className="mb-1 w-9 shrink-0 md:w-11" />
             </div>
+            <p className="mt-2 font-body text-sm uppercase tracking-[0.1em] text-florence">
+              Christmas at Vertical Church
+            </p>
           </motion.div>
 
           <motion.div
             {...fadeUp}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="mt-8 max-w-xl space-y-5 font-body text-lg leading-relaxed text-pipper/90 md:text-xl"
+            className="mt-6 max-w-xl space-y-5 font-body text-base leading-relaxed text-pipper/80 md:text-lg"
           >
             <p>
               We&apos;d love for you and your family to join us for our Christmas celebration at Vertical
@@ -69,7 +67,7 @@ export function Invitation() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className={`overflow-hidden rounded-[20px] ${photo.className}`}
             >
-              <PhotoSlot slot={photo.slot} className="h-full w-full" candle={photo.slot === "invite-candle"} />
+              <PhotoSlot slot={photo.slot} className="h-full w-full" />
             </motion.div>
           ))}
         </div>

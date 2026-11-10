@@ -1,6 +1,5 @@
 import type { CSSProperties } from "react";
-import { Doodle } from "./Doodle";
-import { PhotoSlot } from "./PhotoSlot";
+import Image from "next/image";
 import { PlanVisitButton } from "./PlanVisitDialog";
 
 // Entrance animation reuses the homepage hero's CSS classes (app/globals.css: hero-*),
@@ -19,18 +18,20 @@ function delay(seconds: number): CSSProperties {
 export function ChristmasHero() {
   return (
     <section className="relative overflow-hidden pt-20 pb-14 md:pt-28 md:pb-24">
-      {/* Doodles sit in the side margins, clear of the type. */}
-      <Doodle name="star" idle="twinkle" className="absolute top-24 right-[4%] hidden w-16 xl:block 2xl:right-[10%] 2xl:w-20" />
-      <Doodle name="snowflake" idle="twinkle" phase={0.8} className="absolute top-[55%] left-[3%] hidden w-14 xl:block 2xl:left-[9%] 2xl:w-16" />
-      <Doodle name="star" idle="twinkle" className="absolute top-[52%] right-[9%] w-10 md:hidden" phase={0.4} />
-      <Doodle name="holly" className="absolute bottom-10 right-[6%] hidden w-16 xl:block 2xl:right-[12%]" phase={0.4} />
-
       <div className="@container relative mx-auto w-full max-w-[56rem] px-4 md:px-8">
         <div className="relative">
           {/* Candle photo card */}
           <div className="relative w-[52%] overflow-hidden rounded-[1.25rem] md:w-[44%] md:rounded-[1.75rem]">
-            <div className="hero-reveal-main aspect-[2/3]">
-              <PhotoSlot slot="hero-candle" className="h-full w-full" candle />
+            <div className="hero-reveal-main relative aspect-[2/3]">
+              <Image
+                src="https://vertical-church.t3.storage.dev/vertical-candles.jpg"
+                alt="Lit candles on a wooden table, ringed with pine and red berries"
+                fill
+                priority
+                fetchPriority="high"
+                className="object-cover"
+                sizes="(max-width: 768px) 52vw, 400px"
+              />
             </div>
           </div>
 

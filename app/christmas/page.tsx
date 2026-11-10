@@ -13,7 +13,7 @@ import { Directions } from "./components/Directions";
 import { Invitation } from "./components/Invitation";
 import { SundayNote } from "./components/SundayNote";
 import { PlanVisitDialogProvider } from "./components/PlanVisitDialog";
-import { christmasScript, christmasSerif } from "./fonts";
+import { christmasScript } from "./fonts";
 import "./christmas.css";
 
 const title = "Christmas Eve at Vertical Church";
@@ -133,7 +133,7 @@ const eventSchema = {
 export default function ChristmasPage() {
   return (
     <div
-      className={`christmas-theme christmas-paper min-h-screen overflow-x-hidden ${christmasSerif.variable} ${christmasScript.variable}`}
+      className={`christmas-theme christmas-paper min-h-screen overflow-x-hidden ${christmasScript.variable}`}
     >
       <JsonLd data={eventSchema} />
       <PlanVisitDialogProvider>

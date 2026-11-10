@@ -31,10 +31,7 @@
   font-family: "Times New Roman", Times, serif;
 }
 
-.font-christmas-serif {
-  font-family: var(--font-christmas-serif), Georgia, serif;
-}
-
+/* Hero script lines only. --font-christmas-script is set by next/font/local (fonts.ts). */
 .font-christmas-script {
   font-family: var(--font-christmas-script), cursive;
 }
