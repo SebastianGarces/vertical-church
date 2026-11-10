@@ -1,8 +1,43 @@
 "use client";
 
+import { useState } from "react";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { Doodle } from "./Doodle";
 import { PhotoSlot } from "./PhotoSlot";
+
+const BUCKET = "https://vertical-church.t3.storage.dev";
+
+// Past Christmas services at Vertical Church. All three are portrait. The lead photo
+// spans two columns and two rows (about 3:4); the other two stack at 3:4 beside it, so
+// nothing is cropped hard. Always the .jpg/.JPEG files, never the .heic originals.
+const PHOTOS = [
+  {
+    src: `${BUCKET}/vertical-christmas-3.JPEG`,
+    alt: "A woman in a red sweater lights the Advent candles with a young child while another child reads aloud from a Bible, with red poinsettias and a lit Christmas tree on the stage",
+    className: "col-span-2 row-span-2",
+    sizes: "(min-width: 1152px) 360px, (min-width: 1024px) 32vw, 64vw",
+  },
+  {
+    src: `${BUCKET}/vertical-christmas-2.jpg`,
+    alt: "Children sit on the floor listening to a Christmas story, with a Christmas slide on the screen behind them",
+    className: "aspect-[3/4]",
+    sizes: "(min-width: 1152px) 180px, (min-width: 1024px) 16vw, 32vw",
+  },
+  {
+    src: `${BUCKET}/vertical-christmas-1.jpg`,
+    alt: "A single lit candle from a candlelight service, glowing against soft blurred lights",
+    className: "aspect-[3/4]",
+    sizes: "(min-width: 1152px) 180px, (min-width: 1024px) 16vw, 32vw",
+  },
+];
+
+/** A photo that falls back to the candle-glow placeholder if it fails to load. */
+function InvitePhoto({ src, alt, sizes }: { src: string; alt: string; sizes: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) return <PhotoSlot slot={src.split("/").pop() ?? "photo"} className="h-full w-full" />;
+  return <Image src={src} alt={alt} fill sizes={sizes} className="object-cover" onError={() => setFailed(true)} />;
+}
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
@@ -12,7 +47,7 @@ const fadeUp = {
 
 /**
  * "You're Invited!" block, after the back of the printed card: invitation copy on the
- * left, three photo slots on the right. Wording from the card (minus the unconfirmed
+ * left, three photos from past Christmas services on the right. Wording from the card (minus the unconfirmed
  * Dec 27 date) plus the welcome line from the campaign plan.
  */
 export function Invitation() {
@@ -52,22 +87,18 @@ export function Invitation() {
           </motion.div>
         </div>
 
-        {/* Photo grid, like the card back: one wide on top, two below. */}
-        <div className="grid grid-cols-2 gap-3 md:gap-4">
-          {[
-            { slot: "invite-advent", className: "col-span-2 aspect-[16/9]" },
-            { slot: "invite-story", className: "aspect-square" },
-            { slot: "invite-candle", className: "aspect-square" },
-          ].map((photo, index) => (
+        {/* Photo grid: lead portrait (2 cols x 2 rows) with two portraits stacked beside it. */}
+        <div className="grid grid-cols-3 gap-3 md:gap-4">
+          {PHOTOS.map((photo, index) => (
             <motion.div
-              key={photo.slot}
+              key={photo.src}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`overflow-hidden rounded-[20px] ${photo.className}`}
+              className={`relative overflow-hidden rounded-[20px] ${photo.className}`}
             >
-              <PhotoSlot slot={photo.slot} className="h-full w-full" />
+              <InvitePhoto src={photo.src} alt={photo.alt} sizes={photo.sizes} />
             </motion.div>
           ))}
         </div>
