@@ -20,12 +20,16 @@ const DETAILS = [
  * Sizes are in container query units (cqi) so the overlapping type keeps the mockup's
  * proportions from a 320px phone up to the 56rem desktop block.
  *
- * Alignment: "At Vertical Church", the details row and the button live in one
+ * Desktop alignment: "At Vertical Church", the details row and the button live in one
  * inline-grid column. The script line is the only child that sizes the column; the
  * details row and the button are `w-0 min-w-full`, so they add nothing to the column's
  * intrinsic width and then stretch to exactly that width. "4PM" starts on the script
  * line's left edge, "5400 / Lear Nagle Rd" ends on its right edge (justify-between),
- * and the button spans the same width, at every viewport.
+ * and the button spans the same width, at every md+ viewport.
+ *
+ * Phones: "At Vertical Church" stays directly under "Christmas" (its own aria-hidden
+ * copy inside the h1 overlay), and the details row and button move below the card at
+ * the full content width: 4PM on the left edge, Lear Nagle Rd on the right edge.
  */
 export function ChristmasHero() {
   return (
@@ -65,29 +69,39 @@ export function ChristmasHero() {
               </span>
             </span>
             <span className="sr-only"> At Vertical Church</span>
+            {/* Phones: the script line sits directly under "Christmas", beside the card. */}
+            <span
+              aria-hidden="true"
+              className="hero-fade-in font-christmas-script block pt-[2.5cqi] pl-[54%] text-[7.9cqi] leading-none whitespace-nowrap md:hidden"
+              style={delay(0.75)}
+            >
+              At Vertical Church
+            </span>
           </h1>
 
-          {/* Script line + details + CTA. Phones: under the card, right-aligned.
+          {/* Details + CTA.
+              Phones: below the photo card, spanning the full content width (grid = 100%).
               md+: beside the card, starting just under "Christmas"
-              (h1 top 4cqi + "Join us for" 7.5cqi + "Christmas" 23cqi x 0.82 + 2cqi gap). */}
-          <div className="mt-5 flex justify-end md:absolute md:top-[32.4cqi] md:left-[48%] md:mt-0 md:block">
-            <div className="inline-grid">
+              (h1 top 4cqi + "Join us for" 7.5cqi + "Christmas" 23cqi x 0.82 + 2cqi gap),
+              in a column sized by the "At Vertical Church" line. */}
+          <div className="mt-[6cqi] md:absolute md:top-[32.4cqi] md:left-[48%] md:mt-0">
+            <div className="grid md:inline-grid">
               <p
                 aria-hidden="true"
-                className="hero-fade-in font-christmas-script text-[12.5cqi] leading-none whitespace-nowrap text-pipper md:text-[8cqi]"
+                className="hero-fade-in font-christmas-script hidden text-[8cqi] leading-none whitespace-nowrap text-pipper md:block"
                 style={delay(0.75)}
               >
                 At Vertical Church
               </p>
 
-              <div className="mt-[5cqi] flex w-0 min-w-full justify-between md:mt-[3.5cqi]">
+              <div className="flex w-0 min-w-full justify-between md:mt-[3.5cqi]">
                 {DETAILS.map((item) => (
                   <div key={item.big} className="overflow-hidden">
                     <p className="hero-slide-up flex flex-col text-pipper" style={delay(item.d)}>
-                      <span className="font-heading text-[9.5cqi] font-bold leading-none tracking-[-0.04em] md:text-[6.2cqi]">
+                      <span className="font-heading text-[12cqi] font-bold leading-none tracking-[-0.04em] md:text-[6.2cqi]">
                         {item.big}
                       </span>{" "}
-                      <span className="font-christmas-display text-[5.2cqi] font-bold leading-tight tracking-[-0.04em] whitespace-nowrap md:text-[3.4cqi]">
+                      <span className="font-christmas-display text-[6.6cqi] font-bold leading-tight tracking-[-0.04em] whitespace-nowrap md:text-[3.4cqi]">
                         {item.small}
                       </span>
                     </p>
@@ -95,7 +109,7 @@ export function ChristmasHero() {
                 ))}
               </div>
 
-              <div className="mt-[5cqi] w-0 min-w-full md:mt-[3cqi]">
+              <div className="mt-[6cqi] w-0 min-w-full md:mt-[3cqi]">
                 <div className="hero-fade-in" style={delay(1.05)}>
                   <PlanVisitButton className="w-full py-3.5 md:py-2.5" />
                 </div>
