@@ -18,6 +18,12 @@ export const CHRISTMAS_GATHERING = {
   startDate: "2026-12-24T16:00:00-05:00",
 } as const;
 
+/** The regular Sunday service after Christmas. Not Christmas-themed; shown as a secondary note. */
+export const SUNDAY_AFTER_CHRISTMAS = {
+  date: "Sunday, December 27",
+  time: "10am",
+} as const;
+
 export const CHURCH_PHONE = { display: "(440) 420-7335", href: "tel:4404207335" } as const;
 
 export const GOOGLE_MAPS_DIRECTIONS_URL =

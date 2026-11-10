@@ -4,7 +4,6 @@ import { createContext, useCallback, useContext, useMemo, useState } from "react
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { XIcon } from "lucide-react";
-import { christmasDisplay } from "@/app/christmas/fonts";
 import { CHRISTMAS_PATH } from "@/lib/christmas";
 
 /**
@@ -55,10 +54,10 @@ function ChristmasBanner() {
       data-site-banner
       role="region"
       aria-label="Christmas announcement"
-      className={`${christmasDisplay.className} fixed inset-x-0 top-0 z-[60] flex h-[var(--site-banner-h)] items-center border-b-2 border-[#F83236] bg-[#2D412F] text-[#EAECEA]`}
+      className="fixed inset-x-0 top-0 z-[60] flex h-[var(--site-banner-h)] items-center border-b-2 border-[#F83236] bg-[#2D412F] font-['Times_New_Roman',Times,serif] text-[#EAECEA]"
     >
       <div className="flex w-full min-w-0 items-center justify-center gap-3 pl-4 pr-12 sm:gap-5 md:pr-14">
-        <p className="min-w-0 truncate text-[0.9rem] uppercase leading-none tracking-[0.02em] md:text-base lg:text-lg">
+        <p className="min-w-0 truncate text-[0.9rem] uppercase leading-none tracking-[0.01em] md:text-base lg:text-lg">
           <span className="hidden lg:inline">Celebrate Christmas with us at Vertical Church</span>
           <span className="hidden sm:inline lg:hidden">Celebrate Christmas with us</span>
           <span className="hidden sm:inline" aria-hidden="true">

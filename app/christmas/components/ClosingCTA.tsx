@@ -22,8 +22,8 @@ export function ClosingCTA() {
         transition={{ duration: 0.6 }}
         className="relative mx-auto flex max-w-xl flex-col items-center px-14 text-center sm:px-4"
       >
-        <p className="font-christmas-script text-5xl leading-none text-pipper md:text-6xl">We&apos;d love to see you</p>
-        <h2 className="font-christmas-display mt-2 text-[3.25rem] leading-[0.9] tracking-[-0.04em] text-florence md:text-[5.5rem]">
+        <p className="font-christmas-script text-5xl leading-none text-pipper md:text-6xl">We’d love to see you</p>
+        <h2 className="font-christmas-display mt-2 text-[3.25rem] font-bold leading-[0.9] tracking-[-0.045em] text-florence md:text-[5.5rem]">
           Christmas Eve
           <span className="block text-pipper">at 4PM</span>
         </h2>

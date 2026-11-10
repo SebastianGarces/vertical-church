@@ -44,14 +44,14 @@ export function ChristmasHero() {
             </span>
             <span className="block overflow-hidden pt-[0.06em] -mt-[0.06em]">
               <span
-                className="hero-headline-line font-christmas-display block pl-[3%] text-[23cqi] leading-[0.82] tracking-[-0.055em] text-florence"
+                className="hero-headline-line font-christmas-display block pl-[3%] text-[23cqi] font-bold leading-[0.82] tracking-[-0.06em] text-florence"
                 style={{ "--hero-line": 2 } as CSSProperties}
               >
                 Christmas
               </span>
             </span>
             <span
-              className="hero-fade-in font-christmas-script block pt-[2cqi] pl-[54%] text-[8.5cqi] leading-none whitespace-nowrap md:pl-[48%] md:text-[8cqi]"
+              className="hero-fade-in font-christmas-script block pt-[2cqi] pl-[53%] text-[7.6cqi] leading-none whitespace-nowrap md:pl-[48%] md:text-[8cqi]"
               style={delay(0.75)}
             >
               At Vertical Church
@@ -71,7 +71,7 @@ export function ChristmasHero() {
                   <span className="font-heading text-[2.75rem] font-bold leading-none tracking-[-0.04em] md:text-[6.4cqi]">
                     {item.big}
                   </span>{" "}
-                  <span className="font-christmas-display text-[1.375rem] leading-tight tracking-[-0.04em] md:text-[3.6cqi]">
+                  <span className="font-christmas-display text-[1.375rem] font-bold leading-tight tracking-[-0.04em] md:text-[3.6cqi]">
                     {item.small}
                   </span>
                 </p>
