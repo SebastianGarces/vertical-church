@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import { motion, type Variants } from "motion/react";
 
 /*
  * Line-art doodles for /christmas, in the spirit of the bow and tree on the printed card.
@@ -8,7 +8,9 @@ import { motion, useReducedMotion, type Variants } from "motion/react";
  * All shapes are drawn by hand for this page (no third-party artwork), in a 64x64 box.
  *
  * Motion: each stroke draws in when the doodle scrolls into view, then the whole doodle
- * sways or twinkles gently. With prefers-reduced-motion the doodle renders static.
+ * sways or twinkles gently. With prefers-reduced-motion the doodle shows fully drawn and
+ * still: that is done in CSS (.christmas-doodle in christmas.css), not by rendering a
+ * different tree, so server and client markup always match (no hydration mismatch).
  * Doodles are decorative: aria-hidden, no pointer events.
  */
 
@@ -75,7 +77,6 @@ interface DoodleProps {
 }
 
 export function Doodle({ name, className = "", idle = "sway", phase = 0 }: DoodleProps) {
-  const reduceMotion = useReducedMotion();
   const strokes = SHAPES[name];
 
   const svgProps = {
@@ -89,21 +90,6 @@ export function Doodle({ name, className = "", idle = "sway", phase = 0 }: Doodl
     className: "h-auto w-full overflow-visible",
   };
 
-  if (reduceMotion) {
-    return (
-      <div aria-hidden="true" className={`pointer-events-none select-none ${className}`}>
-        <svg {...svgProps}>
-          {strokes.map((s, i) =>
-            "d" in s ? (
-              <path key={i} d={s.d} stroke={s.red ? RED : CREAM} />
-            ) : (
-              <circle key={i} cx={s.circle[0]} cy={s.circle[1]} r={s.circle[2]} stroke={s.red ? RED : CREAM} />
-            ),
-          )}
-        </svg>
-      </div>
-    );
-  }
 
   const drawSeconds = 0.15 + strokes.length * 0.12 + 1.1;
   const idleAnimation =
@@ -116,12 +102,13 @@ export function Doodle({ name, className = "", idle = "sway", phase = 0 }: Doodl
   return (
     <motion.div
       aria-hidden="true"
-      className={`pointer-events-none select-none ${className}`}
+      className={`christmas-doodle pointer-events-none select-none ${className}`}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "0px 0px -10% 0px" }}
     >
       <motion.div
+        className="christmas-doodle-idle"
         style={{ transformOrigin: idle === "sway" ? "50% 0%" : "50% 50%" }}
         variants={
           idleAnimation

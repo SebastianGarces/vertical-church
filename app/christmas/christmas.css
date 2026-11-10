@@ -57,3 +57,20 @@
 .christmas-theme .bg-cream {
   --color-navy: #18241a;
 }
+
+/* Doodles (components/Doodle.tsx) under prefers-reduced-motion: fully drawn, no sway or
+   twinkle. Overrides Motion's inline styles/attributes, so the same markup renders on the
+   server and the client. */
+@media (prefers-reduced-motion: reduce) {
+  .christmas-doodle path,
+  .christmas-doodle circle {
+    opacity: 1 !important;
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+
+  .christmas-doodle-idle {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
