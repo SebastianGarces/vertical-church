@@ -59,7 +59,19 @@ const initialFormData: FormData = {
   questions: "",
 };
 
-export function PlanVisitForm() {
+interface PlanVisitFormProps {
+  /** Classes for the outer section. Defaults to the /visit page section. */
+  className?: string;
+  /** Closing line on the thank-you state. */
+  thankYouNote?: string;
+}
+
+const DEFAULT_SECTION_CLASS = "bg-navy py-16 md:py-24";
+
+export function PlanVisitForm({
+  className = DEFAULT_SECTION_CLASS,
+  thankYouNote = "See you Sunday!",
+}: PlanVisitFormProps = {}) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
@@ -143,7 +155,7 @@ export function PlanVisitForm() {
   const isStep3Valid = formData.wantsContact !== "";
 
   if (isSubmitted) {
-    return <ThankYouState onReset={() => {
+    return <ThankYouState className={className} note={thankYouNote} onReset={() => {
       setIsSubmitted(false);
       setFormData(initialFormData);
       setCurrentStep(1);
@@ -153,7 +165,7 @@ export function PlanVisitForm() {
   }
 
   return (
-    <section className="bg-navy py-16 md:py-24">
+    <section className={className}>
       <div className="mx-auto max-w-2xl px-4 md:px-8">
         {/* Section Header */}
         <motion.div
@@ -567,9 +579,9 @@ function Step3({
   );
 }
 
-function ThankYouState({ onReset }: { onReset: () => void }) {
+function ThankYouState({ onReset, className, note }: { onReset: () => void; className: string; note: string }) {
   return (
-    <section className="bg-navy py-16 md:py-24">
+    <section className={className}>
       <div className="mx-auto max-w-2xl px-4 md:px-8">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -586,7 +598,7 @@ function ThankYouState({ onReset }: { onReset: () => void }) {
             Our community can&apos;t wait to welcome you and get to know you.
           </p>
           <p className="mt-4 font-heading text-xl font-semibold text-florence">
-            See you Sunday!
+            {note}
           </p>
           <button
             onClick={onReset}
