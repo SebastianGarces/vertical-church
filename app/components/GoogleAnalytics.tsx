@@ -9,11 +9,11 @@ import Script from 'next/script';
  * the config after hydration, and gtag.js itself is fetched with `lazyOnload` (browser idle time
  * after the page's load event). Anything queued before gtag.js arrives is sent once it loads.
  */
-export function GoogleAnalytics({ measurementId }: { measurementId: string }) {
+export function GoogleAnalytics({ measurementId, adsId }: { measurementId: string; adsId: string }) {
   return (
     <>
       <Script id='ga4-init' strategy='afterInteractive'>
-        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config',${JSON.stringify(measurementId)});`}
+        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config',${JSON.stringify(measurementId)});gtag('config',${JSON.stringify(adsId)});`}
       </Script>
       <Script
         id='ga4-gtag'
