@@ -10,6 +10,9 @@
 
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-J2YHF4YXQN';
 
+/** Google Ads tag, configured on the same gtag.js as GA4 (no second script). */
+export const GOOGLE_ADS_ID = 'AW-18552333437';
+
 /** Only load GA on the production deployment. Evaluated on the server at build/render time. */
 export const isGoogleAnalyticsEnabled = process.env.VERCEL_ENV === 'production';
 
