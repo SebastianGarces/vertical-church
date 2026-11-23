@@ -64,6 +64,8 @@ interface PlanVisitFormProps {
   className?: string;
   /** Closing line on the thank-you state. */
   thankYouNote?: string;
+  /** GA4 event fired once on a successful, counted submit. /christmas passes its own. */
+  analyticsEvent?: "plan_visit" | "plan_visit_christmas";
 }
 
 const DEFAULT_SECTION_CLASS = "bg-navy py-16 md:py-24";
@@ -71,6 +73,7 @@ const DEFAULT_SECTION_CLASS = "bg-navy py-16 md:py-24";
 export function PlanVisitForm({
   className = DEFAULT_SECTION_CLASS,
   thankYouNote = "See you Sunday!",
+  analyticsEvent = "plan_visit",
 }: PlanVisitFormProps = {}) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>(initialFormData);
@@ -140,7 +143,7 @@ export function PlanVisitForm({
     });
     setIsSubmitting(false);
     if (result.success) {
-      if (result.counted) trackEvent("plan_visit", { form_name: "plan_visit" });
+      if (result.counted) trackEvent(analyticsEvent, { form_name: analyticsEvent });
       setIsSubmitted(true);
     } else {
       setSubmitError(result.error);

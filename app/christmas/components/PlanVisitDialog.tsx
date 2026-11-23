@@ -15,7 +15,8 @@ import { PlanVisitForm } from "@/app/visit/components";
 /**
  * One shared Plan a Visit dialog for every PLAN YOUR VISIT button on /christmas.
  * It holds the same PlanVisitForm component as /visit (same server action, validation,
- * spam handling and GA4 event). Radix Dialog provides the focus trap, Esc to close,
+ * spam handling), but it reports its own GA4 event, plan_visit_christmas, instead of
+ * plan_visit. Radix Dialog provides the focus trap, Esc to close,
  * and scroll lock. The buttons sit outside Radix's Dialog.Trigger, so the dialog
  * remembers the button that opened it and focuses it again on close (Esc, the X,
  * or a click outside).
@@ -67,7 +68,11 @@ export function PlanVisitDialogProvider({ children }: { children: React.ReactNod
             >
               <XIcon className="size-6" aria-hidden="true" />
             </DialogClose>
-            <PlanVisitForm className="pt-14 pb-10 sm:pt-12" thankYouNote="See you Christmas Eve!" />
+            <PlanVisitForm
+              className="pt-14 pb-10 sm:pt-12"
+              thankYouNote="See you Christmas Eve!"
+              analyticsEvent="plan_visit_christmas"
+            />
           </DialogContent>
         </Dialog>
       </PlanVisitDialogContext.Provider>

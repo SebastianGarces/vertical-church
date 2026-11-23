@@ -66,6 +66,11 @@ const faqs: FAQItem[] = [
     answer: `${CHRISTMAS_GATHERING.day}, ${CHRISTMAS_GATHERING.date}, at ${CHRISTMAS_GATHERING.time}, at ${CHRISTMAS_GATHERING.street}, ${CHRISTMAS_GATHERING.cityStateZip}.`,
   },
   {
+    question: "Where will my kids go?",
+    answer:
+      "Kids will be joining us for a combined family service as we celebrate the birth of Jesus together. There's no childcare on Christmas Eve; it's a family service.",
+  },
+  {
     question: "Do I have to be a Christian to come?",
     answer:
       "Absolutely not! The church is open to all who seek God and the truth that He has given to mankind. Just don't be surprised when we talk about Jesus.",

@@ -16,6 +16,7 @@ export const isGoogleAnalyticsEnabled = process.env.VERCEL_ENV === 'production';
 /** Conversion events, keyed by event name -> allowed params. Keep params free of PII. */
 export type AnalyticsEvents = {
   plan_visit: { form_name: 'plan_visit' };
+  plan_visit_christmas: { form_name: 'plan_visit_christmas' };
   contact: { form_name: 'contact' };
   small_group_interest: { form_name: 'small_group_interest' };
   want_to_serve: { form_name: 'want_to_serve' };
