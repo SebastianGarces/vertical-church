@@ -72,6 +72,7 @@ export function PlanVisitDialogProvider({ children }: { children: React.ReactNod
               className="pt-14 pb-10 sm:pt-12"
               thankYouNote="See you Christmas Eve!"
               analyticsEvent="plan_visit_christmas"
+              kidsNote="Kids will be joining us for a combined family service as we celebrate the birth of Jesus together."
             />
           </DialogContent>
         </Dialog>

@@ -20,7 +20,7 @@ export function ClosingCTA() {
         <p className="font-heading text-sm uppercase tracking-[0.2em] text-florence">We&apos;d Love to See You</p>
         <div className="mt-4 flex items-end justify-center gap-3">
           <h2 className="font-heading text-3xl font-bold uppercase tracking-wide text-pipper md:text-4xl">
-            Christmas Eve at 4PM
+            Christmas Eve at 4 PM
           </h2>
           <Doodle name="bow" className="mb-1 w-9 shrink-0 md:w-11" />
         </div>

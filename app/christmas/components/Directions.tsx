@@ -54,7 +54,7 @@ export function Directions() {
                       href={GOOGLE_MAPS_DIRECTIONS_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-3 inline-block font-button text-sm font-bold uppercase tracking-[0.15em] text-pipper underline decoration-florence decoration-2 underline-offset-4 hover:text-florence"
+                      className="mt-3 inline-flex min-h-11 items-center font-button text-sm font-bold uppercase tracking-[0.15em] text-pipper underline decoration-florence decoration-2 underline-offset-4 hover:text-florence"
                     >
                       Get directions<span className="sr-only"> (opens Google Maps)</span>
                     </a>

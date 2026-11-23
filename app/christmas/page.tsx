@@ -147,7 +147,7 @@ export default function ChristmasPage() {
         <main>
           <ChristmasHero />
           <Invitation />
-          <ServiceInfo timeLabel="Christmas Eve · Thursday, Dec 24" time="4 PM" />
+          <ServiceInfo timeLabel={"Christmas Eve · Thursday, Dec\u00a024"} time="4 PM" />
           <SundayNote />
           <WhatToExpect
             heading="What to Expect"

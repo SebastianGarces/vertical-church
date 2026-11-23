@@ -112,7 +112,7 @@ export function ChristmasHero() {
 
               <div className="mt-[6cqi] w-0 min-w-full md:mt-[3cqi]">
                 <div className="hero-fade-in" style={delay(1.05)}>
-                  <PlanVisitButton className="w-full py-3.5 md:py-2.5" />
+                  <PlanVisitButton className="min-h-11 w-full py-3.5 md:py-2.5" />
                 </div>
               </div>
             </div>

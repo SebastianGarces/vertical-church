@@ -66,7 +66,15 @@ interface PlanVisitFormProps {
   thankYouNote?: string;
   /** GA4 event fired once on a successful, counted submit. /christmas passes its own. */
   analyticsEvent?: "plan_visit" | "plan_visit_christmas";
+  /** Note under "Will you have kids with you?" when the answer is Yes. */
+  kidsNote?: React.ReactNode;
 }
+
+const DEFAULT_KIDS_NOTE = (
+  <>
+    Great! Our Vertical Kids ministry has programs for kids ages <span className="whitespace-nowrap">0–12</span>.
+  </>
+);
 
 const DEFAULT_SECTION_CLASS = "bg-navy py-16 md:py-24";
 
@@ -74,6 +82,7 @@ export function PlanVisitForm({
   className = DEFAULT_SECTION_CLASS,
   thankYouNote = "See you Sunday!",
   analyticsEvent = "plan_visit",
+  kidsNote = DEFAULT_KIDS_NOTE,
 }: PlanVisitFormProps = {}) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>(initialFormData);
@@ -244,6 +253,7 @@ export function PlanVisitForm({
                 onNext={handleNext}
                 onBack={handleBack}
                 isValid={isStep2Valid}
+                kidsNote={kidsNote}
               />
             )}
             {currentStep === 3 && (
@@ -373,7 +383,7 @@ function Step1({ formData, updateFormData, onNext, isValid, errors }: Step1Props
   );
 }
 
-function Step2({ formData, updateFormData, onNext, onBack, isValid }: StepProps & { onNext: () => void; onBack: () => void }) {
+function Step2({ formData, updateFormData, onNext, onBack, isValid, kidsNote }: StepProps & { onNext: () => void; onBack: () => void; kidsNote: React.ReactNode }) {
   return (
     <motion.div
       initial={{ opacity: 0, x: 20 }}
@@ -446,7 +456,7 @@ function Step2({ formData, updateFormData, onNext, onBack, isValid }: StepProps 
           </RadioGroup>
           {formData.hasKids === "yes" && (
             <FieldDescription className="text-pipper/60">
-              Great! Our Vertical Kids ministry has programs for kids ages <span className="whitespace-nowrap">0–12</span>.
+              {kidsNote}
             </FieldDescription>
           )}
         </Field>
