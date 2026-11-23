@@ -26,7 +26,7 @@ export function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-navy">
+    <header className="fixed top-[var(--site-banner-h)] left-0 right-0 z-50 bg-navy">
       <div className="flex h-16 items-center justify-between px-4 md:h-20 md:px-8 lg:px-12">
         {/* Logo */}
         <Link href="/" className="flex items-center cursor-pointer" aria-label="Vertical Church - Home">
@@ -84,7 +84,7 @@ export function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 top-16 z-40 bg-navy md:top-20 lg:hidden"
+            className="fixed inset-0 top-[calc(4rem_+_var(--site-banner-h))] z-40 bg-navy md:top-[calc(5rem_+_var(--site-banner-h))] lg:hidden"
           >
             <motion.nav
               initial={{ opacity: 0, y: 20 }}

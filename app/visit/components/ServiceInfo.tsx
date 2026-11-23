@@ -5,7 +5,14 @@ import { motion } from "motion/react";
 const GOOGLE_MAPS_URL =
   "https://maps.google.com/?q=5400+Lear+Nagle+Rd+North+Ridgeville+OH+44039";
 
-export function ServiceInfo() {
+interface ServiceInfoProps {
+  /** Label above the time. Defaults to the weekly service. */
+  timeLabel?: string;
+  /** The time shown in large type. Defaults to the weekly service. */
+  time?: string;
+}
+
+export function ServiceInfo({ timeLabel = "Service Time", time = "Sundays at 10am" }: ServiceInfoProps = {}) {
   return (
     <section className="bg-navy py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
@@ -18,10 +25,10 @@ export function ServiceInfo() {
           {/* Service Time */}
           <div className="flex flex-col items-center">
             <span className="font-heading text-sm uppercase tracking-[0.15em] text-pipper/60">
-              Service Time
+              {timeLabel}
             </span>
             <span className="mt-1 font-heading text-2xl font-bold uppercase tracking-wide text-pipper md:text-3xl">
-              Sundays at 10am
+              {time}
             </span>
           </div>
 

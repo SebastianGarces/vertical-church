@@ -59,7 +59,31 @@ const initialFormData: FormData = {
   questions: "",
 };
 
-export function PlanVisitForm() {
+interface PlanVisitFormProps {
+  /** Classes for the outer section. Defaults to the /visit page section. */
+  className?: string;
+  /** Closing line on the thank-you state. */
+  thankYouNote?: string;
+  /** GA4 event fired once on a successful, counted submit. /christmas passes its own. */
+  analyticsEvent?: "plan_visit" | "plan_visit_christmas";
+  /** Note under "Will you have kids with you?" when the answer is Yes. */
+  kidsNote?: React.ReactNode;
+}
+
+const DEFAULT_KIDS_NOTE = (
+  <>
+    Great! Our Vertical Kids ministry has programs for kids ages <span className="whitespace-nowrap">0–12</span>.
+  </>
+);
+
+const DEFAULT_SECTION_CLASS = "bg-navy py-16 md:py-24";
+
+export function PlanVisitForm({
+  className = DEFAULT_SECTION_CLASS,
+  thankYouNote = "See you Sunday!",
+  analyticsEvent = "plan_visit",
+  kidsNote = DEFAULT_KIDS_NOTE,
+}: PlanVisitFormProps = {}) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
@@ -128,7 +152,7 @@ export function PlanVisitForm() {
     });
     setIsSubmitting(false);
     if (result.success) {
-      if (result.counted) trackEvent("plan_visit", { form_name: "plan_visit" });
+      if (result.counted) trackEvent(analyticsEvent, { form_name: analyticsEvent });
       setIsSubmitted(true);
     } else {
       setSubmitError(result.error);
@@ -143,7 +167,7 @@ export function PlanVisitForm() {
   const isStep3Valid = formData.wantsContact !== "";
 
   if (isSubmitted) {
-    return <ThankYouState onReset={() => {
+    return <ThankYouState className={className} note={thankYouNote} onReset={() => {
       setIsSubmitted(false);
       setFormData(initialFormData);
       setCurrentStep(1);
@@ -153,7 +177,7 @@ export function PlanVisitForm() {
   }
 
   return (
-    <section className="bg-navy py-16 md:py-24">
+    <section className={className}>
       <div className="mx-auto max-w-2xl px-4 md:px-8">
         {/* Section Header */}
         <motion.div
@@ -229,6 +253,7 @@ export function PlanVisitForm() {
                 onNext={handleNext}
                 onBack={handleBack}
                 isValid={isStep2Valid}
+                kidsNote={kidsNote}
               />
             )}
             {currentStep === 3 && (
@@ -358,7 +383,7 @@ function Step1({ formData, updateFormData, onNext, isValid, errors }: Step1Props
   );
 }
 
-function Step2({ formData, updateFormData, onNext, onBack, isValid }: StepProps & { onNext: () => void; onBack: () => void }) {
+function Step2({ formData, updateFormData, onNext, onBack, isValid, kidsNote }: StepProps & { onNext: () => void; onBack: () => void; kidsNote: React.ReactNode }) {
   return (
     <motion.div
       initial={{ opacity: 0, x: 20 }}
@@ -431,7 +456,7 @@ function Step2({ formData, updateFormData, onNext, onBack, isValid }: StepProps 
           </RadioGroup>
           {formData.hasKids === "yes" && (
             <FieldDescription className="text-pipper/60">
-              Great! Our Vertical Kids ministry has programs for kids ages <span className="whitespace-nowrap">0–12</span>.
+              {kidsNote}
             </FieldDescription>
           )}
         </Field>
@@ -567,9 +592,9 @@ function Step3({
   );
 }
 
-function ThankYouState({ onReset }: { onReset: () => void }) {
+function ThankYouState({ onReset, className, note }: { onReset: () => void; className: string; note: string }) {
   return (
-    <section className="bg-navy py-16 md:py-24">
+    <section className={className}>
       <div className="mx-auto max-w-2xl px-4 md:px-8">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -586,7 +611,7 @@ function ThankYouState({ onReset }: { onReset: () => void }) {
             Our community can&apos;t wait to welcome you and get to know you.
           </p>
           <p className="mt-4 font-heading text-xl font-semibold text-florence">
-            See you Sunday!
+            {note}
           </p>
           <button
             onClick={onReset}
